@@ -91,9 +91,14 @@ const SponsorApply = () => {
     return (
         <div className="bg-gray-50 min-h-screen pb-20">
             <PageHero
-                titleWhite="SPONSOR AN"
-                titleAccent="EVENT"
+                title="SPONSOR AN EVENT"
                 subtitle="Partner with us to empower the next generation of innovators. Showcase your brand while making an impact."
+                backgroundImage="https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1950&q=80"
+                breadcrumbs={[
+                    { label: 'Home', path: '/' },
+                    { label: 'Get Involved', path: '/get-involved' },
+                    { label: 'Sponsor' }
+                ]}
             />
 
             <div className="container mx-auto px-4 md:px-6 -mt-10 relative z-10">

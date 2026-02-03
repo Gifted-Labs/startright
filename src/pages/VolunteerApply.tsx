@@ -90,9 +90,14 @@ const VolunteerApply = () => {
     return (
         <div className="bg-gray-50 min-h-screen pb-20">
             <PageHero
-                titleWhite="BECOME A"
-                titleAccent="VOLUNTEER"
+                title="BECOME A VOLUNTEER"
                 subtitle="Join our team of dedicated changemakers. Help us build the future of robotics in Ghana."
+                backgroundImage="https://images.unsplash.com/photo-1559027615-cd937c9be55a?auto=format&fit=crop&w=1950&q=80"
+                breadcrumbs={[
+                    { label: 'Home', path: '/' },
+                    { label: 'Get Involved', path: '/get-involved' },
+                    { label: 'Volunteer' }
+                ]}
             />
 
             <div className="container mx-auto px-4 md:px-6 -mt-10 relative z-10">
