@@ -16,7 +16,7 @@ export const TShirtRequestForm: React.FC<TShirtRequestFormProps> = ({ isOpen, on
         fullName: '',
         email: '',
         phoneNumber: '',
-        tShirtColor: initialColor,
+        tShirtColor: initialColor.toUpperCase() as 'BLACK' | 'WHITE',
         tShirtSize: 'L',
         quantity: 1
     });
@@ -24,7 +24,7 @@ export const TShirtRequestForm: React.FC<TShirtRequestFormProps> = ({ isOpen, on
     // Sync with parent component's color selection
     useEffect(() => {
         if (isOpen) {
-            setFormData(prev => ({ ...prev, tShirtColor: initialColor }));
+            setFormData(prev => ({ ...prev, tShirtColor: initialColor.toUpperCase() as 'BLACK' | 'WHITE' }));
             setStatus('idle');
             setErrorMessage('');
         }
@@ -62,7 +62,7 @@ export const TShirtRequestForm: React.FC<TShirtRequestFormProps> = ({ isOpen, on
             fullName: '',
             email: '',
             phoneNumber: '',
-            tShirtColor: initialColor,
+            tShirtColor: initialColor.toUpperCase() as 'BLACK' | 'WHITE',
             tShirtSize: 'L',
             quantity: 1
         });
@@ -70,8 +70,8 @@ export const TShirtRequestForm: React.FC<TShirtRequestFormProps> = ({ isOpen, on
     };
 
     const shirtImages = {
-        Black: '/images/shirt_black_both.png',
-        White: '/images/shirt_white_both.png',
+        BLACK: '/images/shirt_black_both.png',
+        WHITE: '/images/shirt_white_both.png',
     };
 
     return (
@@ -151,7 +151,7 @@ export const TShirtRequestForm: React.FC<TShirtRequestFormProps> = ({ isOpen, on
                                                     animate={{ opacity: 1 }}
                                                     exit={{ opacity: 0 }}
                                                     transition={{ duration: 0.2 }}
-                                                    src={shirtImages[formData.tShirtColor as 'Black' | 'White']}
+                                                    src={shirtImages[formData.tShirtColor as 'BLACK' | 'WHITE']}
                                                     alt={`${formData.tShirtColor} T-Shirt Preview`}
                                                     className="w-full h-auto"
                                                 />
@@ -234,22 +234,22 @@ export const TShirtRequestForm: React.FC<TShirtRequestFormProps> = ({ isOpen, on
                                         <div>
                                             <label className="block text-sm font-semibold text-gray-900 mb-3">T-Shirt Color</label>
                                             <div className="grid grid-cols-2 gap-3">
-                                                {['White', 'Black'].map((c) => (
+                                                {['WHITE', 'BLACK'].map((c) => (
                                                     <label key={c} className="relative cursor-pointer">
                                                         <input
                                                             type="radio"
                                                             name="tShirtColor"
                                                             className="peer sr-only"
                                                             checked={formData.tShirtColor === c}
-                                                            onChange={() => setFormData({ ...formData, tShirtColor: c })}
+                                                            onChange={() => setFormData({ ...formData, tShirtColor: c as 'BLACK' | 'WHITE' })}
                                                         />
                                                         <div className={`
                                                             py-3 px-4 text-center rounded-lg border-2 transition-all font-semibold
-                                                            ${c === 'White'
+                                                            ${c === 'WHITE'
                                                                 ? 'bg-white text-gray-900 border-gray-300 peer-checked:border-primary-600'
                                                                 : 'bg-gray-900 text-white border-gray-900 peer-checked:border-primary-600'}
                                                         `}>
-                                                            {c}
+                                                            {c.charAt(0) + c.slice(1).toLowerCase()}
                                                         </div>
                                                     </label>
                                                 ))}
@@ -264,7 +264,7 @@ export const TShirtRequestForm: React.FC<TShirtRequestFormProps> = ({ isOpen, on
                                                     value={formData.tShirtSize}
                                                     onChange={(e) => setFormData({ ...formData, tShirtSize: e.target.value })}
                                                 >
-                                                    {['S', 'M', 'L', 'XL', 'XXL'].map(s => (
+                                                    {['XS', 'S', 'M', 'L', 'XL', 'XXL', 'XXXL'].map(s => (
                                                         <option key={s} value={s}>{s}</option>
                                                     ))}
                                                 </select>
