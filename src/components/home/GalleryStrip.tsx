@@ -33,6 +33,11 @@ const images = [
         alt: "Event Lighting",
         className: "md:col-span-2 md:row-span-1" // Wide
     },
+    {
+        src: "https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+        alt: "Innovators Hub",
+        className: "md:col-span-1 md:row-span-1" // Completes Row 3
+    },
 ];
 
 const containerVariants = {
