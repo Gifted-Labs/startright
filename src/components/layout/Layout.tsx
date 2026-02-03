@@ -1,17 +1,23 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Footer } from '../common/Footer';
-
+import { HiOutlineMenuAlt3, HiX } from 'react-icons/hi';
 import clsx from 'clsx';
 
 const Navigation = () => {
     const [scrolled, setScrolled] = useState(false);
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const location = useLocation();
+
+    // Close mobile menu on route change
+    useEffect(() => {
+        setMobileMenuOpen(false);
+    }, [location.pathname]);
 
     // Scroll detection
     useEffect(() => {
         const handleScroll = () => {
-            const isScrolled = window.scrollY > 20;
+            const isScrolled = window.scrollY > 50;
             if (isScrolled !== scrolled) {
                 setScrolled(isScrolled);
             }
@@ -20,14 +26,13 @@ const Navigation = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, [scrolled]);
 
+    // Consolidated navigation links (reduced from 7 to 5)
     const links = [
         { name: 'Home', path: '/' },
         { name: 'Events', path: '/events' },
-        { name: 'Gallery', path: '/gallery' },
         { name: 'Schedule', path: '/schedule' },
-        { name: 'Speakers', path: '/speakers' },
         { name: 'About', path: '/about' },
-        { name: 'Contact us', path: '/get-involved' },
+        { name: 'Contact', path: '/get-involved' },
     ];
 
     const isActive = (path: string) => {
@@ -36,106 +41,147 @@ const Navigation = () => {
     };
 
     return (
-        <div className="fixed top-0 w-full z-50 flex flex-col items-center pointer-events-none transition-all duration-700 ease-out">
-            {/* Wrapper to allow pointer events on the header itself */}
-            <div className="w-full pointer-events-auto bg-transparent relative flex justify-center">
-
-                {/* Navbar Container with Dynamic Transition */}
-                <div className={clsx(
-                    "relative transition-all duration-700 ease-[cubic-bezier(0.25,0.1,0.25,1)] overflow-hidden",
+        <>
+            <header
+                className={clsx(
+                    "fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out",
                     scrolled
-                        ? "bg-white text-dark-900 shadow-xl w-[90%] max-w-4xl rounded-2xl mt-4"
-                        : "bg-transparent text-white w-full"
-                )}>
-
-                    {/* Top Bar (Collapses on Scroll) */}
-                    <div className={clsx(
-                        "bg-dark-950 text-white flex justify-between items-center text-[10px] md:text-xs font-medium tracking-wide transition-all duration-700 ease-out origin-top",
-                        scrolled ? "h-0 py-0 opacity-0 overflow-hidden" : "py-2 px-6 md:px-10 opacity-100"
-                    )}>
-                        <div className="flex items-center gap-6">
-                            <span className="flex items-center gap-2">
-                                <span className="bg-primary-500 rounded-full p-1 inline-flex items-center justify-center">
-                                    <svg className="w-2 h-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
-                                </span>
-                                Phone: + 124 569 89 09
-                            </span>
-                            <span className="hidden md:flex items-center gap-2">
-                                <span className="bg-primary-500 rounded-full p-1 inline-flex items-center justify-center">
-                                    <svg className="w-2 h-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                                </span>
-                                Mail: support@email.com
-                            </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            {['facebook', 'vimeo', 'twitter'].map((social) => (
-                                <a key={social} href="#" className="w-5 h-5 bg-primary-500 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-primary-500 transition-colors">
-                                    <span className="sr-only">{social}</span>
-                                    <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" /></svg>
-                                </a>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Main Navbar */}
-                    <div className={clsx(
-                        "flex justify-between items-center relative transition-all duration-500",
-                        scrolled ? "py-2 px-6 bg-white" : "px-6 md:px-10 py-4 bg-transparent"
+                        ? "bg-white/95 backdrop-blur-md shadow-sm"
+                        : "bg-transparent"
+                )}
+            >
+                <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    <nav className={clsx(
+                        "flex items-center justify-between transition-all duration-300",
+                        scrolled ? "h-16" : "h-20"
                     )}>
                         {/* Logo */}
-                        <Link to="/" className="flex items-center gap-2">
+                        <Link to="/" className="flex-shrink-0">
                             <img
                                 src="/images/startright_logo.png"
                                 alt="Start Right"
-                                className={clsx("w-auto object-contain transition-all duration-300", scrolled ? "h-12" : "h-20")}
+                                className={clsx(
+                                    "w-auto object-contain transition-all duration-300",
+                                    scrolled ? "h-10" : "h-14"
+                                )}
                             />
                         </Link>
 
-                        {/* Navigation Links */}
-                        <div className="hidden lg:flex items-center gap-1">
+                        {/* Desktop Navigation - Centered */}
+                        <div className="hidden lg:flex items-center gap-8">
                             {links.map((link) => (
                                 <Link
                                     key={link.path}
                                     to={link.path}
                                     className={clsx(
-                                        "text-sm font-bold capitalize transition-all px-4 py-2 rounded-full flex items-center gap-1",
+                                        "relative text-sm font-medium tracking-wide transition-colors duration-200 py-1",
                                         isActive(link.path)
-                                            ? (scrolled ? "bg-dark-900 text-white" : "bg-white text-dark-900")
-                                            : (scrolled ? "text-dark-600 hover:bg-gray-100" : "text-white/90 hover:bg-white/10")
+                                            ? scrolled
+                                                ? "text-primary-600"
+                                                : "text-white"
+                                            : scrolled
+                                                ? "text-gray-600 hover:text-gray-900"
+                                                : "text-white/80 hover:text-white"
                                     )}
                                 >
                                     {link.name}
-                                    {['Home', 'Events', 'Gallery', 'About', 'Schedule', 'Speakers'].includes(link.name) && (
-                                        <svg className={clsx("w-3 h-3", scrolled ? "opacity-50" : "opacity-70")} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
+                                    {/* Underline indicator for active state */}
+                                    {isActive(link.path) && (
+                                        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary-500 rounded-full" />
                                     )}
                                 </Link>
                             ))}
                         </div>
 
-                        {/* Right Actions */}
+                        {/* Right: CTA + Mobile Menu Toggle */}
                         <div className="flex items-center gap-4">
-                            <button className={clsx(
-                                "hidden md:flex w-10 h-10 rounded-full items-center justify-center transition-colors",
-                                scrolled ? "bg-gray-100 text-dark-900 hover:bg-gray-200" : "bg-white/10 text-white hover:bg-white/20"
-                            )}>
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                            </button>
+                            {/* CTA Button */}
                             <Link
                                 to="/events"
                                 className={clsx(
-                                    "rounded-full font-bold transition-all",
+                                    "hidden sm:inline-flex items-center justify-center font-semibold text-sm transition-all duration-200 rounded-sm",
                                     scrolled
-                                        ? "bg-primary-500 hover:bg-primary-600 text-white px-5 py-2 text-xs shadow-lg shadow-primary-500/30"
-                                        : "bg-primary-500 hover:bg-primary-600 text-white px-6 py-3 text-sm shadow-lg shadow-primary-500/30"
+                                        ? "bg-primary-500 hover:bg-primary-600 text-white px-5 py-2"
+                                        : "bg-white text-dark-900 hover:bg-gray-100 px-5 py-2.5"
                                 )}
                             >
-                                Book Tickets
+                                Register
+                            </Link>
+
+                            {/* Mobile Menu Button */}
+                            <button
+                                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                                className={clsx(
+                                    "lg:hidden w-10 h-10 flex items-center justify-center rounded-sm transition-colors",
+                                    scrolled
+                                        ? "text-gray-700 hover:bg-gray-100"
+                                        : "text-white hover:bg-white/10"
+                                )}
+                                aria-label="Toggle menu"
+                            >
+                                {mobileMenuOpen ? (
+                                    <HiX className="w-6 h-6" />
+                                ) : (
+                                    <HiOutlineMenuAlt3 className="w-6 h-6" />
+                                )}
+                            </button>
+                        </div>
+                    </nav>
+                </div>
+            </header>
+
+            {/* Mobile Menu Overlay */}
+            <div
+                className={clsx(
+                    "fixed inset-0 z-40 lg:hidden transition-all duration-300",
+                    mobileMenuOpen
+                        ? "opacity-100 pointer-events-auto"
+                        : "opacity-0 pointer-events-none"
+                )}
+            >
+                {/* Backdrop */}
+                <div
+                    className="absolute inset-0 bg-black/50 backdrop-blur-sm"
+                    onClick={() => setMobileMenuOpen(false)}
+                />
+
+                {/* Menu Panel */}
+                <div
+                    className={clsx(
+                        "absolute top-0 right-0 h-full w-72 bg-white shadow-2xl transition-transform duration-300",
+                        mobileMenuOpen ? "translate-x-0" : "translate-x-full"
+                    )}
+                >
+                    <div className="p-6 pt-20">
+                        <nav className="flex flex-col gap-2">
+                            {links.map((link) => (
+                                <Link
+                                    key={link.path}
+                                    to={link.path}
+                                    className={clsx(
+                                        "py-3 px-4 rounded-sm text-base font-medium transition-colors",
+                                        isActive(link.path)
+                                            ? "bg-primary-50 text-primary-600 border-l-4 border-primary-500"
+                                            : "text-gray-700 hover:bg-gray-50"
+                                    )}
+                                >
+                                    {link.name}
+                                </Link>
+                            ))}
+                        </nav>
+
+                        <div className="mt-8 pt-6 border-t border-gray-100">
+                            <Link
+                                to="/events"
+                                className="block w-full py-3 px-4 bg-primary-500 hover:bg-primary-600 text-white text-center font-semibold rounded-sm transition-colors"
+                            >
+                                Register Now
                             </Link>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 };
 
@@ -150,3 +196,4 @@ export const Layout = () => {
         </div>
     );
 };
+

@@ -70,15 +70,29 @@ export interface EventArticle {
 
 export interface Review {
     id: number;
+    eventId: number;
+    userId: number;
+    userName: string;
     rating: number;
     comment: string;
-    userName: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface ReviewPageResponse {
-    content: Review[];
+    reviews: Review[];
     averageRating: number;
     totalReviews: number;
+    ratingDistribution: Record<number, number>;
+    page: number;
+    size: number;
+    totalElements: number;
+    totalPages: number;
+}
+
+export interface CreateReviewRequest {
+    rating: number;
+    comment: string;
 }
 
 export interface VolunteerApplicationRequest {

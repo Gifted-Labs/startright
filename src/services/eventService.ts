@@ -6,7 +6,9 @@ import type {
     Speaker,
     GalleryResponse,
     EventArticle,
-    ReviewPageResponse
+    ReviewPageResponse,
+    Review,
+    CreateReviewRequest
 } from '../types';
 
 export const eventService = {
@@ -69,6 +71,20 @@ export const eventService = {
     getEventReviews: async (eventId: string | number, page = 0, size = 10) => {
         const response = await api.get<ReviewPageResponse>(`/events/${eventId}/reviews?page=${page}&size=${size}`);
         return response.data;
+    },
+
+    createReview: async (eventId: string | number, data: CreateReviewRequest) => {
+        const response = await api.post<Review>(`/events/${eventId}/reviews`, data);
+        return response.data;
+    },
+
+    updateReview: async (eventId: string | number, reviewId: number, data: CreateReviewRequest) => {
+        const response = await api.put<Review>(`/events/${eventId}/reviews/${reviewId}`, data);
+        return response.data;
+    },
+
+    deleteReview: async (eventId: string | number, reviewId: number) => {
+        await api.delete(`/events/${eventId}/reviews/${reviewId}`);
     },
 
     // --- Applications ---

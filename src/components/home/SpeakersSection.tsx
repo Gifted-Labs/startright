@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { SpeakerGridCard } from '../speakers/SpeakerGridCard';
 import { eventService } from '../../services/eventService';
 import type { Speaker } from '../../types';
+import { HiArrowRight } from 'react-icons/hi';
 
 export const SpeakersSection: React.FC = () => {
     const [speakers, setSpeakers] = useState<Speaker[]>([]);
@@ -11,15 +12,13 @@ export const SpeakersSection: React.FC = () => {
     useEffect(() => {
         const fetchSpeakers = async () => {
             try {
-                // 1. Get upcoming events to find the main/active event
                 const eventsData = await eventService.getUpcomingEvents(0, 5);
                 const mainEvent = eventsData.content && eventsData.content.length > 0 ? eventsData.content[0] : null;
 
                 if (mainEvent) {
-                    // 2. Fetch speakers for this event
                     const speakersData = await eventService.getEventSpeakers(mainEvent.id);
-                    // Limit to 4 speakers for the home section
-                    setSpeakers(speakersData.slice(0, 4));
+                    // Limit to 3 speakers for the home section as per 3-column grid rule
+                    setSpeakers(speakersData.slice(0, 3));
                 }
             } catch (err) {
                 console.error("Failed to load speakers for home section:", err);
@@ -32,17 +31,18 @@ export const SpeakersSection: React.FC = () => {
     }, []);
 
     return (
-        <section className="py-24 bg-dark-950 text-white">
+        <section className="py-32 bg-dark-950 text-white border-t border-white/5">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-                    <div>
-                        <h2 className="text-3xl md:text-5xl font-bold mb-4">Featured Speakers</h2>
-                        <p className="text-gray-400 text-lg max-w-xl">
-                            Learn from the best minds in the industry who are shaping the future.
+                {/* Section Header */}
+                <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
+                    <div className="text-left">
+                        <h2 className="text-4xl md:text-6xl font-black mb-4 tracking-tight">Featured Speakers</h2>
+                        <p className="text-gray-400 text-lg max-w-xl leading-relaxed">
+                            Learn from industry leaders shaping the future of technology, leadership, and innovation.
                         </p>
                     </div>
-                    <a href="/speakers" className="text-primary-500 font-semibold hover:text-primary-400 flex items-center gap-2">
-                        View All Speakers &rarr;
+                    <a href="/speakers" className="group text-primary-500 font-bold text-lg hover:text-primary-400 flex items-center gap-2 transition-all">
+                        View All Speakers <HiArrowRight className="group-hover:translate-x-1 transition-transform" />
                     </a>
                 </div>
 
@@ -53,14 +53,14 @@ export const SpeakersSection: React.FC = () => {
                 ) : speakers.length === 0 ? (
                     <div className="text-center py-20 text-gray-500">No speakers announced yet.</div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
                         {speakers.map((speaker, index) => (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                transition={{ duration: 0.6, delay: index * 0.1 }}
                             >
                                 <SpeakerGridCard
                                     name={speaker.name}

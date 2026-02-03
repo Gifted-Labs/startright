@@ -4,6 +4,7 @@ import { eventService } from '../services/eventService';
 import type { Event, Speaker, GalleryResponse } from '../types';
 import { SpeakerShowcase } from '../components/dynamic/SpeakerShowcase';
 import { GalleryFeed } from '../components/dynamic/GalleryFeed';
+import { ReviewSection } from '../components/events/ReviewSection';
 import { Button } from '../components/common/Button';
 import { format } from 'date-fns';
 import { HiCalendar, HiLocationMarker, HiClock } from 'react-icons/hi';
@@ -100,6 +101,9 @@ const EventDetails = () => {
                         {gallery && gallery.items.length > 0 && (
                             <GalleryFeed items={gallery.items} />
                         )}
+
+                        {/* Reviews Section */}
+                        <ReviewSection eventId={event.id} />
                     </div>
 
                     {/* Sidebar */}
@@ -136,3 +140,4 @@ const EventDetails = () => {
 };
 
 export default EventDetails;
+
