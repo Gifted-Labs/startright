@@ -32,14 +32,14 @@ export interface EventRegistrationRequest {
     name: string;
     email: string;
     phone: string;
+    note?: string;
     needsShirt: boolean;
     shirtSize?: string;
     program?: string;
     university?: string;
     academicLevel?: string;
-    emergencyContactName?: string;
-    emergencyContactPhone?: string;
     referralSource?: string;
+    referralSourceOther?: string;
 }
 
 export interface RegistrationDetailsResponse {

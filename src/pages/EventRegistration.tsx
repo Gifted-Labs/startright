@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { eventService } from '../services/eventService';
+import { UNIVERSITIES, ACADEMIC_LEVELS, REFERRAL_SOURCES } from '../constants/registrationConstants';
 import type { EventRegistrationRequest, RegistrationDetailsResponse } from '../types';
 import { Button } from '../components/common/Button';
 import { HiCheckCircle } from 'react-icons/hi';
@@ -18,17 +19,17 @@ const EventRegistration = () => {
         name: '',
         email: '',
         phone: '',
+        note: '',
         needsShirt: false,
         shirtSize: '',
         program: '',
         university: '',
         academicLevel: '',
-        emergencyContactName: '',
-        emergencyContactPhone: '',
-        referralSource: ''
+        referralSource: '',
+        referralSourceOther: ''
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
         setFormData(prev => ({
             ...prev,
@@ -121,52 +122,79 @@ const EventRegistration = () => {
                                             value={formData.name}
                                             onChange={handleChange}
                                             required
+                                            placeholder="John Doe"
                                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Email *</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
                                         <input
                                             type="email"
                                             name="email"
                                             value={formData.email}
                                             onChange={handleChange}
                                             required
+                                            placeholder="john@example.com"
                                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                                         />
                                     </div>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
-                                    <input
-                                        type="tel"
-                                        name="phone"
-                                        value={formData.phone}
-                                        onChange={handleChange}
-                                        required
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                                    />
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">University/School</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
                                         <input
-                                            type="text"
-                                            name="university"
-                                            value={formData.university}
+                                            type="tel"
+                                            name="phone"
+                                            value={formData.phone}
                                             onChange={handleChange}
+                                            required
+                                            placeholder="024 123 4567"
                                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Program/Course</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">University/Institution *</label>
+                                        <select
+                                            name="university"
+                                            value={formData.university}
+                                            onChange={handleChange}
+                                            required
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                                        >
+                                            <option value="">Select University</option>
+                                            {UNIVERSITIES.map(uni => (
+                                                <option key={uni.value} value={uni.value}>{uni.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Program of Study *</label>
                                         <input
                                             type="text"
                                             name="program"
                                             value={formData.program}
                                             onChange={handleChange}
+                                            required
+                                            placeholder="e.g. Computer Science"
                                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                                         />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">Academic Level *</label>
+                                        <select
+                                            name="academicLevel"
+                                            value={formData.academicLevel}
+                                            onChange={handleChange}
+                                            required
+                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                                        >
+                                            <option value="">Select Level</option>
+                                            {ACADEMIC_LEVELS.map(level => (
+                                                <option key={level.value} value={level.value}>{level.label}</option>
+                                            ))}
+                                        </select>
                                     </div>
                                 </div>
                                 <Button type="button" onClick={() => setStep(2)} className="w-full">
@@ -177,78 +205,87 @@ const EventRegistration = () => {
 
                         {step === 2 && (
                             <>
-                                <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg">
-                                    <input
-                                        type="checkbox"
-                                        name="needsShirt"
-                                        checked={formData.needsShirt}
-                                        onChange={handleChange}
-                                        id="needsShirt"
-                                        className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
-                                    />
-                                    <label htmlFor="needsShirt" className="text-gray-700">I would like an event T-shirt</label>
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-100">
+                                        <input
+                                            type="checkbox"
+                                            name="needsShirt"
+                                            checked={formData.needsShirt}
+                                            onChange={handleChange}
+                                            id="needsShirt"
+                                            className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
+                                        />
+                                        <label htmlFor="needsShirt" className="text-gray-700 font-medium">I would like an event T-shirt</label>
+                                    </div>
+
+                                    {formData.needsShirt && (
+                                        <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Shirt Size *</label>
+                                            <select
+                                                name="shirtSize"
+                                                value={formData.shirtSize}
+                                                onChange={handleChange}
+                                                required={formData.needsShirt}
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                                            >
+                                                <option value="">Select size</option>
+                                                <option value="S">Small</option>
+                                                <option value="M">Medium</option>
+                                                <option value="L">Large</option>
+                                                <option value="XL">Extra Large</option>
+                                                <option value="XXL">XXL</option>
+                                                <option value="XXXL">XXXL</option>
+                                            </select>
+                                        </div>
+                                    )}
                                 </div>
 
-                                {formData.needsShirt && (
+                                <div className="space-y-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Shirt Size</label>
+                                        <label className="block text-sm font-medium text-gray-700 mb-2">How did you hear about this event? *</label>
                                         <select
-                                            name="shirtSize"
-                                            value={formData.shirtSize}
+                                            name="referralSource"
+                                            value={formData.referralSource}
                                             onChange={handleChange}
+                                            required
                                             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                                         >
-                                            <option value="">Select size</option>
-                                            <option value="S">Small</option>
-                                            <option value="M">Medium</option>
-                                            <option value="L">Large</option>
-                                            <option value="XL">Extra Large</option>
-                                            <option value="XXL">XXL</option>
+                                            <option value="">Select an option</option>
+                                            {REFERRAL_SOURCES.map(source => (
+                                                <option key={source.value} value={source.value}>{source.label}</option>
+                                            ))}
                                         </select>
                                     </div>
-                                )}
 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Emergency Contact Name</label>
-                                        <input
-                                            type="text"
-                                            name="emergencyContactName"
-                                            value={formData.emergencyContactName}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 mb-2">Emergency Contact Phone</label>
-                                        <input
-                                            type="tel"
-                                            name="emergencyContactPhone"
-                                            value={formData.emergencyContactPhone}
-                                            onChange={handleChange}
-                                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                                        />
-                                    </div>
+                                    {formData.referralSource === 'OTHER' && (
+                                        <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                                            <label className="block text-sm font-medium text-gray-700 mb-2">Please specify *</label>
+                                            <input
+                                                type="text"
+                                                name="referralSourceOther"
+                                                value={formData.referralSourceOther}
+                                                onChange={handleChange}
+                                                required={formData.referralSource === 'OTHER'}
+                                                placeholder="Please tell us how you heard about us"
+                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                                            />
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">How did you hear about us?</label>
-                                    <select
-                                        name="referralSource"
-                                        value={formData.referralSource}
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Additional Notes (Optional)</label>
+                                    <textarea
+                                        name="note"
+                                        value={formData.note}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                                    >
-                                        <option value="">Select an option</option>
-                                        <option value="social_media">Social Media</option>
-                                        <option value="friend">Friend/Family</option>
-                                        <option value="school">School/University</option>
-                                        <option value="website">Website</option>
-                                        <option value="other">Other</option>
-                                    </select>
+                                        rows={3}
+                                        placeholder="Any special requests or information we should know?"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
+                                    />
                                 </div>
 
-                                <div className="flex gap-4">
+                                <div className="flex gap-4 pt-4">
                                     <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1">
                                         Back
                                     </Button>
