@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
 import { eventService } from '../services/eventService';
 import type { Event, ItineraryItem } from '../types';
-import { format } from 'date-fns';
-import { HiClock, HiCalendar } from 'react-icons/hi';
-import { PageHero } from '../components/common/PageHero';
+import { motion } from 'framer-motion';
 
 const Schedule = () => {
     const [event, setEvent] = useState<Event | null>(null);
@@ -28,58 +26,89 @@ const Schedule = () => {
     const itinerary: ItineraryItem[] = event?.itinerary || [];
 
     return (
-        <div className="bg-gray-50 min-h-screen">
-            <PageHero
-                title="Event Schedule"
-                subtitle="Plan your experience. Discover the timeline of sessions, workshops, and activities that await you."
-                backgroundImage="https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
-                breadcrumbs={[
-                    { label: 'Home', path: '/' },
-                    { label: 'Schedule' }
-                ]}
-            />
+        <div className="bg-dark-950 min-h-screen text-white">
+            {/* Header Section */}
+            <div className="bg-dark-900 pt-32 pb-20 text-center relative z-10 border-b border-white/5">
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="container mx-auto px-4"
+                >
+                    <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6">Event Schedule</h1>
+                    <p className="text-gray-400 text-xl max-w-2xl mx-auto">
+                        A structured breakdown of what to expect at Start Right Conference 2026.
+                    </p>
+                    <div className="w-24 h-px bg-primary-500/30 mx-auto mt-12"></div>
+                </motion.div>
+            </div>
 
-            <div className="container mx-auto px-4 md:px-6 py-16">
-                {event && (
-                    <div className="flex justify-center gap-8 text-gray-600 mb-12 flex-wrap">
-                        <div className="flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-sm">
-                            <HiCalendar className="text-primary-600 text-xl" />
-                            <span className="font-medium">{format(new Date(event.date), 'MMMM d, yyyy')}</span>
-                        </div>
-                        <div className="flex items-center gap-2 bg-white px-6 py-3 rounded-full shadow-sm">
-                            <HiClock className="text-primary-600 text-xl" />
-                            <span className="font-medium">{event.time}</span>
-                        </div>
-                    </div>
-                )}
+            {/* Timeline Section */}
+            <div className="bg-dark-950/50 py-32 relative overflow-hidden">
+                {/* Vertical Line */}
+                <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 -translate-x-1/2 z-0"></div>
 
-                {loading ? (
-                    <div className="max-w-3xl mx-auto space-y-6">
-                        {[1, 2, 3, 4].map(i => (
-                            <div key={i} className="h-24 bg-gray-200 rounded-xl animate-pulse"></div>
-                        ))}
-                    </div>
-                ) : itinerary.length > 0 ? (
-                    <div className="max-w-3xl mx-auto">
-                        <div className="relative border-l-4 border-primary-500 pl-8 space-y-8">
-                            {itinerary.map((item, index) => (
-                                <div key={item.id || index} className="relative group">
-                                    <div className="absolute -left-[42px] top-1 w-5 h-5 bg-primary-600 rounded-full border-4 border-white shadow-md group-hover:scale-125 transition-transform"></div>
-
-                                    <div className="bg-white p-6 rounded-xl shadow-sm hover:shadow-lg transition-shadow border border-gray-100">
-                                        <span className="inline-block text-primary-600 font-bold text-sm uppercase tracking-wider mb-2">{item.time}</span>
-                                        <h3 className="text-xl font-bold text-gray-900 mb-2">{item.title}</h3>
-                                        <p className="text-gray-600">{item.description}</p>
-                                    </div>
-                                </div>
+                <div className="max-w-6xl mx-auto px-4 relative z-10">
+                    {loading ? (
+                        <div className="space-y-12">
+                            {[1, 2, 3, 4].map(i => (
+                                <div key={i} className="h-40 bg-white/5 rounded-xl animate-pulse"></div>
                             ))}
                         </div>
-                    </div>
-                ) : (
-                    <div className="text-center py-20 bg-white rounded-xl max-w-3xl mx-auto shadow-sm">
-                        <p className="text-gray-500 text-lg">Schedule will be announced soon. Stay tuned!</p>
-                    </div>
-                )}
+                    ) : itinerary.length > 0 ? (
+                        <div className="space-y-24">
+                            {itinerary.map((item, index) => (
+                                <motion.div
+                                    key={item.id || index}
+                                    initial={{ opacity: 0, y: 40 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, margin: "-100px" }}
+                                    transition={{ duration: 0.6 }}
+                                    className={`relative flex flex-col md:flex-row items-center gap-8 md:gap-0 ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'
+                                        }`}
+                                >
+                                    {/* Card Side */}
+                                    <div className="w-full md:w-1/2 flex justify-center md:justify-end px-4 md:px-12">
+                                        <div className={`w-full max-w-md bg-dark-900/50 border border-white/10 p-8 rounded-xl hover:border-primary-500/40 transition-all group ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'
+                                            }`}>
+                                            <span className="text-primary-500 font-bold text-xs tracking-widest uppercase mb-3 block">
+                                                {item.time}
+                                            </span>
+                                            <h3 className="text-2xl font-black mb-3 group-hover:text-primary-400 transition-colors tracking-tight text-white">
+                                                {item.title}
+                                            </h3>
+                                            <p className="text-gray-400 text-sm leading-relaxed">
+                                                {item.description}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    {/* Center Dot */}
+                                    <div className="absolute left-1/2 transform -translate-x-1/2 w-3 h-3 bg-primary-500 rounded-full z-20 shadow-[0_0_10px_rgba(255,0,0,0.5)]"></div>
+
+                                    {/* Empty Side for Balance */}
+                                    <div className="w-full md:w-1/2 hidden md:block"></div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="text-center py-20 bg-dark-900/50 border border-white/10 rounded-xl max-w-3xl mx-auto shadow-sm backdrop-blur-sm">
+                            <p className="text-gray-500 text-lg">Schedule will be announced soon. Stay tuned!</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Bottom CTA Area */}
+            <div className="bg-dark-900 py-32 relative z-10 border-t border-white/5">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    className="text-center"
+                >
+                    <button className="bg-primary-500 hover:bg-primary-600 text-white px-12 py-5 font-black tracking-widest uppercase text-sm shadow-2xl transition-all hover:translate-y-[-2px] rounded-sm">
+                        Register For Event
+                    </button>
+                </motion.div>
             </div>
         </div>
     );

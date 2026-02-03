@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Backend is running on port 9000 based on context
-const API_BASE_URL = 'http://localhost:9000/api/v1';
+const API_BASE_URL = 'https://api.merbsconnect.com/api/v1';
 
 const api = axios.create({
     baseURL: API_BASE_URL,

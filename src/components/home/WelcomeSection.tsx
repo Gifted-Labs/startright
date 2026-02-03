@@ -5,9 +5,12 @@ import { HiOutlineLocationMarker, HiOutlineClock } from 'react-icons/hi';
 
 export const WelcomeSection: React.FC = () => {
     return (
-        <section className="py-24 bg-white text-dark-950 relative overflow-hidden">
+        <section className="py-28 bg-white text-dark-950 relative overflow-hidden border-t-4 border-primary-500">
             {/* Background Texture */}
-            <div className="absolute top-0 left-0 w-full h-full opacity-5 bg-[radial-gradient(#000000_1px,transparent_1px)] [background-size:16px_16px]"></div>
+            <div className="absolute top-0 left-0 w-full h-full opacity-[0.02] bg-[radial-gradient(#000000_1px,transparent_1px)] [background-size:16px_16px]"></div>
+
+            {/* Top gradient fade from dark section */}
+            <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-gray-100 to-transparent"></div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">

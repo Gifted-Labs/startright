@@ -32,15 +32,21 @@ export const EventsPreviewSection = () => {
     if (events.length === 0) return null;
 
     return (
-        <section className="py-24 bg-gray-50">
-            <div className="container mx-auto px-4 md:px-6">
+        <section className="py-28 bg-dark-950 relative">
+            {/* Subtle background pattern */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-dark-900/50 via-transparent to-transparent"></div>
+
+            {/* Top accent line */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-1 bg-primary-500"></div>
+
+            <div className="container mx-auto px-4 md:px-6 relative z-10">
                 <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
                     <div>
                         <motion.span
                             initial={{ opacity: 0, y: 10 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="text-primary-600 font-bold tracking-widest uppercase text-sm mb-2 block"
+                            className="text-primary-500 font-bold tracking-widest uppercase text-sm mb-2 block"
                         >
                             Don't Miss Out
                         </motion.span>
@@ -49,13 +55,13 @@ export const EventsPreviewSection = () => {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.1 }}
-                            className="text-3xl md:text-4xl font-black text-gray-900 uppercase tracking-tight"
+                            className="text-3xl md:text-4xl font-black text-white uppercase tracking-tight"
                         >
                             Upcoming Events
                         </motion.h2>
                     </div>
                     <Link to="/events">
-                        <Button variant="outline" className="hidden md:flex">View All Events</Button>
+                        <Button variant="outline" className="hidden md:flex border-white/20 text-white hover:bg-white/10">View All Events</Button>
                     </Link>
                 </div>
 
@@ -76,7 +82,7 @@ export const EventsPreviewSection = () => {
 
                 <div className="mt-12 text-center md:hidden">
                     <Link to="/events">
-                        <Button variant="outline" className="w-full">View All Events</Button>
+                        <Button variant="outline" className="w-full border-white/20 text-white hover:bg-white/10">View All Events</Button>
                     </Link>
                 </div>
             </div>

@@ -7,7 +7,7 @@ interface TShirtRequestFormProps {
     initialColor?: 'Black' | 'White';
 }
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:9000/api/v1';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.merbsconnect.com/api/v1';
 
 export const TShirtRequestForm: React.FC<TShirtRequestFormProps> = ({ isOpen, onClose, initialColor = 'White' }) => {
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
