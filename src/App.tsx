@@ -9,8 +9,10 @@ import EventRegistration from './pages/EventRegistration';
 import Gallery from './pages/Gallery';
 import Schedule from './pages/Schedule';
 import GetInvolved from './pages/GetInvolved';
+import EventsList from './pages/EventsList';
 import VolunteerApply from './pages/VolunteerApply';
 import SponsorApply from './pages/SponsorApply';
+import Articles from './pages/Articles';
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
           <Route index element={<Landing />} />
           <Route path="speakers" element={<Speakers />} />
           <Route path="about" element={<AboutUs />} />
+          <Route path="articles" element={<Articles />} />
+          <Route path="events" element={<EventsList />} />
           <Route path="events/past" element={<PastEvents />} />
           <Route path="events/:eventId" element={<EventDetails />} />
           <Route path="events/:eventId/register" element={<EventRegistration />} />

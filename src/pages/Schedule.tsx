@@ -30,9 +30,13 @@ const Schedule = () => {
     return (
         <div className="bg-gray-50 min-h-screen">
             <PageHero
-                titleWhite="EVENT"
-                titleAccent="SCHEDULE"
+                title="Event Schedule"
                 subtitle="Plan your experience. Discover the timeline of sessions, workshops, and activities that await you."
+                backgroundImage="https://images.unsplash.com/photo-1544377193-33dcf4d68fb5?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                breadcrumbs={[
+                    { label: 'Home', path: '/' },
+                    { label: 'Schedule' }
+                ]}
             />
 
             <div className="container mx-auto px-4 md:px-6 py-16">

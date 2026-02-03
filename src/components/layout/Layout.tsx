@@ -1,5 +1,6 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { Footer } from '../common/Footer';
 
 import clsx from 'clsx';
 
@@ -21,15 +22,17 @@ const Navigation = () => {
 
     const links = [
         { name: 'Home', path: '/' },
-        { name: 'About', path: '/about' },
+        { name: 'Events', path: '/events' },
+        { name: 'Gallery', path: '/gallery' },
         { name: 'Schedule', path: '/schedule' },
         { name: 'Speakers', path: '/speakers' },
+        { name: 'About', path: '/about' },
         { name: 'Contact us', path: '/get-involved' },
     ];
 
     const isActive = (path: string) => {
         if (path === '/' && location.pathname !== '/') return false;
-        return location.pathname.startsWith(path);
+        return location.pathname === path || location.pathname.startsWith(path + '/');
     };
 
     return (
@@ -84,7 +87,7 @@ const Navigation = () => {
                             <img
                                 src="/images/startright_logo.png"
                                 alt="Start Right"
-                                className={clsx("w-auto object-contain transition-all duration-300", scrolled ? "h-8" : "h-10 brightness-0 invert")}
+                                className={clsx("w-auto object-contain transition-all duration-300", scrolled ? "h-12" : "h-20")}
                             />
                         </Link>
 
@@ -102,7 +105,7 @@ const Navigation = () => {
                                     )}
                                 >
                                     {link.name}
-                                    {['Home', 'About', 'Schedule', 'Speakers'].includes(link.name) && (
+                                    {['Home', 'Events', 'Gallery', 'About', 'Schedule', 'Speakers'].includes(link.name) && (
                                         <svg className={clsx("w-3 h-3", scrolled ? "opacity-50" : "opacity-70")} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
                                     )}
                                 </Link>
@@ -135,35 +138,6 @@ const Navigation = () => {
         </div>
     );
 };
-
-const Footer = () => (
-    <footer className="bg-secondary-900 text-white py-12 md:py-16">
-        <div className="container mx-auto px-4 md:px-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-                <div>
-                    <h3 className="text-xl font-bold mb-4">MerbsConnect</h3>
-                    <p className="text-secondary-50/70 leading-relaxed text-sm">
-                        Connecting people through premier events. Join us to experience the future of community engagement.
-                    </p>
-                </div>
-                <div>
-                    <h4 className="font-semibold mb-4 text-secondary-50">Quick Links</h4>
-                    <ul className="space-y-2 text-sm text-secondary-50/70">
-                        <li><Link to="/events" className="hover:text-white transition-colors">Upcoming Events</Link></li>
-                        <li><Link to="/events/past" className="hover:text-white transition-colors">Past Events</Link></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 className="font-semibold mb-4 text-secondary-50">Contact</h4>
-                    <p className="text-sm text-secondary-50/70">support@merbsconnect.com</p>
-                </div>
-            </div>
-            <div className="border-t border-secondary-50/10 mt-12 pt-8 text-center text-sm text-secondary-50/50">
-                © {new Date().getFullYear()} MerbsConnect. All rights reserved.
-            </div>
-        </div>
-    </footer>
-);
 
 export const Layout = () => {
     return (

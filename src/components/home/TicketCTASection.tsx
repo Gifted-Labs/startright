@@ -24,15 +24,15 @@ export const TicketCTASection: React.FC = () => {
                     <h2 className="text-4xl md:text-6xl font-black text-white mb-8 leading-tight">
                         ARE YOU READY FOR <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-primary-600">
-                            NEXT SEASON?
+                            START RIGHT CONFERENCE 2026?
                         </span>
                     </h2>
 
                     <div className="flex flex-col md:flex-row items-center justify-center gap-8 mt-12">
                         {/* Price Card */}
                         <div className="bg-white text-dark-950 p-8 rounded-2xl w-full max-w-sm shadow-2xl transform md:-rotate-3 hover:rotate-0 transition-transform duration-300">
-                            <span className="text-gray-500 font-bold uppercase tracking-widest text-sm">Regular Pass</span>
-                            <div className="text-5xl font-black my-4 text-primary-600">GHS 50<span className="text-lg text-gray-400 font-normal">.00</span></div>
+                            <span className="text-gray-500 font-bold uppercase tracking-widest text-sm">EVENT PERKS</span>
+                            <div className="text-5xl font-black my-4 text-primary-600">SRC 2026<span className="text-lg text-gray-400 font-normal"></span></div>
                             <ul className="text-left space-y-3 mb-8 text-gray-600 text-sm">
                                 <li className="flex items-center gap-2">✓ Full Conference Access</li>
                                 <li className="flex items-center gap-2">✓ Conference Materials</li>
