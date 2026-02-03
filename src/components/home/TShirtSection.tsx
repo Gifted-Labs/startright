@@ -12,20 +12,31 @@ export const TShirtSection: React.FC = () => {
 
                     {/* Visual Display (Left) */}
                     <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        whileInView={{ opacity: 1, x: 0 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 0.8 }}
                         viewport={{ once: true }}
-                        className="flex-1 w-full max-w-xl"
+                        className="flex-1 w-full max-w-xl group/shirt"
                     >
-                        <div className="relative">
+                        <div className="relative aspect-square flex items-center justify-center">
                             {/* Decorative background element */}
-                            <div className="absolute -inset-4 bg-primary-50 rounded-3xl blur-2xl opacity-50 z-0"></div>
+                            <div className="absolute inset-0 bg-primary-50 rounded-full blur-3xl opacity-30 z-0 scale-75"></div>
 
-                            <img
-                                src="/images/tshirt_mockup.png"
-                                alt="Official StartRight Conference 2026 T-Shirt"
-                                className="relative z-10 w-full h-auto rounded-3xl shadow-[0_20px_50px_rgba(0,0,0,0.1)] transform hover:scale-[1.02] transition-transform duration-500"
+                            <motion.img
+                                key="shirt-preview"
+                                initial={{ opacity: 0, rotate: -5 }}
+                                animate={{ opacity: 1, rotate: 0 }}
+                                src="/images/shirt_black.jpg"
+                                alt="Official SRC T-Shirt"
+                                className="relative z-10 w-full h-auto drop-shadow-[0_35px_60px_rgba(0,0,0,0.3)] hover:scale-110 transition-transform duration-700"
+                            />
+
+                            {/* Secondary Shirt (Peek) */}
+                            <motion.img
+                                initial={{ opacity: 0, x: 20, rotate: 5 }}
+                                whileInView={{ opacity: 0.4, x: 60, rotate: 10 }}
+                                src="/images/shirt_white.jpg"
+                                className="absolute z-0 w-2/3 h-auto grayscale-0 brightness-105 opacity-40 blur-[1px] -right-20 pointer-events-none"
                             />
                         </div>
                     </motion.div>

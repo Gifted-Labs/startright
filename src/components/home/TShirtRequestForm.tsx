@@ -129,6 +129,23 @@ export const TShirtRequestForm: React.FC<TShirtRequestFormProps> = ({ isOpen, on
 
                                         {/* Shirt Details */}
                                         <div className="space-y-6">
+                                            {/* Live Preview */}
+                                            <div className="relative aspect-video rounded-2xl bg-gray-50 overflow-hidden border border-gray-100 p-8 flex items-center justify-center">
+                                                <div className="absolute inset-0 bg-gradient-to-br from-primary-50/50 to-transparent opacity-50" />
+                                                <AnimatePresence mode="wait">
+                                                    <motion.img
+                                                        key={formData.color}
+                                                        initial={{ opacity: 0, y: 10, scale: 0.9 }}
+                                                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                                                        exit={{ opacity: 0, y: -10, scale: 0.9 }}
+                                                        transition={{ duration: 0.3 }}
+                                                        src={formData.color === 'Black' ? '/images/shirt_black.jpg' : '/images/shirt_white.jpg'}
+                                                        alt={`${formData.color} T-Shirt Preview`}
+                                                        className="h-full w-auto drop-shadow-2xl relative z-10"
+                                                    />
+                                                </AnimatePresence>
+                                            </div>
+
                                             <div>
                                                 <label className="block text-sm font-black text-dark-950 uppercase tracking-wider mb-4">Preferred Color</label>
                                                 <div className="flex gap-4">
@@ -144,8 +161,8 @@ export const TShirtRequestForm: React.FC<TShirtRequestFormProps> = ({ isOpen, on
                                                             <div className={`
                                                                 w-full py-4 text-center rounded-xl border-2 transition-all font-black text-lg
                                                                 ${c === 'White'
-                                                                    ? 'bg-white border-gray-200 text-dark-950 peer-checked:border-primary-600 peer-checked:bg-gray-50'
-                                                                    : 'bg-dark-950 border-dark-950 text-white peer-checked:border-primary-600 peer-checked:bg-dark-900'}
+                                                                    ? 'bg-white border-gray-200 text-dark-950 peer-checked:border-primary-600 peer-checked:bg-gray-50 shadow-sm'
+                                                                    : 'bg-dark-950 border-dark-950 text-white peer-checked:border-primary-600 peer-checked:bg-dark-900 shadow-md'}
                                                             `}>
                                                                 {c}
                                                             </div>

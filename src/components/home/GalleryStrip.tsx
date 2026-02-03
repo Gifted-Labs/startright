@@ -13,8 +13,8 @@ const images = [
 
 const SPRING_OPTIONS = {
     type: "spring",
-    stiffness: 300,
-    damping: 30,
+    stiffness: 150, // Slightly softer for 1.5s feel
+    damping: 25,
 };
 
 export const GalleryStrip: React.FC = () => {
@@ -23,13 +23,13 @@ export const GalleryStrip: React.FC = () => {
     const dragX = useMotionValue(0);
     const containerRef = useRef<HTMLDivElement>(null);
 
-    // Auto-play logic
+    // Auto-play logic with speed refinement
     useEffect(() => {
         const interval = setInterval(() => {
             if (!isDragging) {
                 nextSlide();
             }
-        }, 5000);
+        }, 3000); // 3 seconds interval
         return () => clearInterval(interval);
     }, [isDragging]);
 
@@ -58,7 +58,7 @@ export const GalleryStrip: React.FC = () => {
             <div className="absolute top-0 left-0 w-64 h-64 bg-primary-50 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 opacity-50" />
 
             <div className="container mx-auto px-4 relative z-10">
-                <div className="text-center mb-20">
+                <div className="text-center mb-16">
                     <motion.span
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -70,13 +70,13 @@ export const GalleryStrip: React.FC = () => {
                         initial={{ opacity: 0, y: 10 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-6xl font-black text-dark-950 mt-2 tracking-tight"
+                        className="text-4xl md:text-5xl font-black text-dark-950 mt-2 tracking-tight uppercase"
                     >
                         Captured Moments
                     </motion.h2>
                 </div>
 
-                <div className="relative group mx-auto px-4">
+                <div className="relative group mx-auto max-w-5xl">
                     {/* Main Gallery Area */}
                     <div className="relative overflow-visible cursor-grab active:cursor-grabbing">
                         <motion.div
@@ -89,8 +89,12 @@ export const GalleryStrip: React.FC = () => {
                             animate={{
                                 x: `-${currentIndex * 100}%`
                             }}
-                            transition={SPRING_OPTIONS}
-                            className="flex gap-4 md:gap-8 items-center"
+                            transition={{
+                                type: "spring",
+                                duration: 1.5, // Reserving 1.5s for the slide as requested
+                                bounce: 0.2
+                            }}
+                            className="flex gap-10 items-center"
                         >
                             {images.map((img, index) => {
                                 const isActive = index === currentIndex;
@@ -99,18 +103,20 @@ export const GalleryStrip: React.FC = () => {
                                         key={index}
                                         initial={false}
                                         animate={{
-                                            scale: isActive ? 1 : 0.85,
+                                            scale: isActive ? 1 : 0.9,
                                             opacity: isActive ? 1 : 0.4,
                                         }}
-                                        transition={SPRING_OPTIONS}
-                                        className="flex-shrink-0 w-full md:w-3/4 lg:w-2/3 aspect-[16/9] rounded-[2rem] md:rounded-[3rem] overflow-hidden shadow-2xl relative"
+                                        transition={{ duration: 1.5, ease: "easeInOut" }} // Match the 1.5 speed
+                                        className="flex-shrink-0 w-full aspect-video rounded-[2rem] overflow-hidden shadow-2xl relative bg-gray-100"
                                     >
                                         <img
                                             src={img.src}
                                             alt={img.alt}
                                             className="w-full h-full object-cover select-none pointer-events-none"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-dark-950/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent flex items-end p-8">
+                                            <p className="text-white font-bold tracking-wide">{img.alt}</p>
+                                        </div>
                                     </motion.div>
                                 );
                             })}
@@ -144,8 +150,8 @@ export const GalleryStrip: React.FC = () => {
                                 key={index}
                                 onClick={() => setCurrentIndex(index)}
                                 className={`h-2 transition-all duration-500 rounded-full ${currentIndex === index
-                                        ? "bg-primary-600 w-12"
-                                        : "bg-gray-200 w-2 hover:bg-gray-400"
+                                    ? "bg-primary-600 w-12"
+                                    : "bg-gray-200 w-2 hover:bg-gray-400"
                                     }`}
                             />
                         ))}
