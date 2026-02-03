@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useMotionValue } from 'framer-motion';
+import { motion, useMotionValue, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
 const images = [
@@ -13,8 +13,8 @@ const images = [
 
 const SPRING_OPTIONS = {
     type: "spring",
-    stiffness: 150, // Slightly softer for 1.5s feel
-    damping: 25,
+    stiffness: 80, // Slower spring for 1.5s feel
+    damping: 20,
 };
 
 export const GalleryStrip: React.FC = () => {
@@ -76,8 +76,8 @@ export const GalleryStrip: React.FC = () => {
                     </motion.h2>
                 </div>
 
-                <div className="relative group mx-auto max-w-5xl">
-                    {/* Main Gallery Area */}
+                <div className="relative group mx-auto">
+                    {/* Main Gallery Area with Center Focus */}
                     <div className="relative overflow-visible cursor-grab active:cursor-grabbing">
                         <motion.div
                             ref={containerRef}
@@ -87,14 +87,14 @@ export const GalleryStrip: React.FC = () => {
                             onDragStart={handleDragStart}
                             onDragEnd={handleDragEnd}
                             animate={{
-                                x: `-${currentIndex * 100}%`
+                                x: `calc(50% - ${(currentIndex * 80) + 40}%)` // Centering logic for 80% width items
                             }}
                             transition={{
                                 type: "spring",
-                                duration: 1.5, // Reserving 1.5s for the slide as requested
-                                bounce: 0.2
+                                duration: 1.5,
+                                bounce: 0.1
                             }}
-                            className="flex gap-10 items-center"
+                            className="flex items-center"
                         >
                             {images.map((img, index) => {
                                 const isActive = index === currentIndex;
@@ -103,20 +103,30 @@ export const GalleryStrip: React.FC = () => {
                                         key={index}
                                         initial={false}
                                         animate={{
-                                            scale: isActive ? 1 : 0.9,
-                                            opacity: isActive ? 1 : 0.4,
+                                            scale: isActive ? 1 : 0.65, // Pronounced reduction
+                                            opacity: isActive ? 1 : 0.3,
+                                            zIndex: isActive ? 10 : 1,
                                         }}
-                                        transition={{ duration: 1.5, ease: "easeInOut" }} // Match the 1.5 speed
-                                        className="flex-shrink-0 w-full aspect-video rounded-[2rem] overflow-hidden shadow-2xl relative bg-gray-100"
+                                        transition={{ duration: 1.5, ease: [0.32, 0.23, 0.4, 0.9] }}
+                                        className="flex-shrink-0 w-[80%] aspect-video rounded-[3rem] overflow-hidden shadow-2xl relative bg-gray-100"
                                     >
                                         <img
                                             src={img.src}
                                             alt={img.alt}
                                             className="w-full h-full object-cover select-none pointer-events-none"
                                         />
-                                        <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/50 to-transparent flex items-end p-8">
-                                            <p className="text-white font-bold tracking-wide">{img.alt}</p>
-                                        </div>
+                                        <AnimatePresence mode="wait">
+                                            {isActive && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: 20 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    exit={{ opacity: 0, y: 10 }}
+                                                    className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent flex items-end p-8 md:p-12 pb-10"
+                                                >
+                                                    <p className="text-white text-xl md:text-2xl font-black tracking-tight uppercase">{img.alt}</p>
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
                                     </motion.div>
                                 );
                             })}
@@ -124,7 +134,7 @@ export const GalleryStrip: React.FC = () => {
                     </div>
 
                     {/* Aesthetic Navigation Arrows */}
-                    <div className="absolute top-1/2 -translate-y-1/2 -left-4 -right-4 flex justify-between pointer-events-none items-center px-4 md:px-0 z-20">
+                    <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between pointer-events-none items-center px-4 md:px-12 z-20">
                         <button
                             onClick={prevSlide}
                             className="pointer-events-auto p-5 bg-white/10 backdrop-blur-xl border border-white/20 rounded-full shadow-2xl text-dark-950 hover:bg-primary-600 hover:text-white transition-all transform hover:scale-110 md:-translate-x-12 opacity-0 group-hover:opacity-100 hidden md:flex"
