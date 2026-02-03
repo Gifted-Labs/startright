@@ -1,55 +1,49 @@
-import React from 'react';
-import { HiOutlineMap } from 'react-icons/hi';
+import { GetDirectionsButton } from '../common/GetDirectionsButton';
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import { VenueMap } from './VenueMap';
 
 export const VenueSection: React.FC = () => {
     return (
-        <section className="relative h-[500px] bg-gray-100 overflow-hidden flex items-center justify-center">
-            {/* Map Placeholder Image */}
+        <section className="relative w-full py-20 bg-white overflow-hidden">
+            {/* Background Map - Interactive Leaflet Map */}
             <div className="absolute inset-0 z-0">
-                <img
-                    src="https://mt1.google.com/vt/lyrs=r&x=0&y=0&z=0" // Simplified generic map tile, effectively replaced by custom style or image below
-                    className="w-full h-full object-cover grayscale opacity-30"
-                    alt="Map Background"
-                />
-                {/* Better static map placeholder */}
-                <div className="absolute inset-0 bg-[#e5e7eb] opacity-50 bg-[url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/World_map_blank_without_borders.svg/2000px-World_map_blank_without_borders.svg.png')] bg-cover bg-center mix-blend-multiply"></div>
+                <VenueMap />
             </div>
 
-            <div className="relative z-10 container mx-auto px-4 pointer-events-none">
-                <div className="pointer-events-auto bg-white p-8 md:p-12 rounded-3xl shadow-xl max-w-md mx-auto md:ml-20">
-                    <span className="text-primary-500 font-bold uppercase tracking-widest text-xs mb-2 block">
-                        Venue Location
-                    </span>
-                    <h2 className="text-3xl font-black text-dark-950 mb-6">
-                        Explore the <br /> Popular Venue
-                    </h2>
+            {/* Overlay Gradient to ensure pins and cards stand out */}
+            <div className="absolute inset-0 bg-white/40 z-[1] pointer-events-none"></div>
 
-                    <div className="space-y-4 mb-8">
+            <div className="container mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center justify-center md:justify-start">
+
+                {/* Floating Location Card */}
+                <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full border-t-4 border-primary-500 relative z-20">
+                    <div className="mb-6">
+                        <span className="text-primary-500 font-bold text-xs uppercase tracking-widest mb-2 block">Venue Location</span>
+                        <h2 className="text-3xl font-black text-dark-950 mb-4 leading-tight">
+                            Explore the <br /> Popular Venue
+                        </h2>
+                    </div>
+
+                    <div className="space-y-6 mb-8">
                         <div>
-                            <h4 className="font-bold text-dark-900">SMS Auditorium</h4>
-                            <p className="text-gray-500 text-sm">Polytechnic Road, KNUST, Kumasi</p>
+                            <h3 className="font-bold text-dark-900 text-lg mb-1">SMS Auditorium</h3>
+                            <p className="text-gray-500 text-sm">University of Cape Coast (UCC)</p>
                         </div>
+
                         <div>
-                            <h4 className="font-bold text-dark-900">Breakout Sessions</h4>
+                            <h3 className="font-bold text-dark-900 text-lg mb-1">Breakout Sessions</h3>
                             <p className="text-gray-500 text-sm">College of Science Complex</p>
                         </div>
                     </div>
 
-                    <a
-                        href="https://maps.google.com"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="inline-flex items-center gap-2 bg-primary-600 text-white px-6 py-3 rounded-full font-bold hover:bg-primary-700 transition w-full justify-center"
-                    >
-                        <HiOutlineMap />
-                        Get Directions
-                    </a>
+                    <GetDirectionsButton className="w-full" label="Get Directions" />
                 </div>
-            </div>
 
-            {/* Pin on Map (Visual Only) */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 animate-bounce">
-                <div className="text-primary-600 text-6xl drop-shadow-2xl">📍</div>
+                {/* Map Marker Visual */}
+                <div className="hidden md:block absolute left-[59%] top-[50%] -translate-x-1/2 -translate-y-[100%] animate-bounce z-10">
+                    <FaMapMarkerAlt className="text-6xl text-primary-500 drop-shadow-2xl" />
+                    <div className="w-4 h-4 bg-primary-500 rounded-full absolute -bottom-1 left-1/2 -translate-x-1/2 blur-sm"></div>
+                </div>
             </div>
         </section>
     );

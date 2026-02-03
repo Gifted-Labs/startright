@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SpeakersHero } from '../components/speakers/SpeakersHero';
+import { PageHero } from '../components/common/PageHero';
 import { SpeakerGridCard } from '../components/speakers/SpeakerGridCard';
 import { ContactCTA } from '../components/common/ContactCTA';
 import { HiChevronLeft, HiChevronRight } from 'react-icons/hi';
@@ -40,7 +40,15 @@ const Speakers: React.FC = () => {
 
     return (
         <div className="bg-white min-h-screen">
-            <SpeakersHero />
+            <PageHero
+                title="Events Speakers"
+                subtitle="This conference is created by professionals"
+                backgroundImage="https://images.unsplash.com/photo-1591115765373-5207764f72e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                breadcrumbs={[
+                    { label: 'Home', path: '/' },
+                    { label: 'Speakers' }
+                ]}
+            />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
                 {loading ? (

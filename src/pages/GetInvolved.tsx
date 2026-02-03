@@ -51,9 +51,13 @@ const GetInvolved = () => {
     return (
         <div className="bg-white min-h-screen">
             <PageHero
-                titleWhite="GET"
-                titleAccent="INVOLVED"
+                title="Get Involved"
                 subtitle="Be part of the movement. Whether you're a student, professional, or organization, there's a place for you to make an impact."
+                backgroundImage="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                breadcrumbs={[
+                    { label: 'Home', path: '/' },
+                    { label: 'Get Involved' }
+                ]}
             />
 
             {/* Options Grid */}

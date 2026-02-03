@@ -25,9 +25,13 @@ const EventsList = () => {
     return (
         <div className="bg-gray-50 min-h-screen">
             <PageHero
-                titleWhite="UPCOMING"
-                titleAccent="EVENTS"
+                title="Upcoming Events"
                 subtitle="Browse our curated list of upcoming seminars, workshops, and conferences designed to inspire and transform."
+                backgroundImage="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                breadcrumbs={[
+                    { label: 'Home', path: '/' },
+                    { label: 'Events' }
+                ]}
             />
 
             <div className="container mx-auto px-4 md:px-6 py-16">

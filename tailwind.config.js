@@ -17,16 +17,16 @@ export default {
                     950: '#0A0A0A',
                 },
                 primary: {
-                    50: '#fff7ed',
-                    100: '#ffedd5',
-                    200: '#fed7aa',
-                    300: '#fdba74',
-                    400: '#FF8A3D', // Secondary accent
-                    500: '#FF6B00', // Main Brand Color
-                    600: '#EA580C', // Darker interaction
-                    700: '#c2410c',
-                    800: '#9a3412',
-                    900: '#7c2d12',
+                    50: '#fff5f5',
+                    100: '#ffe3e3',
+                    200: '#ffc9c9',
+                    300: '#ffa8a8',
+                    400: '#ff6b6b',
+                    500: '#FF0000', // Main Brand Color (Red)
+                    600: '#e60000', // Darker interaction
+                    700: '#c90000',
+                    800: '#a30000',
+                    900: '#820000',
                 },
                 secondary: {
                     50: '#f8fafc',
@@ -44,7 +44,7 @@ export default {
             },
             backgroundImage: {
                 'hero-gradient': 'linear-gradient(to right bottom, #0A0A0A, #121212)',
-                'orange-glow': 'conic-gradient(from 180deg at 50% 50%, #FF6B00 0deg, rgba(255, 107, 0, 0) 360deg)',
+                'red-glow': 'conic-gradient(from 180deg at 50% 50%, #FF0000 0deg, rgba(255, 0, 0, 0) 360deg)',
             }
         },
     },

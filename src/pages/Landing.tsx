@@ -7,16 +7,20 @@ import { AgendaSection } from '../components/home/AgendaSection';
 import { SpeakersSection } from '../components/home/SpeakersSection';
 import { TicketCTASection } from '../components/home/TicketCTASection';
 import { VenueSection } from '../components/home/VenueSection';
+import { TShirtSection } from '../components/home/TShirtSection';
+import { EventsPreviewSection } from '../components/home/EventsPreviewSection';
 
 const Landing: React.FC = () => {
     return (
         <div className="min-h-screen">
             <HeroSection />
+            <EventsPreviewSection />
             <WelcomeSection />
             <FlyersSection />
             <GalleryStrip />
             <AgendaSection />
             <SpeakersSection />
+            <TShirtSection />
             <TicketCTASection />
             <VenueSection />
         </div>

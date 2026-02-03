@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { GetDirectionsButton } from '../common/GetDirectionsButton';
 import { HiOutlineLocationMarker, HiOutlineClock } from 'react-icons/hi';
 
 export const WelcomeSection: React.FC = () => {
@@ -62,14 +63,14 @@ export const WelcomeSection: React.FC = () => {
                         </span>
                         <h2 className="text-4xl md:text-5xl font-black mb-6 leading-tight text-dark-950">
                             Welcome to the <br />
-                            <span className="text-primary-500">Global Student</span> <br />
-                            Conference
+                            <span className="text-primary-500">Start Right</span> <br />
+                            Conference  2026
                         </h2>
 
                         <p className="text-gray-600 text-lg leading-relaxed mb-8">
-                            Start Right 2026 is premier gathering for students looking to shape the future.
-                            We bring together industry leaders, innovators, and academic experts to provide
-                            you with the tools you need to succeed in a rapidly evolving world.
+                            Start Right 2026 is an impactful gathering for first-year univerity students and a space for continuing students to review their journey with clarity and focus. We bring together lecturers,
+                            valecditorians, student leaders, innovators, industry experts, and professionals to provide you
+                            with the right tools you need to succeed in the age of AI and beyond.
                         </p>
 
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
@@ -79,7 +80,7 @@ export const WelcomeSection: React.FC = () => {
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-lg mb-1">When</h4>
-                                    <p className="text-gray-600">Feb 21, 2026<br />09:00 AM - 05:00 PM</p>
+                                    <p className="text-gray-600">Feb 21, 2026<br />09:00 AM - 01:00 PM</p>
                                 </div>
                             </div>
                             <div className="flex items-start gap-4">
@@ -88,7 +89,8 @@ export const WelcomeSection: React.FC = () => {
                                 </div>
                                 <div>
                                     <h4 className="font-bold text-lg mb-1">Where</h4>
-                                    <p className="text-gray-600">SMS Auditorium<br />Polytechnic Road, Kumasi</p>
+                                    <p className="text-gray-600 mb-2">SMS Auditorium<br />University of Cape Coast (UCC)</p>
+                                    <GetDirectionsButton variant="text" label="Get Directions" />
                                 </div>
                             </div>
                         </div>
