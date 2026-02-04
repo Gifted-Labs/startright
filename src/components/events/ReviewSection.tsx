@@ -1,13 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import type { Review, ReviewPageResponse, CreateReviewRequest } from '../../types';
+import type { Review, ReviewPageResponse, CreateReviewRequest, AcademicLevel } from '../../types';
 import { eventService } from '../../services/eventService';
-import { HiStar, HiOutlineStar, HiUser } from 'react-icons/hi';
+import { HiStar, HiOutlineStar, HiUser, HiAcademicCap } from 'react-icons/hi';
 import { format } from 'date-fns';
 
 interface ReviewSectionProps {
     eventId: number | string;
 }
+
+const ACADEMIC_LEVELS: { value: AcademicLevel; label: string }[] = [
+    { value: 'LEVEL_100', label: 'Level 100' },
+    { value: 'LEVEL_200', label: 'Level 200' },
+    { value: 'LEVEL_300', label: 'Level 300' },
+    { value: 'LEVEL_400', label: 'Level 400' },
+    { value: 'LEVEL_500', label: 'Level 500' },
+    { value: 'LEVEL_600', label: 'Level 600' },
+    { value: 'POSTGRADUATE', label: 'Postgraduate' },
+    { value: 'ALUMNI', label: 'Alumni' },
+    { value: 'OTHER', label: 'Other' },
+];
 
 export const ReviewSection: React.FC<ReviewSectionProps> = ({ eventId }) => {
     const [reviewData, setReviewData] = useState<ReviewPageResponse | null>(null);
@@ -22,6 +34,9 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({ eventId }) => {
     // Form state
     const [formRating, setFormRating] = useState(5);
     const [formComment, setFormComment] = useState('');
+    const [guestName, setGuestName] = useState('');
+    const [guestAcademicLevel, setGuestAcademicLevel] = useState<AcademicLevel>('LEVEL_100');
+    const [guestProgram, setGuestProgram] = useState('');
 
     const fetchReviews = async () => {
         try {
@@ -46,10 +61,16 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({ eventId }) => {
             setEditingReview(review);
             setFormRating(review.rating);
             setFormComment(review.comment || '');
+            setGuestName(review.guestName || '');
+            setGuestAcademicLevel(review.guestAcademicLevel || 'LEVEL_100');
+            setGuestProgram(review.guestProgram || '');
         } else {
             setEditingReview(null);
             setFormRating(5);
             setFormComment('');
+            setGuestName('');
+            setGuestAcademicLevel('LEVEL_100');
+            setGuestProgram('');
         }
         setShowForm(true);
         setSubmitError(null);
@@ -61,6 +82,8 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({ eventId }) => {
         setEditingReview(null);
         setFormRating(5);
         setFormComment('');
+        setGuestName('');
+        setGuestProgram('');
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -74,7 +97,14 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({ eventId }) => {
             return;
         }
 
-        const data: CreateReviewRequest = { rating: formRating, comment: formComment };
+        const data: CreateReviewRequest = {
+            rating: formRating,
+            comment: formComment,
+            guestName: guestName.trim() || undefined,
+            guestAcademicLevel: guestName.trim() ? guestAcademicLevel : undefined,
+            guestProgram: guestProgram.trim() || undefined
+        };
+
         setSubmitting(true);
         setSubmitError(null);
 
@@ -90,11 +120,7 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({ eventId }) => {
             fetchReviews();
         } catch (err: any) {
             console.error("Failed to submit review:", err);
-            if (err.response?.status === 401 || err.response?.status === 403) {
-                setSubmitError('You must be logged in to submit a review.');
-            } else {
-                setSubmitError(err.response?.data?.message || 'Failed to submit review.');
-            }
+            setSubmitError(err.response?.data?.message || 'Failed to submit review.');
         } finally {
             setSubmitting(false);
         }
@@ -149,6 +175,11 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({ eventId }) => {
         );
     };
 
+    const getLevelDisplay = (level?: AcademicLevel) => {
+        if (!level) return null;
+        return ACADEMIC_LEVELS.find(l => l.value === level)?.label || level;
+    };
+
     return (
         <section className="py-12">
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-8">
@@ -186,29 +217,66 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({ eventId }) => {
                 <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4"
+                    className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 overflow-y-auto"
                     onClick={handleCloseForm}
                 >
                     <motion.div
                         initial={{ scale: 0.9, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
-                        className="bg-white rounded-xl p-8 max-w-lg w-full shadow-2xl"
+                        className="bg-white rounded-xl p-8 max-w-lg w-full shadow-2xl my-8"
                         onClick={e => e.stopPropagation()}
                     >
-                        <h3 className="text-xl font-bold mb-6">
+                        <h3 className="text-xl font-bold mb-6 text-gray-900">
                             {editingReview ? 'Edit Your Review' : 'Write a Review'}
                         </h3>
                         <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="grid grid-cols-1 gap-4">
+                                <div>
+                                    <label className="block text-sm font-medium text-gray-900 mb-2">Your Name</label>
+                                    <input
+                                        type="text"
+                                        value={guestName}
+                                        onChange={e => setGuestName(e.target.value)}
+                                        className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
+                                        placeholder="Optional if logged in"
+                                    />
+                                </div>
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-900 mb-2">Academic Level</label>
+                                        <select
+                                            value={guestAcademicLevel}
+                                            onChange={e => setGuestAcademicLevel(e.target.value as AcademicLevel)}
+                                            className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
+                                        >
+                                            {ACADEMIC_LEVELS.map(level => (
+                                                <option key={level.value} value={level.value}>{level.label}</option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-medium text-gray-900 mb-2">Program</label>
+                                        <input
+                                            type="text"
+                                            value={guestProgram}
+                                            onChange={e => setGuestProgram(e.target.value)}
+                                            className="w-full border border-gray-300 rounded-lg p-3 focus:ring-2 focus:ring-primary-500 focus:border-transparent text-gray-900"
+                                            placeholder="e.g. Computer Science"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Rating</label>
+                                <label className="block text-sm font-medium text-gray-900 mb-2">Rating</label>
                                 {renderStars(formRating, true, setFormRating)}
                             </div>
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Comment *</label>
+                                <label className="block text-sm font-medium text-gray-900 mb-2">Comment *</label>
                                 <textarea
                                     value={formComment}
                                     onChange={e => setFormComment(e.target.value)}
-                                    className="w-full border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-primary-500 focus:border-transparent min-h-[120px]"
+                                    className="w-full border border-gray-300 rounded-lg p-4 focus:ring-2 focus:ring-primary-500 focus:border-transparent min-h-[120px] text-gray-900"
                                     placeholder="Share your experience..."
                                     required
                                 />
@@ -268,12 +336,30 @@ export const ReviewSection: React.FC<ReviewSectionProps> = ({ eventId }) => {
                                         <HiUser className="w-5 h-5 text-gray-500" />
                                     </div>
                                     <div>
-                                        <p className="font-semibold text-gray-900">
-                                            {review.userName || 'Anonymous'}
-                                        </p>
-                                        <p className="text-sm text-gray-500">
-                                            {review.createdAt && format(new Date(review.createdAt), 'MMM d, yyyy')}
-                                        </p>
+                                        <div className="flex items-center gap-2">
+                                            <p className="font-semibold text-gray-900">
+                                                {review.userName || review.guestName || 'Anonymous'}
+                                            </p>
+                                            {review.isGuest && (
+                                                <span className="bg-gray-100 text-gray-600 text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-tighter">
+                                                    Guest
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-0.5">
+                                            <p className="text-xs text-gray-500">
+                                                {review.createdAt && format(new Date(review.createdAt), 'MMM d, yyyy')}
+                                            </p>
+                                            {(review.guestAcademicLevel || review.guestProgram) && (
+                                                <div className="flex items-center gap-1.5 text-xs text-primary-600 font-medium">
+                                                    <HiAcademicCap className="w-3.5 h-3.5" />
+                                                    <span>
+                                                        {getLevelDisplay(review.guestAcademicLevel)}
+                                                        {review.guestProgram && ` • ${review.guestProgram}`}
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 </div>
                                 {renderStars(review.rating)}

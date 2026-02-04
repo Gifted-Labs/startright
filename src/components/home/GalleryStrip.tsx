@@ -1,12 +1,20 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { eventService } from '../../services/eventService';
 
-const images = [
+interface GalleryImage {
+    src: string;
+    alt: string;
+    className: string;
+}
+
+// Fallback images for when API is unavailable or empty
+const fallbackImages: GalleryImage[] = [
     {
         src: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
         alt: "Conference Hall",
-        className: "md:col-span-2 md:row-span-2" // Large Featured
+        className: "md:col-span-2 md:row-span-2"
     },
     {
         src: "https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
@@ -21,7 +29,7 @@ const images = [
     {
         src: "https://images.unsplash.com/photo-1560523160-754a9e25c68f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
         alt: "Presentation",
-        className: "md:col-span-1 md:row-span-2" // Tall
+        className: "md:col-span-1 md:row-span-2"
     },
     {
         src: "https://images.unsplash.com/photo-1540575861501-7ad0582371f3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
@@ -31,13 +39,24 @@ const images = [
     {
         src: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
         alt: "Event Lighting",
-        className: "md:col-span-2 md:row-span-1" // Wide
+        className: "md:col-span-2 md:row-span-1"
     },
     {
         src: "https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
         alt: "Innovators Hub",
-        className: "md:col-span-1 md:row-span-1" // Completes Row 3
+        className: "md:col-span-1 md:row-span-1"
     },
+];
+
+// Layout classes for dynamic images
+const layoutClasses = [
+    "md:col-span-2 md:row-span-2", // Large Featured
+    "md:col-span-1 md:row-span-1",
+    "md:col-span-1 md:row-span-1",
+    "md:col-span-1 md:row-span-2", // Tall
+    "md:col-span-1 md:row-span-1",
+    "md:col-span-2 md:row-span-1", // Wide
+    "md:col-span-1 md:row-span-1",
 ];
 
 const containerVariants = {
@@ -59,6 +78,38 @@ const itemVariants = {
 };
 
 export const GalleryStrip: React.FC = () => {
+    const [images, setImages] = useState<GalleryImage[]>(fallbackImages);
+
+    useEffect(() => {
+        const fetchGallery = async () => {
+            try {
+                // Fetch gallery from the current/upcoming event (event ID 1 by default)
+                const upcomingEvents = await eventService.getUpcomingEvents(0, 1);
+                if (upcomingEvents.content && upcomingEvents.content.length > 0) {
+                    const eventId = upcomingEvents.content[0].id;
+                    const gallery = await eventService.getEventGallery(eventId);
+
+                    if (gallery.items && gallery.items.length > 0) {
+                        // Map API response to our image format
+                        const mappedImages: GalleryImage[] = gallery.items
+                            .slice(0, 7) // Limit to 7 items for the bento grid
+                            .map((item: any, index: number) => ({
+                                src: item.mediaUrl,
+                                alt: item.caption || `Gallery moment ${index + 1}`,
+                                className: layoutClasses[index % layoutClasses.length]
+                            }));
+                        setImages(mappedImages);
+                    }
+                }
+            } catch (error) {
+                console.error('Failed to fetch gallery, using fallback images:', error);
+                // Keep fallback images on error
+            }
+        };
+
+        fetchGallery();
+    }, []);
+
     return (
         <section className="py-24 bg-white relative">
             {/* Background Decorative Element */}
@@ -110,6 +161,7 @@ export const GalleryStrip: React.FC = () => {
                                 src={img.src}
                                 alt={img.alt}
                                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                loading="lazy"
                             />
 
                             {/* Hover Overlay */}
