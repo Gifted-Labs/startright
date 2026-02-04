@@ -71,14 +71,24 @@ const Schedule = () => {
                                         <div className={`w-full max-w-md bg-dark-900/50 border border-white/10 p-8 rounded-xl hover:border-primary-500/40 transition-all group ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'
                                             }`}>
                                             <span className="text-primary-500 font-bold text-xs tracking-widest uppercase mb-3 block">
-                                                {item.time}
+                                                {item.startTime?.slice(0, 5)} - {item.endTime?.slice(0, 5)}
                                             </span>
                                             <h3 className="text-2xl font-black mb-3 group-hover:text-primary-400 transition-colors tracking-tight text-white">
                                                 {item.title}
                                             </h3>
+                                            {item.speakerName && (
+                                                <p className="text-primary-400/80 text-sm font-medium mb-2">
+                                                    {item.speakerName}
+                                                </p>
+                                            )}
                                             <p className="text-gray-400 text-sm leading-relaxed">
                                                 {item.description}
                                             </p>
+                                            {item.venue && (
+                                                <p className="text-gray-500 text-xs mt-3 uppercase tracking-wide">
+                                                    📍 {item.venue}
+                                                </p>
+                                            )}
                                         </div>
                                     </div>
 

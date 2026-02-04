@@ -67,6 +67,12 @@ export const eventService = {
         return response.data;
     },
 
+    // --- Itinerary ---
+    getEventItinerary: async (eventId: string | number) => {
+        const response = await api.get<any[]>(`/events/${eventId}/itinerary`);
+        return response.data;
+    },
+
     // --- Reviews ---
     getEventReviews: async (eventId: string | number, page = 0, size = 10) => {
         const response = await api.get<ReviewPageResponse>(`/events/${eventId}/reviews?page=${page}&size=${size}`);
