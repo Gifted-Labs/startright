@@ -7,11 +7,43 @@ export interface Speaker {
     title?: string; // Backend DTO uses title, mapped to role in frontend
 }
 
+/**
+ * Itinerary item types matching backend ItineraryItemType enum.
+ * Using const object instead of enum for TypeScript erasableSyntaxOnly compatibility.
+ */
+export const ItineraryItemType = {
+    CEREMONY: 'CEREMONY',
+    SESSION: 'SESSION',
+    WORKSHOP: 'WORKSHOP',
+    PANEL: 'PANEL',
+    BREAK: 'BREAK',
+    MEAL: 'MEAL',
+    NETWORKING: 'NETWORKING',
+    WORSHIP: 'WORSHIP',
+    REGISTRATION: 'REGISTRATION',
+    ENTERTAINMENT: 'ENTERTAINMENT',
+    AWARDS: 'AWARDS',
+    CLOSING: 'CLOSING',
+    OTHER: 'OTHER'
+} as const;
+
+export type ItineraryItemType = typeof ItineraryItemType[keyof typeof ItineraryItemType];
+
+/**
+ * ItineraryItem interface matching backend EventItineraryItemResponse DTO.
+ */
 export interface ItineraryItem {
     id?: number;
-    time: string;
     title: string;
-    description: string;
+    description?: string;
+    startTime: string; // HH:mm:ss format
+    endTime: string;   // HH:mm:ss format
+    speakerName?: string;
+    venue?: string;
+    displayOrder: number;
+    itemType: ItineraryItemType;
+    itemTypeDisplayName?: string;
+    durationMinutes?: number;
 }
 
 export interface Event {
