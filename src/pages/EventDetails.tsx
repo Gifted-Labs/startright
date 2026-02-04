@@ -7,7 +7,8 @@ import { GalleryFeed } from '../components/dynamic/GalleryFeed';
 import { ReviewSection } from '../components/events/ReviewSection';
 import { Button } from '../components/common/Button';
 import { format } from 'date-fns';
-import { HiCalendar, HiLocationMarker, HiClock } from 'react-icons/hi';
+import { PageHero } from '../components/common/PageHero';
+import { RegistrationGuide } from '../components/home/RegistrationGuide';
 
 const EventDetails = () => {
     const { eventId } = useParams();
@@ -41,41 +42,20 @@ const EventDetails = () => {
         fetchData();
     }, [eventId]);
 
-    if (loading) return <div className="min-h-screen flex items-center justify-center bg-gray-50 text-gray-400">Loading Event...</div>;
-    if (!event) return <div className="min-h-screen flex items-center justify-center bg-gray-50">Event not found</div>;
+    if (loading) return <div className="min-h-screen flex items-center justify-center bg-dark-950 text-white/50">Loading Event...</div>;
+    if (!event) return <div className="min-h-screen flex items-center justify-center bg-dark-950 text-white">Event not found</div>;
 
     return (
-        <div className="bg-white min-h-screen pb-20">
-            {/* Hero Section - Dynamic Image */}
-            <div className="relative h-[60vh] md:h-[70vh] w-full bg-gray-900">
-                <img
-                    src={event.imageUrl || 'https://via.placeholder.com/1920x1080'}
-                    alt={event.title}
-                    className="w-full h-full object-cover opacity-60"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 container mx-auto">
-                    <span className="inline-block py-1 px-3 rounded-full bg-primary-600 text-white text-sm font-bold mb-4 uppercase tracking-wider">
-                        {event.theme || 'Upcoming Event'}
-                    </span>
-                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">{event.title}</h1>
-
-                    <div className="flex flex-wrap gap-6 text-white/90 text-lg font-medium">
-                        <div className="flex items-center gap-2">
-                            <HiCalendar className="text-primary-600" />
-                            {format(new Date(event.date), 'EEEE, MMMM d, yyyy')}
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <HiClock className="text-primary-600" />
-                            {event.time}
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <HiLocationMarker className="text-primary-600" />
-                            {event.location}
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div className="bg-white min-h-screen pb-20 text-gray-900">
+            <PageHero
+                title={event.title}
+                subtitle={event.theme || "Experience the future of innovation"}
+                backgroundImage={event.imageUrl || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80'}
+                breadcrumbs={[
+                    { label: 'Events', path: '/events' },
+                    { label: event.title }
+                ]}
+            />
 
             <div className="container mx-auto px-4 md:px-6 pt-12">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -101,6 +81,8 @@ const EventDetails = () => {
                         {gallery && gallery.items.length > 0 && (
                             <GalleryFeed items={gallery.items} />
                         )}
+
+                        <RegistrationGuide />
 
                         {/* Reviews Section */}
                         <ReviewSection eventId={event.id} />

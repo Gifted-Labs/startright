@@ -25,30 +25,30 @@ export const WelcomeSection: React.FC = () => {
                     >
                         <div className="grid grid-cols-2 gap-4">
                             <img
-                                src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                                className="rounded-2xl object-cover h-64 w-full translate-y-8"
+                                src="/images/welcome_1.jpg"
+                                className="rounded-2xl object-cover h-64 w-full translate-y-8 shadow-2xl"
                                 alt="Conference Crowd"
                             />
                             <div className="relative">
                                 <img
-                                    src="https://images.unsplash.com/photo-1591115765373-5207764f72e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                                    className="rounded-2xl object-cover h-64 w-full"
+                                    src="/images/welcome_2.jpg"
+                                    className="rounded-2xl object-cover h-64 w-full shadow-2xl"
                                     alt="Networking"
                                 />
                                 {/* Badge */}
-                                <div className="absolute -bottom-6 -left-6 bg-primary-500 text-white p-6 rounded-2xl shadow-xl">
-                                    <span className="block text-4xl font-black">15+</span>
+                                <div className="absolute -bottom-12 -left-10 bg-primary-500 text-white p-6 rounded-2xl shadow-xl">
+                                    <span className="block text-4xl font-black">10+</span>
                                     <span className="text-sm font-medium uppercase tracking-wider">Speakers</span>
                                 </div>
                             </div>
                             <img
-                                src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                                className="rounded-2xl object-cover h-64 w-full translate-y-8"
+                                src="/images/welcome_3.jpg"
+                                className="rounded-2xl object-cover h-64 w-full translate-y-8 shadow-2xl"
                                 alt="Conference Hall"
                             />
                             <img
-                                src="https://images.unsplash.com/photo-1475721027767-f4242310f17e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
-                                className="rounded-2xl object-cover h-64 w-full"
+                                src="/images/welcome_4.jpg"
+                                className="rounded-2xl object-cover h-64 w-full shadow-2xl"
                                 alt="Workshop"
                             />
                         </div>

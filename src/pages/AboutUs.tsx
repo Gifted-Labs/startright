@@ -1,5 +1,5 @@
 import React from 'react';
-import { AboutHero } from '../components/about/AboutHero';
+import { PageHero } from '../components/common/PageHero';
 import { AboutInfoSection } from '../components/about/AboutInfoSection';
 import { AboutNewsletterSection } from '../components/about/AboutNewsletterSection';
 import { AboutStatsSection } from '../components/about/AboutStatsSection';
@@ -11,8 +11,15 @@ import { ContactCTA } from '../components/common/ContactCTA';
 
 const AboutUs: React.FC = () => {
     return (
-        <div className="min-h-screen bg-white">
-            <AboutHero />
+        <div className="min-h-screen bg-white text-gray-900">
+            <PageHero
+                title="ABOUT US"
+                subtitle="Get to know the team behind Start Right."
+                backgroundImage="/images/about_hero.jpg"
+                breadcrumbs={[
+                    { label: 'About Us' }
+                ]}
+            />
             <AboutInfoSection />
             <AboutNewsletterSection />
             <AboutStatsSection />

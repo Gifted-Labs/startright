@@ -39,13 +39,12 @@ const Speakers: React.FC = () => {
     }, []);
 
     return (
-        <div className="bg-white min-h-screen">
+        <div className="bg-white min-h-screen text-gray-900">
             <PageHero
-                title="Events Speakers"
-                subtitle="This conference is created by professionals"
+                title="SPEAKERS"
+                subtitle="Meet our world-class experts"
                 backgroundImage="https://images.unsplash.com/photo-1591115765373-5207764f72e7?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
                 breadcrumbs={[
-                    { label: 'Home', path: '/' },
                     { label: 'Speakers' }
                 ]}
             />

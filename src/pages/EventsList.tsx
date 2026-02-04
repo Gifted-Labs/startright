@@ -23,13 +23,12 @@ const EventsList = () => {
     }, []);
 
     return (
-        <div className="bg-gray-50 min-h-screen">
+        <div className="bg-white min-h-screen">
             <PageHero
-                title="Upcoming Events"
-                subtitle="Browse our curated list of upcoming seminars, workshops, and conferences designed to inspire and transform."
+                title="EVENTS"
+                subtitle="Explore our upcoming gatherings"
                 backgroundImage="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
                 breadcrumbs={[
-                    { label: 'Home', path: '/' },
                     { label: 'Events' }
                 ]}
             />

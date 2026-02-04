@@ -26,8 +26,8 @@ export const Footer: React.FC = () => {
                             We bring over 2,600 journalists from the world's leading publications to Start Right. They're part of the reason our conference is global.
                         </p>
 
-                        <a href="mailto:info@email.com" className="text-primary-500 font-semibold mb-6 md:mb-8 hover:underline text-lg transition-colors">
-                            info@email.com
+                        <a href="mailto:merbsconnect@gmail.com" className="text-primary-500 font-semibold mb-6 md:mb-8 hover:underline text-lg transition-colors">
+                            merbsconnect@gmail.com
                         </a>
 
                         <div className="flex gap-3">
@@ -74,8 +74,8 @@ export const Footer: React.FC = () => {
                                 <div className="flex items-start gap-3 mb-6 text-gray-400 text-sm">
                                     <span className="mt-1 text-primary-500"><FaPaperPlane /></span>
                                     <span>
-                                        2715 Ash Dr. San Jose,<br />
-                                        South Dakota 83475
+                                        +233 543131386<br />
+                                        Accra, Ghana
                                     </span>
                                 </div>
 

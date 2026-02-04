@@ -5,6 +5,9 @@ export interface Speaker {
     imageUrl?: string;
     role?: string;
     title?: string; // Backend DTO uses title, mapped to role in frontend
+    linkedinUrl?: string;
+    twitterUrl?: string;
+    displayOrder?: number;
 }
 
 /**
@@ -100,15 +103,30 @@ export interface EventArticle {
     publishDate: string; // ISO Date
 }
 
+export type AcademicLevel =
+    | 'LEVEL_100'
+    | 'LEVEL_200'
+    | 'LEVEL_300'
+    | 'LEVEL_400'
+    | 'LEVEL_500'
+    | 'LEVEL_600'
+    | 'POSTGRADUATE'
+    | 'ALUMNI'
+    | 'OTHER';
+
 export interface Review {
     id: number;
     eventId: number;
-    userId: number;
+    userId?: number;
     userName: string;
     rating: number;
     comment: string;
     createdAt: string;
     updatedAt: string;
+    guestName?: string;
+    guestAcademicLevel?: AcademicLevel;
+    guestProgram?: string;
+    isGuest: boolean;
 }
 
 export interface ReviewPageResponse {
@@ -125,6 +143,9 @@ export interface ReviewPageResponse {
 export interface CreateReviewRequest {
     rating: number;
     comment: string;
+    guestName?: string;
+    guestAcademicLevel?: AcademicLevel;
+    guestProgram?: string;
 }
 
 export interface VolunteerApplicationRequest {
