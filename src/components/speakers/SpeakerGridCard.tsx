@@ -24,7 +24,7 @@ export const SpeakerGridCard: React.FC<SpeakerGridCardProps> = ({ name, role, im
             {/* Speaker Details (Bottom Section) */}
             <div className="p-8 text-center bg-dark-900">
                 <h3 className="text-2xl font-black text-white uppercase tracking-tight mb-1">{name}</h3>
-                <p className="text-gray-400 font-medium text-sm mb-8 tracking-wider uppercase">
+                <p className="text-gray-300 font-medium text-sm mb-8 tracking-wider uppercase">
                     {role}
                 </p>
 

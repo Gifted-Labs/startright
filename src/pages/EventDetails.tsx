@@ -53,14 +53,14 @@ const EventDetails = () => {
                     alt={event.title}
                     className="w-full h-full object-cover opacity-60"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-gray-900/95 via-gray-900/60 to-transparent"></div>
                 <div className="absolute bottom-0 left-0 right-0 p-8 md:p-16 container mx-auto">
                     <span className="inline-block py-1 px-3 rounded-full bg-primary-600 text-white text-sm font-bold mb-4 uppercase tracking-wider">
                         {event.theme || 'Upcoming Event'}
                     </span>
-                    <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6 drop-shadow-sm">{event.title}</h1>
+                    <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 drop-shadow-lg">{event.title}</h1>
 
-                    <div className="flex flex-wrap gap-6 text-gray-800 text-lg font-medium">
+                    <div className="flex flex-wrap gap-6 text-white/90 text-lg font-medium">
                         <div className="flex items-center gap-2">
                             <HiCalendar className="text-primary-600" />
                             {format(new Date(event.date), 'EEEE, MMMM d, yyyy')}

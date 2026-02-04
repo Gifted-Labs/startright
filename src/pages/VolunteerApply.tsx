@@ -132,7 +132,7 @@ const VolunteerApply = () => {
 
                     {/* Form Component */}
                     <div className="lg:w-2/3">
-                        <div className="bg-white p-8 md:p-12 rounded-3xl shadow-lg border border-gray-100">
+                        <div className="bg-white p-8 md:p-12 rounded-3xl shadow-lg border border-gray-100 text-slate-900">
                             {event && (
                                 <div className="mb-8 p-4 bg-primary-50 rounded-xl border border-primary-100">
                                     <p className="text-sm text-primary-800 font-medium">Applying for:</p>

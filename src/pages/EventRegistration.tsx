@@ -59,7 +59,7 @@ const EventRegistration = () => {
         return (
             <div className="min-h-screen bg-gray-50 py-20">
                 <div className="container mx-auto px-4 md:px-6 max-w-lg">
-                    <div className="bg-white p-10 rounded-2xl shadow-lg text-center">
+                    <div className="bg-white p-8 md:p-12 rounded-3xl shadow-lg border border-gray-100 text-slate-900 text-center">
                         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 text-green-600 mb-6">
                             <HiCheckCircle className="w-12 h-12" />
                         </div>
@@ -102,7 +102,7 @@ const EventRegistration = () => {
             </div>
 
             <div className="container mx-auto px-4 md:px-6 py-12 max-w-2xl">
-                <div className="bg-white p-8 md:p-10 rounded-2xl shadow-lg -mt-8 relative z-10">
+                <div className="bg-white p-8 md:p-10 rounded-2xl shadow-lg -mt-8 relative z-10 text-slate-900">
 
                     {error && (
                         <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-6 border border-red-200">

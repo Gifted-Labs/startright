@@ -92,7 +92,7 @@ const Schedule = () => {
                         </div>
                     ) : (
                         <div className="text-center py-20 bg-dark-900/50 border border-white/10 rounded-xl max-w-3xl mx-auto shadow-sm backdrop-blur-sm">
-                            <p className="text-gray-500 text-lg">Schedule will be announced soon. Stay tuned!</p>
+                            <p className="text-gray-400 text-lg">Schedule will be announced soon. Stay tuned!</p>
                         </div>
                     )}
                 </div>
