@@ -57,7 +57,7 @@ export const PageHero = memo(({ title, subtitle, backgroundImage, breadcrumbs }:
                 >
                     {breadcrumbs.map((crumb, index) => (
                         <div key={index} className="flex items-center">
-                            {index > 0 && <span className="text-gray-300 mx-2">/</span>}
+                            {index > 0 && <span className="text-gray-400 mx-2">/</span>}
                             {crumb.path ? (
                                 <Link to={crumb.path} className="text-gray-500 hover:text-primary-500 transition-colors">
                                     {crumb.label}

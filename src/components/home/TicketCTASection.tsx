@@ -114,7 +114,7 @@ export const TicketCTASection: React.FC = () => {
 
                             {/* Lower Section — Conference Benefits */}
                             <div className="px-8 py-6 bg-gray-50/50">
-                                <p className="text-[11px] text-dark-500 font-bold uppercase tracking-widest mb-4">What Your Pass Includes</p>
+                                <p className="text-[11px] text-gray-600 font-bold uppercase tracking-widest mb-4">What Your Pass Includes</p>
                                 <ul className="space-y-2 mb-8">
                                     {[
                                         "Full Access to All Sessions",

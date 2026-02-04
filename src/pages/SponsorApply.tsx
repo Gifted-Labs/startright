@@ -133,7 +133,7 @@ const SponsorApply = () => {
 
                     {/* Form Component */}
                     <div className="lg:w-2/3">
-                        <div className="bg-white p-8 md:p-12 rounded-3xl shadow-lg border border-gray-100">
+                        <div className="bg-white p-8 md:p-12 rounded-3xl shadow-lg border border-gray-100 text-slate-900">
                             {event && (
                                 <div className="mb-8 p-4 bg-gray-50 rounded-xl border border-gray-100">
                                     <p className="text-sm text-gray-500 font-medium tracking-wide uppercase">Sponsoring:</p>
