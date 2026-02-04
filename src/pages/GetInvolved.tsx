@@ -51,12 +51,11 @@ const GetInvolved = () => {
     return (
         <div className="bg-white min-h-screen">
             <PageHero
-                title="Get Involved"
-                subtitle="Be part of the movement. Whether you're a student, professional, or organization, there's a place for you to make an impact."
+                title="CONTACT US"
+                subtitle="Get in touch with the StartRight team"
                 backgroundImage="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
                 breadcrumbs={[
-                    { label: 'Home', path: '/' },
-                    { label: 'Get Involved' }
+                    { label: 'Contact' }
                 ]}
             />
 
@@ -99,10 +98,10 @@ const GetInvolved = () => {
                             Reach out to our team for more information about partnership opportunities or participation guidelines.
                         </p>
                         <a
-                            href="mailto:info@merbsconnect.com"
+                            href="mailto:merbsconnect@gmail.com"
                             className="inline-flex items-center gap-2 text-primary-600 font-bold hover:text-primary-700 text-xl group"
                         >
-                            info@merbsconnect.com
+                            merbsconnect@gmail.com
                         </a>
                     </div>
                 </div>

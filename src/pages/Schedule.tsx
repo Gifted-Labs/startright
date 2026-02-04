@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { eventService } from '../services/eventService';
 import type { Event, ItineraryItem } from '../types';
 import { motion } from 'framer-motion';
+import { PageHero } from '../components/common/PageHero';
 
 const Schedule = () => {
     const [event, setEvent] = useState<Event | null>(null);
@@ -26,26 +27,20 @@ const Schedule = () => {
     const itinerary: ItineraryItem[] = event?.itinerary || [];
 
     return (
-        <div className="bg-dark-950 min-h-screen text-white">
-            {/* Header Section */}
-            <div className="bg-dark-900 pt-32 pb-20 text-center relative z-10 border-b border-white/5">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="container mx-auto px-4"
-                >
-                    <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6">Event Schedule</h1>
-                    <p className="text-gray-400 text-xl max-w-2xl mx-auto">
-                        A structured breakdown of what to expect at Start Right Conference 2026.
-                    </p>
-                    <div className="w-24 h-px bg-primary-500/30 mx-auto mt-12"></div>
-                </motion.div>
-            </div>
+        <div className="bg-white min-h-screen text-gray-900">
+            <PageHero
+                title="SCHEDULE"
+                subtitle="Plan your day"
+                backgroundImage="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                breadcrumbs={[
+                    { label: 'Schedule' }
+                ]}
+            />
 
             {/* Timeline Section */}
-            <div className="bg-dark-950/50 py-32 relative overflow-hidden">
+            <div className="bg-gray-50 py-32 relative overflow-hidden">
                 {/* Vertical Line */}
-                <div className="absolute left-1/2 top-0 bottom-0 w-px bg-white/10 -translate-x-1/2 z-0"></div>
+                <div className="absolute left-1/2 top-0 bottom-0 w-px bg-gray-200 -translate-x-1/2 z-0"></div>
 
                 <div className="max-w-6xl mx-auto px-4 relative z-10">
                     {loading ? (
@@ -68,24 +63,24 @@ const Schedule = () => {
                                 >
                                     {/* Card Side */}
                                     <div className="w-full md:w-1/2 flex justify-center md:justify-end px-4 md:px-12">
-                                        <div className={`w-full max-w-md bg-dark-900/50 border border-white/10 p-8 rounded-xl hover:border-primary-500/40 transition-all group ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'
+                                        <div className={`w-full max-w-md bg-white border border-gray-100 p-8 rounded-xl hover:border-primary-500/40 shadow-sm transition-all group ${index % 2 === 0 ? 'md:text-right' : 'md:text-left'
                                             }`}>
-                                            <span className="text-primary-500 font-bold text-xs tracking-widest uppercase mb-3 block">
+                                            <span className="text-primary-600 font-bold text-xs tracking-widest uppercase mb-3 block">
                                                 {item.startTime?.slice(0, 5)} - {item.endTime?.slice(0, 5)}
                                             </span>
-                                            <h3 className="text-2xl font-black mb-3 group-hover:text-primary-400 transition-colors tracking-tight text-white">
+                                            <h3 className="text-2xl font-black mb-3 group-hover:text-primary-600 transition-colors tracking-tight text-gray-900">
                                                 {item.title}
                                             </h3>
                                             {item.speakerName && (
-                                                <p className="text-primary-400/80 text-sm font-medium mb-2">
+                                                <p className="text-primary-600/80 text-sm font-medium mb-2">
                                                     {item.speakerName}
                                                 </p>
                                             )}
-                                            <p className="text-gray-400 text-sm leading-relaxed">
+                                            <p className="text-gray-600 text-sm leading-relaxed">
                                                 {item.description}
                                             </p>
                                             {item.venue && (
-                                                <p className="text-gray-500 text-xs mt-3 uppercase tracking-wide">
+                                                <p className="text-gray-400 text-xs mt-3 uppercase tracking-wide">
                                                     📍 {item.venue}
                                                 </p>
                                             )}
@@ -101,15 +96,15 @@ const Schedule = () => {
                             ))}
                         </div>
                     ) : (
-                        <div className="text-center py-20 bg-dark-900/50 border border-white/10 rounded-xl max-w-3xl mx-auto shadow-sm backdrop-blur-sm">
-                            <p className="text-gray-400 text-lg">Schedule will be announced soon. Stay tuned!</p>
+                        <div className="text-center py-20 bg-white border border-gray-100 rounded-xl max-w-3xl mx-auto shadow-sm">
+                            <p className="text-gray-500 text-lg">Schedule will be announced soon. Stay tuned!</p>
                         </div>
                     )}
                 </div>
             </div>
 
             {/* Bottom CTA Area */}
-            <div className="bg-dark-900 py-32 relative z-10 border-t border-white/5">
+            <div className="bg-white py-32 relative z-10 border-t border-gray-100">
                 <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}
                     whileInView={{ opacity: 1, scale: 1 }}

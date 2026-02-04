@@ -9,6 +9,7 @@ import { TicketCTASection } from '../components/home/TicketCTASection';
 import { VenueSection } from '../components/home/VenueSection';
 import { TShirtSection } from '../components/home/TShirtSection';
 import { EventsPreviewSection } from '../components/home/EventsPreviewSection';
+import { RegistrationGuide } from '../components/home/RegistrationGuide';
 
 const Landing: React.FC = () => {
     return (
@@ -16,6 +17,7 @@ const Landing: React.FC = () => {
             <HeroSection />
             <EventsPreviewSection />
             <WelcomeSection />
+            <RegistrationGuide />
             <FlyersSection />
             <GalleryStrip />
             <AgendaSection />
