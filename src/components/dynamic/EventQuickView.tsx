@@ -74,18 +74,18 @@ export const EventQuickView: React.FC<EventQuickViewProps> = ({ event }) => {
                 </div>
 
                 <div className="pt-8 mt-auto flex flex-col sm:flex-row gap-4">
-                    <Link to={`/events/${event.id}/register`} className="flex-1">
+                    <Link to={`/ events / ${event.id}/register`} className="flex-1" >
                         <Button className="w-full py-4 text-base font-black shadow-xl shadow-primary-500/20">
                             Register Now
                         </Button>
-                    </Link>
+                    </Link >
                     <Link to={`/events/${event.id}`} className="flex-1">
                         <Button variant="outline" className="w-full py-4 text-base font-black">
                             Full Details
                         </Button>
                     </Link>
-                </div>
-            </div>
-        </div>
+                </div >
+            </div >
+        </div >
     );
 };

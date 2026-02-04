@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SpeakerDetailModal } from '../speakers/SpeakerDetailModal';
 import type { Speaker } from '../../types';
