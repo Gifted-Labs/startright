@@ -63,6 +63,12 @@ export interface Event {
     itinerary: ItineraryItem[];
 }
 
+export interface MerchandiseOrder {
+    color: 'BLACK' | 'WHITE';
+    size: 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
+    quantity: number;
+}
+
 export interface EventRegistrationRequest {
     name: string;
     email: string;
@@ -70,6 +76,7 @@ export interface EventRegistrationRequest {
     note?: string;
     needsShirt: boolean;
     shirtSize?: string;
+    merchandiseOrders?: MerchandiseOrder[];
     program?: string;
     university?: string;
     academicLevel?: string;
@@ -81,6 +88,9 @@ export interface RegistrationDetailsResponse {
     registrationToken: string;
     qrCodeBase64: string;
     checkIn: boolean;
+    shirtSize?: string;
+    merchandiseOrders?: MerchandiseOrder[];
+    merchandiseOrdersDisplay?: string;
 }
 
 export interface GalleryItem {
