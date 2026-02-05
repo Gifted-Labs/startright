@@ -2,15 +2,28 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 const historyData = [
-    { year: 2010, title: "Foundation", description: "StartRight was founded with a vision to connect young professionals with industry leaders.", image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" },
-    { year: 2013, title: "First Summit", description: "Hosted our first major international summit in London, attended by over 500 delegates.", image: "https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" },
-    { year: 2016, title: "Global Expansion", description: "Expected markets in Asia and South America, launching regional chapters.", image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" },
-    { year: 2019, title: "Digital Platform", description: "Launched our digital learning platform to provide year-round resources.", image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" },
-    { year: 2022, title: "Post-Pandemic Return", description: "Returned to live events with our biggest conference yet in NYC.", image: "https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" },
+    {
+        year: 2024,
+        title: "Start Right Conference 2024",
+        description: "The inaugural Start Right Conference focused on foundational career success and networking for students, setting a new standard for student-led initiatives.",
+        image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        year: 2025,
+        title: "Start Right Conference 2025",
+        description: "Expansion to multiple university chapters and the introduction of specialized tracks in technology, business, and creative arts.",
+        image: "https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    },
+    {
+        year: 2026,
+        title: "Start Right Conference 2026",
+        description: "Our current and most ambitious event yet, bridging the gap between academia and the AI-driven industry landscape.",
+        image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+    },
 ];
 
 export const AboutHistorySection: React.FC = () => {
-    const [activeYear, setActiveYear] = useState(2022);
+    const [activeYear, setActiveYear] = useState(2026);
     const activeItem = historyData.find(item => item.year === activeYear) || historyData[0];
 
     return (
@@ -20,7 +33,7 @@ export const AboutHistorySection: React.FC = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
                 <div className="text-center mb-16">
                     <span className="text-primary-500 font-bold uppercase text-xs tracking-wider mb-2 block">Our milestones & achievements</span>
-                    <h2 className="text-4xl font-black mb-4">Our Company History</h2>
+                    <h2 className="text-4xl font-black mb-4">Our Event History</h2>
                 </div>
 
                 {/* Timeline Controls */}
@@ -65,8 +78,8 @@ export const AboutHistorySection: React.FC = () => {
                             {activeItem.year}
                         </h3>
                         <h4 className="text-3xl font-bold text-white mb-4 relative z-10">
-                            We Generate New and <br />
-                            <span className="text-primary-500">{activeItem.title}</span> ideas
+                            Driving Innovation at <br />
+                            <span className="text-primary-500">{activeItem.title}</span>
                         </h4>
                         <div className="w-16 h-1 bg-primary-500 mb-6" />
                         <p className="text-gray-400 text-lg leading-relaxed">

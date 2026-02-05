@@ -1,6 +1,6 @@
 import React from 'react';
 import { PageHero } from '../components/common/PageHero';
-import { AboutInfoSection } from '../components/about/AboutInfoSection';
+import { WelcomeSection } from '../components/home/WelcomeSection';
 import { AboutNewsletterSection } from '../components/about/AboutNewsletterSection';
 import { AboutStatsSection } from '../components/about/AboutStatsSection';
 import { AboutHistorySection } from '../components/about/AboutHistorySection';
@@ -20,7 +20,7 @@ const AboutUs: React.FC = () => {
                     { label: 'About Us' }
                 ]}
             />
-            <AboutInfoSection />
+            <WelcomeSection />
             <AboutNewsletterSection />
             <AboutStatsSection />
             <AboutHistorySection />

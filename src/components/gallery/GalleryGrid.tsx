@@ -1,6 +1,6 @@
-import React from 'react';
 import { HiOutlineArrowsExpand } from 'react-icons/hi';
 import { motion } from 'framer-motion';
+import { CachedImage } from '../common/CachedImage';
 
 interface GalleryGridProps {
     items: string[];
@@ -18,7 +18,7 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({ items }) => {
                     key={src + idx}
                     className="relative group aspect-[4/5] rounded-3xl overflow-hidden shadow-lg bg-gray-100"
                 >
-                    <img
+                    <CachedImage
                         src={`${src}?auto=format&fit=crop&w=600&q=80`}
                         alt={`Gallery moment ${idx + 1}`}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
