@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
 import { HiHome } from 'react-icons/hi';
+import { CachedImage } from './CachedImage';
 
 interface Breadcrumb {
     label: string;
@@ -20,7 +21,7 @@ export const PageHero = memo(({ title, subtitle, backgroundImage, breadcrumbs }:
         <section className="relative h-[65vh] flex items-center justify-center overflow-hidden transform-gpu mt-0 pt-20">
             {/* Background Image with Heavy Overlay */}
             <div className="absolute inset-0 z-0">
-                <img
+                <CachedImage
                     src={backgroundImage}
                     alt={title}
                     className="w-full h-full object-cover will-change-transform"

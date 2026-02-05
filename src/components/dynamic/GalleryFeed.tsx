@@ -1,6 +1,7 @@
 import type { GalleryItem } from '../../types';
 import { useState } from 'react';
 import { HiPlay } from 'react-icons/hi';
+import { CachedImage } from '../common/CachedImage';
 
 interface GalleryFeedProps {
     items: GalleryItem[];
@@ -34,7 +35,7 @@ export const GalleryFeed = ({ items }: GalleryFeedProps) => {
                                     </div>
                                 </div>
                             )}
-                            <img
+                            <CachedImage
                                 src={item.url}
                                 alt={item.caption || 'Event media'}
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
@@ -58,7 +59,7 @@ export const GalleryFeed = ({ items }: GalleryFeedProps) => {
                                 <video src={selectedItem.url} controls autoPlay className="w-full h-full" />
                             </div>
                         ) : (
-                            <img src={selectedItem.url} alt={selectedItem.caption} className="w-full h-full object-contain max-h-[90vh]" />
+                            <CachedImage src={selectedItem.url} alt={selectedItem.caption || ''} className="w-full h-full object-contain max-h-[90vh]" />
                         )}
                         <p className="text-white text-center mt-4 text-lg font-light">{selectedItem.caption}</p>
                     </div>
