@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { eventService } from '../services/eventService';
-import { UNIVERSITIES, ACADEMIC_LEVELS, REFERRAL_SOURCES } from '../constants/registrationConstants';
-import type { EventRegistrationRequest, RegistrationDetailsResponse } from '../types';
+import { UNIVERSITIES, ACADEMIC_LEVELS, REFERRAL_SOURCES, SHIRT_SIZES, SHIRT_COLORS } from '../constants/registrationConstants';
+import type { EventRegistrationRequest, RegistrationDetailsResponse, MerchandiseOrder } from '../types';
 import { Button } from '../components/common/Button';
-import { HiCheckCircle } from 'react-icons/hi';
+import { HiCheckCircle, HiPlus, HiTrash, HiMinus } from 'react-icons/hi';
 
 const EventRegistration = () => {
     const { eventId } = useParams();
@@ -21,13 +21,36 @@ const EventRegistration = () => {
         phone: '',
         note: '',
         needsShirt: false,
-        shirtSize: '',
+        merchandiseOrders: [{ color: 'BLACK', size: 'M', quantity: 1 }],
         program: '',
         university: '',
         academicLevel: '',
         referralSource: '',
         referralSourceOther: ''
     });
+
+    const addMerchandiseOrder = () => {
+        setFormData(prev => ({
+            ...prev,
+            merchandiseOrders: [...(prev.merchandiseOrders || []), { color: 'BLACK', size: 'M', quantity: 1 }]
+        }));
+    };
+
+    const removeMerchandiseOrder = (index: number) => {
+        setFormData(prev => ({
+            ...prev,
+            merchandiseOrders: prev.merchandiseOrders?.filter((_, i) => i !== index)
+        }));
+    };
+
+    const updateMerchandiseOrder = (index: number, field: keyof MerchandiseOrder, value: any) => {
+        setFormData(prev => ({
+            ...prev,
+            merchandiseOrders: prev.merchandiseOrders?.map((order, i) =>
+                i === index ? { ...order, [field]: value } : order
+            )
+        }));
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target;
@@ -219,23 +242,79 @@ const EventRegistration = () => {
                                     </div>
 
                                     {formData.needsShirt && (
-                                        <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-                                            <label className="block text-sm font-medium text-gray-700 mb-2">Shirt Size *</label>
-                                            <select
-                                                name="shirtSize"
-                                                value={formData.shirtSize}
-                                                onChange={handleChange}
-                                                required={formData.needsShirt}
-                                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                                            >
-                                                <option value="">Select size</option>
-                                                <option value="S">Small</option>
-                                                <option value="M">Medium</option>
-                                                <option value="L">Large</option>
-                                                <option value="XL">Extra Large</option>
-                                                <option value="XXL">XXL</option>
-                                                <option value="XXXL">XXXL</option>
-                                            </select>
+                                        <div className="space-y-4 animate-in fade-in slide-in-from-top-2 duration-300">
+                                            <div className="flex justify-between items-center mb-2">
+                                                <label className="block text-sm font-medium text-gray-700">T-Shirt Orders *</label>
+                                                <button
+                                                    type="button"
+                                                    onClick={addMerchandiseOrder}
+                                                    className="inline-flex items-center gap-1 text-sm font-bold text-primary-600 hover:text-primary-700 transition-colors"
+                                                >
+                                                    <HiPlus className="w-4 h-4" /> Add Another
+                                                </button>
+                                            </div>
+
+                                            {(formData.merchandiseOrders || []).map((order, index) => (
+                                                <div key={index} className="p-4 bg-gray-50 rounded-xl border border-gray-100 space-y-4 relative group">
+                                                    {index > 0 && (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => removeMerchandiseOrder(index)}
+                                                            className="absolute -top-2 -right-2 w-8 h-8 flex items-center justify-center bg-white text-red-500 rounded-full shadow-md border border-gray-100 hover:bg-red-50 transition-colors"
+                                                        >
+                                                            <HiTrash className="w-4 h-4" />
+                                                        </button>
+                                                    )}
+
+                                                    <div className="grid grid-cols-2 gap-4">
+                                                        <div>
+                                                            <label className="block text-xs font-semibold text-gray-500 uppercase mb-2">Color</label>
+                                                            <select
+                                                                value={order.color}
+                                                                onChange={(e) => updateMerchandiseOrder(index, 'color', e.target.value)}
+                                                                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 text-sm"
+                                                            >
+                                                                {SHIRT_COLORS.map(color => (
+                                                                    <option key={color.value} value={color.value}>{color.label}</option>
+                                                                ))}
+                                                            </select>
+                                                        </div>
+                                                        <div>
+                                                            <label className="block text-xs font-semibold text-gray-500 uppercase mb-2">Size</label>
+                                                            <select
+                                                                value={order.size}
+                                                                onChange={(e) => updateMerchandiseOrder(index, 'size', e.target.value)}
+                                                                className="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 text-sm"
+                                                            >
+                                                                {SHIRT_SIZES.map(size => (
+                                                                    <option key={size.value} value={size.value}>{size.label}</option>
+                                                                ))}
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex items-center justify-between">
+                                                        <label className="text-xs font-semibold text-gray-500 uppercase">Quantity</label>
+                                                        <div className="flex items-center gap-3">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => updateMerchandiseOrder(index, 'quantity', Math.max(1, order.quantity - 1))}
+                                                                className="w-8 h-8 flex items-center justify-center bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-600"
+                                                            >
+                                                                <HiMinus className="w-4 h-4" />
+                                                            </button>
+                                                            <span className="w-8 text-center font-bold text-gray-900">{order.quantity}</span>
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => updateMerchandiseOrder(index, 'quantity', order.quantity + 1)}
+                                                                className="w-8 h-8 flex items-center justify-center bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors text-gray-600"
+                                                            >
+                                                                <HiPlus className="w-4 h-4" />
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
                                         </div>
                                     )}
                                 </div>

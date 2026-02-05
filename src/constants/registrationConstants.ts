@@ -59,3 +59,17 @@ export const REFERRAL_SOURCES = [
     { value: 'STUDENT_ORGANIZATION', label: 'Student Organization' },
     { value: 'OTHER', label: 'Other' },
 ];
+export const SHIRT_SIZES = [
+    { value: 'XS', label: 'Extra Small' },
+    { value: 'S', label: 'Small' },
+    { value: 'M', label: 'Medium' },
+    { value: 'L', label: 'Large' },
+    { value: 'XL', label: 'Extra Large' },
+    { value: 'XXL', label: '2X Large' },
+    { value: 'XXXL', label: '3X Large' },
+];
+
+export const SHIRT_COLORS = [
+    { value: 'BLACK', label: 'Black' },
+    { value: 'WHITE', label: 'White' },
+];
