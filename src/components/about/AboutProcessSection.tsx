@@ -11,17 +11,17 @@ export const AboutProcessSection: React.FC = () => {
     return (
         <section className="py-24 bg-white text-center">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <span className="text-primary-600 font-bold uppercase text-xs tracking-wider mb-2 block">Our Process</span>
-                <h2 className="text-3xl md:text-4xl font-black text-dark-950 mb-16">See How it Works</h2>
+                <span className="text-red-600 font-bold uppercase text-[10px] tracking-[0.2em] mb-4 block">Our Process</span>
+                <h2 className="text-4xl md:text-5xl font-black text-black mb-20 tracking-tight">See How it Works</h2>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-8 max-w-6xl mx-auto">
                     {steps.map((step, idx) => (
                         <div key={idx} className="flex flex-col items-center group">
-                            <div className="w-20 h-20 border-2 border-dashed border-gray-300 rounded-full flex items-center justify-center text-dark-950 mb-6 group-hover:border-primary-500 group-hover:text-primary-500 transition-colors">
-                                <step.icon className="w-8 h-8" />
+                            <div className="w-24 h-24 border border-dashed border-gray-300 rounded-full flex items-center justify-center text-black mb-8 group-hover:border-red-600 group-hover:text-red-600 transition-all duration-300 bg-white">
+                                <step.icon className="w-8 h-8 stroke-[1.5]" />
                             </div>
-                            <h3 className="text-xl font-bold text-dark-950 mb-3">{step.title}</h3>
-                            <p className="text-gray-500 text-sm max-w-xs mx-auto leading-relaxed">
+                            <h3 className="text-xl font-bold text-black mb-4">{step.title}</h3>
+                            <p className="text-gray-500 text-sm leading-relaxed max-w-[260px] mx-auto font-medium">
                                 {step.desc}
                             </p>
                         </div>

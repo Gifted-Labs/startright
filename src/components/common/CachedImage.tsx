@@ -19,7 +19,7 @@ export const CachedImage: React.FC<CachedImageProps> = ({
     className = '',
     ...props
 }) => {
-    const { cachedSrc, loading, error } = useImageCache(src);
+    const { cachedSrc, loading } = useImageCache(src);
 
     if (loading) {
         return (
@@ -30,22 +30,20 @@ export const CachedImage: React.FC<CachedImageProps> = ({
         );
     }
 
-    if (error || !cachedSrc) {
-        return (
-            <img
-                src={fallback}
-                alt={alt}
-                className={`object-cover ${className}`}
-                {...props}
-            />
-        );
-    }
+    // Use cached source if available, otherwise use original src
+    const imageSource = cachedSrc || src;
+    const finalSrc = imageSource || fallback;
 
     return (
         <img
-            src={cachedSrc}
+            src={finalSrc}
             alt={alt}
-            className={className}
+            loading="lazy"
+            decoding="async"
+            className={`transition-opacity duration-300 ${className}`}
+            onError={(e) => {
+                e.currentTarget.src = fallback;
+            }}
             {...props}
         />
     );

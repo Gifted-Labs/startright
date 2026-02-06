@@ -29,22 +29,24 @@ export const useImageCache = (src: string | undefined) => {
                     return;
                 }
 
-                // If not in cache, fetch and store
+                // Not in cache:
+                // 1. Immediately allow using the original src (non-blocking)
+                // We do this by NOT setting cachedSrc yet, but setting loading to false
+                setLoading(false);
+
+                // 2. Fetch and cache in background for NEXT time
                 const response = await fetch(src);
                 if (!response.ok) throw new Error('Failed to fetch image');
 
-                // Clone response because it can only be consumed once
                 const responseToCache = response.clone();
                 await cache.put(src, responseToCache);
 
-                const blob = await response.blob();
-                setCachedSrc(URL.createObjectURL(blob));
+                // Optional: We could switch to the cached blob now, but there's no need 
+                // if the browser already loaded the original src.
+                // We'll just leave it for the next mount.
             } catch (err: any) {
-                console.error('Image caching error:', err);
+                console.warn('Background image caching failed:', err);
                 setError(err.message);
-                // Fallback to original src if caching fails
-                setCachedSrc(src);
-            } finally {
                 setLoading(false);
             }
         };
