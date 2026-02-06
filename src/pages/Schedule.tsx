@@ -31,7 +31,7 @@ const Schedule = () => {
             <PageHero
                 title="SCHEDULE"
                 subtitle="Plan your day"
-                backgroundImage="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                backgroundImage="/images/schedule-bg.jpg"
                 breadcrumbs={[
                     { label: 'Schedule' }
                 ]}
