@@ -24,7 +24,9 @@ const Schedule = () => {
         fetchSchedule();
     }, []);
 
-    const itinerary: ItineraryItem[] = event?.itinerary || [];
+    const itinerary: ItineraryItem[] = event?.itinerary
+        ? [...event.itinerary].sort((a, b) => a.startTime.localeCompare(b.startTime))
+        : [];
 
     return (
         <div className="bg-white min-h-screen text-gray-900">
