@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { HiOutlineDocumentText, HiOutlineMail, HiOutlineDeviceMobile, HiOutlineQrcode, HiOutlineArrowRight } from 'react-icons/hi';
+import { HiOutlineDocumentText, HiOutlineMail, HiOutlineDeviceMobile, HiOutlineQrcode } from 'react-icons/hi';
 
 const steps = [
     {
