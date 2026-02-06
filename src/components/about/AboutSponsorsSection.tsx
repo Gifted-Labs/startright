@@ -3,14 +3,12 @@ import React from 'react';
 // Using simple stylized text as placeholders for logos if images aren't real
 // In a real app, strict SVGs or PNGs would be used.
 const sponsors = [
-    { name: "NLLA", opacity: "opacity-40" },
-    { name: "may", opacity: "opacity-50" },
-    { name: "TECH", opacity: "opacity-60" },
-    { name: "HULL", opacity: "opacity-40" },
-    { name: "maliz", opacity: "opacity-50" },
-    { name: "VIGOR", opacity: "opacity-40" },
-    { name: "Coffee", opacity: "opacity-50" },
-    { name: "CONSULT", opacity: "opacity-40" },
+    { name: "Merbs Series" },
+    { name: "MerbsConnect Executives" },
+    { name: "Youth Development Consortium" },
+    { name: "DateMedia" },
+    { name: "Cyrus The King" },
+    { name: "MrBlaque Studios" },
 ];
 
 export const AboutSponsorsSection: React.FC = () => {

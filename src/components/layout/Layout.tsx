@@ -188,9 +188,9 @@ const Navigation = () => {
 
 export const Layout = () => {
     return (
-        <div className="min-h-screen flex flex-col font-sans text-white bg-dark-950">
+        <div className="min-h-screen flex flex-col font-sans text-white bg-dark-950 w-full overflow-x-hidden relative">
             <Navigation />
-            <main className="flex-grow">
+            <main className="flex-grow w-full relative">
                 <Outlet />
             </main>
             <Footer />
