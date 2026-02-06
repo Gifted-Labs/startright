@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { PageHero } from '../components/common/PageHero';
 import { eventService } from '../services/eventService';
 import { UNIVERSITIES, ACADEMIC_LEVELS, REFERRAL_SOURCES, SHIRT_SIZES, SHIRT_COLORS } from '../constants/registrationConstants';
 import type { EventRegistrationRequest, RegistrationDetailsResponse, MerchandiseOrder } from '../types';
@@ -116,13 +117,17 @@ const EventRegistration = () => {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            {/* Mini Hero for Registration */}
-            <div className="bg-gradient-to-br from-secondary-950 via-secondary-900 to-secondary-950 py-16 text-center">
-                <h1 className="text-3xl md:text-4xl font-black text-white mb-2">
-                    EVENT <span className="text-primary-500">REGISTRATION</span>
-                </h1>
-                <p className="text-gray-400">Fill in your details to secure your spot.</p>
-            </div>
+            <PageHero 
+                title="EVENT REGISTRATION"
+                subtitle="Fill in your details to secure your spot."
+                backgroundImage="https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
+                breadcrumbs={[
+                    { label: 'Home', path: '/' },
+                    { label: 'Events', path: '/events' },
+                    { label: 'Registration' }
+                ]}
+                className="h-[50vh] min-h-[400px]"
+            />
 
             <div className="container mx-auto px-4 md:px-6 py-12 max-w-2xl">
                 <div className="bg-white p-8 md:p-10 rounded-2xl shadow-lg -mt-8 relative z-10 text-slate-900">
@@ -133,9 +138,22 @@ const EventRegistration = () => {
                         </div>
                     )}
 
+                    {/* Step Indicator */}
+                    <div className="flex items-center justify-center mb-8">
+                        <div className="flex items-center gap-2">
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${step >= 1 ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-400'}`}>1</div>
+                            <div className={`w-16 h-1 rounded ${step >= 2 ? 'bg-primary-500' : 'bg-gray-100'}`} />
+                            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors ${step >= 2 ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-400'}`}>2</div>
+                        </div>
+                    </div>
+
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {step === 1 && (
-                            <>
+                            <div className="animate-in fade-in slide-in-from-left-4 duration-300">
+                                <div className="text-center mb-8">
+                                    <h2 className="text-2xl font-bold text-gray-900">Personal Details</h2>
+                                    <p className="text-gray-500 text-sm mt-1">Please provide your basic information</p>
+                                </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
@@ -223,11 +241,15 @@ const EventRegistration = () => {
                                 <Button type="button" onClick={() => setStep(2)} className="w-full">
                                     Continue
                                 </Button>
-                            </>
+                            </div>
                         )}
 
                         {step === 2 && (
-                            <>
+                            <div className="animate-in fade-in slide-in-from-right-4 duration-300">
+                                <div className="text-center mb-8">
+                                    <h2 className="text-2xl font-bold text-gray-900">Additional Information</h2>
+                                    <p className="text-gray-500 text-sm mt-1">Tell us more about your preferences</p>
+                                </div>
                                 <div className="space-y-4">
                                     <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-100">
                                         <input
@@ -372,7 +394,7 @@ const EventRegistration = () => {
                                         Complete Registration
                                     </Button>
                                 </div>
-                            </>
+                            </div>
                         )}
                     </form>
                 </div>

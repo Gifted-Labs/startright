@@ -19,7 +19,7 @@ export const GalleryGrid: React.FC<GalleryGridProps> = ({ items }) => {
                     className="relative group aspect-[4/5] rounded-3xl overflow-hidden shadow-lg bg-gray-100"
                 >
                     <CachedImage
-                        src={`${src}?auto=format&fit=crop&w=600&q=80`}
+                        src={src.startsWith('http') ? `${src}?auto=format&fit=crop&w=600&q=80` : src}
                         alt={`Gallery moment ${idx + 1}`}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />

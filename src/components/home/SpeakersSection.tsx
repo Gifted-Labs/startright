@@ -70,25 +70,31 @@ export const SpeakersSection: React.FC = () => {
                         No speakers announced yet. Stay tuned!
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-12">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="show"
+                        viewport={{ once: true, margin: "-100px" }}
+                        variants={{
+                            hidden: {},
+                            show: {
+                                transition: {
+                                    staggerChildren: 0.1
+                                }
+                            }
+                        }}
+                        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 md:gap-12"
+                    >
                         {speakers.map((speaker, index) => (
-                            <motion.div
+                            <SpeakerGridCard
                                 key={speaker.id || index}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: (index % 3) * 0.1 }}
-                            >
-                                <SpeakerGridCard
-                                    name={speaker.name}
-                                    role={speaker.title || speaker.role || "Speaker"}
-                                    image={speaker.imageUrl || `https://i.pravatar.cc/500?u=${speaker.id}`}
-                                    bio={speaker.bio}
-                                    onClick={() => handleSpeakerClick(speaker)}
-                                />
-                            </motion.div>
+                                name={speaker.name}
+                                role={speaker.title || speaker.role || "Speaker"}
+                                image={speaker.imageUrl || `https://i.pravatar.cc/500?u=${speaker.id}`}
+                                bio={speaker.bio}
+                                onClick={() => handleSpeakerClick(speaker)}
+                            />
                         ))}
-                    </div>
+                    </motion.div>
                 )}
             </div>
 

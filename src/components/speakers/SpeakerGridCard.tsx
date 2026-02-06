@@ -1,5 +1,7 @@
 import React from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
+import { motion } from 'framer-motion';
+import { CachedImage } from '../common/CachedImage';
 
 interface SpeakerGridCardProps {
     name: string;
@@ -11,14 +13,18 @@ interface SpeakerGridCardProps {
 
 export const SpeakerGridCard: React.FC<SpeakerGridCardProps> = ({ name, role, image, onClick }) => {
     return (
-        <div
+        <motion.div
+            variants={{
+                hidden: { opacity: 0, y: 20 },
+                show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 50, damping: 20 } }
+            }}
             onClick={onClick}
             className="group cursor-pointer bg-dark-900 border border-white/5 rounded-sm overflow-hidden transition-all duration-500 hover:border-primary-500/30 hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(0,0,0,0.5)]"
         >
             {/* Image Area (Top) */}
             <div className="aspect-[4/5] overflow-hidden relative grayscale group-hover:grayscale-0 transition-all duration-700 bg-dark-800">
                 {image ? (
-                    <img
+                    <CachedImage
                         src={image}
                         alt={name}
                         className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
@@ -57,6 +63,6 @@ export const SpeakerGridCard: React.FC<SpeakerGridCardProps> = ({ name, role, im
                     Connect & Follow
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };

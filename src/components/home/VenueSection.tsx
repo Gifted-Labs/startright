@@ -10,8 +10,7 @@ export const VenueSection: React.FC = () => {
                 <VenueMap />
             </div>
 
-            {/* Overlay Gradient to ensure pins and cards stand out */}
-            <div className="absolute inset-0 bg-white/40 z-[1] pointer-events-none"></div>
+            {/* Overlay removed to improve map visibility */}
 
             <div className="container mx-auto px-4 relative z-10 flex flex-col md:flex-row items-center justify-center md:justify-start">
 
@@ -30,10 +29,7 @@ export const VenueSection: React.FC = () => {
                             <p className="text-gray-500 text-sm">University of Cape Coast (UCC)</p>
                         </div>
 
-                        <div>
-                            <h3 className="font-bold text-dark-900 text-lg mb-1">Breakout Sessions</h3>
-                            <p className="text-gray-500 text-sm">College of Science Complex</p>
-                        </div>
+
                     </div>
 
                     <GetDirectionsButton className="w-full" label="Get Directions" />

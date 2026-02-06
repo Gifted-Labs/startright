@@ -10,7 +10,7 @@ const About = () => {
         <div className="bg-white min-h-screen">
             <PageHero
                 title="ABOUT US"
-                subtitle="Building Tomorrow's Engineers Today. Discover our mission to foster robotics education, innovation, and STEAM skills across Ghana."
+                subtitle="Building Tomorrow's Engineers Today. Discover our mission to foster robotics education, innovation, and practical skills across Ghana."
                 backgroundImage="https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&w=1950&q=80"
                 breadcrumbs={[
                     { label: 'Home', path: '/' },

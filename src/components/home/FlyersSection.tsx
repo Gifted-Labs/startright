@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { CachedImage } from '../common/CachedImage';
 
 const flyers = [
     { src: "/images/flyer_1.jpg", alt: "Start Right Conference Flyer 1" },
@@ -42,7 +43,7 @@ export const FlyersSection: React.FC = () => {
                             className="group relative rounded-2xl overflow-hidden shadow-2xl hover:shadow-primary-500/20 transition-all duration-300"
                         >
                             <div className="aspect-[3/4] overflow-hidden">
-                                <img
+                                <CachedImage
                                     src={flyer.src}
                                     alt={flyer.alt}
                                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"

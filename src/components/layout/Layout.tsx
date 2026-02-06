@@ -1,6 +1,7 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { Footer } from '../common/Footer';
+import { CachedImage } from '../common/CachedImage';
 import { HiOutlineMenuAlt3, HiX } from 'react-icons/hi';
 import clsx from 'clsx';
 
@@ -58,7 +59,7 @@ const Navigation = () => {
                     )}>
                         {/* Logo */}
                         <Link to="/" className="flex-shrink-0">
-                            <img
+                            <CachedImage
                                 src="/images/startright_logo.png"
                                 alt="Start Right"
                                 className={clsx(

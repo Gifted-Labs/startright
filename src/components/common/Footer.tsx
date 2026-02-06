@@ -1,4 +1,5 @@
 import React from 'react';
+import { CachedImage } from './CachedImage';
 import { Link } from 'react-router-dom';
 import { FaFacebookF, FaTwitter, FaInstagram, FaPinterestP, FaPaperPlane, FaEnvelope } from 'react-icons/fa';
 
@@ -15,7 +16,7 @@ export const Footer: React.FC = () => {
                     {/* Column 1: Brand & Info (4 cols) */}
                     <div className="lg:col-span-4 flex flex-col items-start">
                         <Link to="/" className="mb-6 block">
-                            <img
+                            <CachedImage
                                 src="/images/startright_logo.png"
                                 alt="Start Right"
                                 className="h-24 w-auto"
@@ -50,15 +51,23 @@ export const Footer: React.FC = () => {
                         <div className="grid grid-cols-2 gap-4 md:gap-8">
                             {/* Quick Links */}
                             <div>
-                                <h4 className="text-lg md:text-xl font-bold mb-6">Quick Link</h4>
+                                <h4 className="text-lg md:text-xl font-bold mb-6">Conference</h4>
                                 <ul className="space-y-3">
-                                    {['Home', 'Leadership', 'Terms', 'Privacy Policy', 'Licenses'].map((item) => (
-                                        <li key={item}>
+                                    {[
+                                        { label: 'Home', path: '/' },
+                                        { label: 'About Us', path: '/about' },
+                                        { label: 'Speakers', path: '/speakers' },
+                                        { label: 'Schedule', path: '/schedule' },
+                                        { label: 'Gallery', path: '/gallery' },
+                                        { label: 'Articles', path: '/articles' },
+                                        { label: 'Contact', path: '/get-involved' },
+                                    ].map((link) => (
+                                        <li key={link.label}>
                                             <Link
-                                                to={item === 'Home' ? '/' : `/${item.toLowerCase().replace(' ', '-')}`}
+                                                to={link.path}
                                                 className="text-gray-400 hover:text-primary-500 transition-colors text-sm md:text-base block py-1"
                                             >
-                                                {item}
+                                                {link.label}
                                             </Link>
                                         </li>
                                     ))}
@@ -103,10 +112,17 @@ export const Footer: React.FC = () => {
                     <div className="md:col-span-2 lg:col-span-4 relative h-full min-h-[300px] lg:min-h-full">
                         {/* Grid - No Gap on right extreme, extends to edge */}
                         <div className="grid grid-cols-3 gap-0 h-full w-full content-start">
-                            {[1, 2, 3, 4, 5, 6].map((i) => (
+                            {[
+                                "/images/footer-1.jpg",
+                                "/images/footer-2.jpg",
+                                "/images/footer-3.jpg",
+                                "/images/footer-4.jpg",
+                                "/images/footer-5.jpg",
+                                "/images/footer-1.jpg" // Repeating the first one to fill the grid
+                            ].map((src, i) => (
                                 <div key={i} className="aspect-square relative overflow-hidden group">
-                                    <img
-                                        src={`https://images.unsplash.com/photo-${1500000000000 + i}?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80`}
+                                    <CachedImage
+                                        src={src}
                                         alt="Gallery"
                                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                                     />
