@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { HiOutlineArrowRight } from 'react-icons/hi';
 
 export const ContactCTA: React.FC = () => {
@@ -17,18 +18,20 @@ export const ContactCTA: React.FC = () => {
                 <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                     <div>
                         <span className="text-white/80 font-bold uppercase tracking-wider text-sm mb-2 block">
-                            Make a Call or Fill Form
+                            Join the Movement
                         </span>
                         <h2 className="text-3xl md:text-5xl font-black text-white leading-tight">
-                            Contact Our Agent to <br />
-                            Get a Quote.
+                            Ready to Start Right? <br />
+                            Get Involved Today.
                         </h2>
                     </div>
 
-                    <button className="bg-white text-dark-950 px-8 py-4 rounded-full font-bold shadow-2xl hover:bg-gray-100 transition-transform hover:scale-105 flex items-center gap-2">
-                        Make an Appointment
-                        <HiOutlineArrowRight />
-                    </button>
+                    <div className="flex gap-4">
+                        <Link to="/get-involved" className="bg-white text-dark-950 px-8 py-4 rounded-full font-bold shadow-2xl hover:bg-gray-100 transition-transform hover:scale-105 flex items-center gap-2">
+                            Get Involved
+                            <HiOutlineArrowRight />
+                        </Link>
+                    </div>
                 </div>
             </div>
         </section>

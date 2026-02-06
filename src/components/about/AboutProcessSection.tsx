@@ -2,9 +2,9 @@ import React from 'react';
 import { HiOutlineClipboardList, HiOutlineUserGroup, HiOutlineHome } from 'react-icons/hi';
 
 const steps = [
-    { icon: HiOutlineClipboardList, title: "Choose What To Do", desc: "Browse our diverse agenda and select the track that fits your career goals." },
-    { icon: HiOutlineUserGroup, title: "Find What You Want", desc: "Connect with mentors and peers who share your interests and ambition." },
-    { icon: HiOutlineHome, title: "Amazing Places", desc: "Experience our world-class venues designed for comfort and networking." },
+    { icon: HiOutlineClipboardList, title: "Register & Prepare", desc: "Secure your spot at the conference and choose the tracks that align with your career goals." },
+    { icon: HiOutlineUserGroup, title: "Connect & Engage", desc: "Meet industry mentors, innovative peers, and future collaborators in our dedicated sessions." },
+    { icon: HiOutlineHome, title: "Grow & Impact", desc: "Apply actionable insights to your career and join the MerbsConnect community for year-round growth." },
 ];
 
 export const AboutProcessSection: React.FC = () => {
