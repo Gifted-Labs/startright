@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { HiCalendar, HiQrcode } from 'react-icons/hi';
 import { CountdownTimer } from '../common/CountdownTimer';
+import { CachedImage } from '../common/CachedImage';
 import { generateICSFile, generateGoogleCalendarLink, generateRegistrationQRCode } from '../../utils/calendar';
 import { useState, useEffect } from 'react';
 import { eventService } from '../../services/eventService';
@@ -74,16 +75,20 @@ export const HeroSection: React.FC = () => {
                 <div className="absolute inset-0 bg-dark-950/75 z-10"></div>
 
                 <AnimatePresence mode="popLayout">
-                    <motion.img
+                    <motion.div
                         key={currentImageIndex}
-                        src={heroImages[currentImageIndex]}
-                        alt="Conference Highlights"
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.7 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 1.5, ease: "easeInOut" }}
-                        className="absolute inset-0 w-full h-full object-cover object-center"
-                    />
+                        className="absolute inset-0 w-full h-full"
+                    >
+                        <CachedImage
+                            src={heroImages[currentImageIndex]}
+                            alt="Conference Highlights"
+                            className="w-full h-full object-cover object-center"
+                        />
+                    </motion.div>
                 </AnimatePresence>
             </div>
 
@@ -96,7 +101,7 @@ export const HeroSection: React.FC = () => {
                     className="absolute top-28 right-6 z-30 hidden md:block"
                 >
                     <div className="bg-white p-3 rounded-lg shadow-xl">
-                        <img src={qrCodeUrl} alt="Scan to Register" className="w-24 h-24" />
+                        <CachedImage src={qrCodeUrl} alt="Scan to Register" className="w-24 h-24" />
                         <p className="text-xs text-center text-gray-700 font-medium mt-2">Scan to Register</p>
                     </div>
                 </motion.div>

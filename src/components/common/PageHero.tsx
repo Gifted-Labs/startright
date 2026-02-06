@@ -14,11 +14,12 @@ interface PageHeroProps {
     subtitle: string;
     backgroundImage: string;
     breadcrumbs: Breadcrumb[];
+    className?: string;
 }
 
-export const PageHero = memo(({ title, subtitle, backgroundImage, breadcrumbs }: PageHeroProps) => {
+export const PageHero = memo(({ title, subtitle, backgroundImage, breadcrumbs, className = "h-[65vh]" }: PageHeroProps) => {
     return (
-        <section className="relative h-[65vh] flex items-center justify-center overflow-hidden transform-gpu mt-0 pt-20">
+        <section className={`relative flex items-center justify-center overflow-hidden transform-gpu mt-0 pt-20 ${className}`}>
             {/* Background Image with Heavy Overlay */}
             <div className="absolute inset-0 z-0">
                 <CachedImage

@@ -1,4 +1,5 @@
 import React from 'react';
+import { CachedImage } from './CachedImage';
 import { Link } from 'react-router-dom';
 import { FaFacebookF, FaTwitter, FaInstagram, FaPinterestP, FaPaperPlane, FaEnvelope } from 'react-icons/fa';
 
@@ -15,7 +16,7 @@ export const Footer: React.FC = () => {
                     {/* Column 1: Brand & Info (4 cols) */}
                     <div className="lg:col-span-4 flex flex-col items-start">
                         <Link to="/" className="mb-6 block">
-                            <img
+                            <CachedImage
                                 src="/images/startright_logo.png"
                                 alt="Start Right"
                                 className="h-24 w-auto"
@@ -120,7 +121,7 @@ export const Footer: React.FC = () => {
                                 "/images/footer-1.jpg" // Repeating the first one to fill the grid
                             ].map((src, i) => (
                                 <div key={i} className="aspect-square relative overflow-hidden group">
-                                    <img
+                                    <CachedImage
                                         src={src}
                                         alt="Gallery"
                                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

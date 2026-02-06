@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { GetDirectionsButton } from '../common/GetDirectionsButton';
+import { CachedImage } from '../common/CachedImage';
 import { HiOutlineLocationMarker, HiOutlineClock } from 'react-icons/hi';
 
 export const WelcomeSection: React.FC = () => {
@@ -24,13 +25,13 @@ export const WelcomeSection: React.FC = () => {
                         className="relative"
                     >
                         <div className="grid grid-cols-2 gap-4">
-                            <img
+                            <CachedImage
                                 src="/images/welcome_1.jpg"
                                 className="rounded-2xl object-cover h-64 w-full translate-y-8 shadow-2xl"
                                 alt="Conference Crowd"
                             />
                             <div className="relative">
-                                <img
+                                <CachedImage
                                     src="/images/welcome_2.jpg"
                                     className="rounded-2xl object-cover h-64 w-full shadow-2xl"
                                     alt="Networking"
@@ -41,12 +42,12 @@ export const WelcomeSection: React.FC = () => {
                                     <span className="text-sm font-medium uppercase tracking-wider">Speakers</span>
                                 </div>
                             </div>
-                            <img
+                            <CachedImage
                                 src="/images/welcome_3.jpg"
                                 className="rounded-2xl object-cover h-64 w-full translate-y-8 shadow-2xl"
                                 alt="Conference Hall"
                             />
-                            <img
+                            <CachedImage
                                 src="/images/welcome_4.jpg"
                                 className="rounded-2xl object-cover h-64 w-full shadow-2xl"
                                 alt="Workshop"
