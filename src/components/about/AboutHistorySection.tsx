@@ -12,7 +12,7 @@ const historyData = [
         year: 2025,
         title: "Start Right Conference 2025",
         description: "Expansion to multiple university chapters and the introduction of specialized tracks in technology, business, and creative arts.",
-        image: "https://images.unsplash.com/photo-1511578314322-379afb476865?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        image: "/images/history/2025.jpg"
     },
     {
         year: 2026,
