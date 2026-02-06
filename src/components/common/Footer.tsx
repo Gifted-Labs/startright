@@ -86,7 +86,7 @@ export const Footer: React.FC = () => {
                                     <span className="mt-1 text-primary-500"><FaPaperPlane /></span>
                                     <span>
                                         +233 543131386<br />
-                                        Accra, Ghana
+                                        University of Cape Coast <br /><span> Cape Coast, Ghana</span>
                                     </span>
                                 </div>
 
