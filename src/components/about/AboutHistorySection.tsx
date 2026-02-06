@@ -6,7 +6,7 @@ const historyData = [
         year: 2024,
         title: "Start Right Conference 2024",
         description: "The inaugural Start Right Conference focused on foundational career success and networking for students, setting a new standard for student-led initiatives.",
-        image: "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        image: "/images/history/2024.jpg"
     },
     {
         year: 2025,
