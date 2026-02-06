@@ -1,19 +1,19 @@
 import { useState, useMemo } from 'react';
-import { GalleryHero } from '../components/gallery/GalleryHero';
+import { PageHero } from '../components/common/PageHero';
 import { GalleryGrid } from '../components/gallery/GalleryGrid';
 import { ContactCTA } from '../components/common/ContactCTA';
 import { motion } from 'framer-motion';
 
 // Sample data with years
 const galleryData = [
-    { id: 1, url: "https://images.unsplash.com/photo-1523580494863-6f3031224c94", year: 2026, title: "SRC 2026 Main Stage" },
-    { id: 2, url: "https://images.unsplash.com/photo-1517048676732-d65bc937f952", year: 2025, title: "Networking 2025" },
-    { id: 3, url: "https://images.unsplash.com/photo-1525130413817-d45c1ca32729", year: 2026, title: "Workshop Session" },
-    { id: 4, url: "https://images.unsplash.com/photo-1560523160-754a9e25c68f", year: 2024, title: "Presentation 2024" },
-    { id: 5, url: "https://images.unsplash.com/photo-1540575861501-7ad0582371f3", year: 2025, title: "Audience 2025" },
-    { id: 6, url: "https://images.unsplash.com/photo-1505373877841-8d25f7d46678", year: 2023, title: "Gala Night 2023" },
-    { id: 7, url: "https://images.unsplash.com/photo-1475721027187-40aeae739501", year: 2026, title: "Breakfast Meeting" },
-    { id: 8, url: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30", year: 2024, title: "Closing Ceremony 2024" },
+    { id: 1, url: "/images/gallery-highlight.png", year: 2026, title: "Conference Highlights" },
+    { id: 2, url: "/images/footer-1.jpg", year: 2026, title: "Community Engagement" },
+    { id: 3, url: "/images/footer-2.jpg", year: 2026, title: "Networking Session" },
+    { id: 4, url: "/images/footer-3.jpg", year: 2025, title: "Workshop Series" },
+    { id: 5, url: "/images/footer-4.jpg", year: 2025, title: "Student Leaders" },
+    { id: 6, url: "/images/footer-5.jpg", year: 2024, title: "Inaugural Event" },
+    { id: 7, url: "/images/flyer-2026.jpg", year: 2026, title: "2026 Official Flyer" },
+    { id: 8, url: "/images/footer-1.jpg", year: 2024, title: "Team Building" },
 ];
 
 const Gallery = () => {
@@ -40,7 +40,15 @@ const Gallery = () => {
 
     return (
         <div className="bg-white min-h-screen">
-            <GalleryHero />
+            <PageHero 
+                title="EVENTS GALLERY"
+                subtitle="This conference is created by professionals"
+                backgroundImage="https://images.unsplash.com/photo-1544928147-79a79476adb8?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
+                breadcrumbs={[
+                    { label: 'Home', path: '/' },
+                    { label: 'Events Gallery' }
+                ]}
+            />
 
             <div className="container mx-auto px-4 py-12">
                 {/* Filters Row */}

@@ -18,7 +18,7 @@ const historyData = [
         year: 2026,
         title: "Start Right Conference 2026",
         description: "Our current and most ambitious event yet, bridging the gap between academia and the AI-driven industry landscape.",
-        image: "https://images.unsplash.com/photo-1556761175-4b46a572b786?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        image: "/images/flyer-2026.jpg"
     },
 ];
 
