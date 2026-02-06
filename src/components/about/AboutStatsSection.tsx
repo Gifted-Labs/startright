@@ -6,10 +6,13 @@ export const AboutStatsSection: React.FC = () => {
     return (
         <section className="py-24 bg-gray-50 text-center">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <span className="text-primary-600 font-bold uppercase text-xs tracking-wider mb-2 block">Our Achievement Statistics</span>
-                <h2 className="text-3xl md:text-4xl font-black text-dark-950 mb-16">
-                    We Help Companies For Profit
+                <span className="text-primary-600 font-bold uppercase text-xs tracking-wider mb-2 block">OUR IMPACT SO FAR</span>
+                <h2 className="text-3xl md:text-4xl font-black text-dark-950 mb-4">
+                    We Help Students Start Right
                 </h2>
+                <p className="text-gray-500 max-w-2xl mx-auto mb-16">
+                    Through mentorship, practical sessions, and a strong community, MerbsConnect equips students to grow academically, professionally, and personally.
+                </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                     {/* Stat Card 1 */}
@@ -23,10 +26,10 @@ export const AboutStatsSection: React.FC = () => {
                         <div className="w-16 h-16 mx-auto mb-6 bg-gray-50 rounded-2xl flex items-center justify-center text-dark-950 group-hover:bg-primary-500 group-hover:text-white transition-colors">
                             <HiOutlineUserGroup className="w-8 h-8" />
                         </div>
-                        <h3 className="text-5xl font-black text-dark-950 mb-2">5,654</h3>
-                        <p className="text-primary-500 font-bold text-sm uppercase tracking-wide mb-4">Completed Projects</p>
+                        <h3 className="text-5xl font-black text-dark-950 mb-2">5000+</h3>
+                        <p className="text-primary-500 font-bold text-sm uppercase tracking-wide mb-4">Students Reached</p>
                         <p className="text-gray-500 text-sm leading-relaxed">
-                            Successful collaborations with industry leaders across the globe.
+                            Students impacted through MerbsConnect programs, mentorship, and events.
                         </p>
                     </motion.div>
 
@@ -41,10 +44,10 @@ export const AboutStatsSection: React.FC = () => {
                         <div className="w-16 h-16 mx-auto mb-6 bg-gray-50 rounded-2xl flex items-center justify-center text-dark-950 group-hover:bg-primary-500 group-hover:text-white transition-colors">
                             <HiOutlineGlobeAlt className="w-8 h-8" />
                         </div>
-                        <h3 className="text-5xl font-black text-dark-950 mb-2">159</h3>
-                        <p className="text-primary-500 font-bold text-sm uppercase tracking-wide mb-4">Countries Covered</p>
+                        <h3 className="text-5xl font-black text-dark-950 mb-2">20+</h3>
+                        <p className="text-primary-500 font-bold text-sm uppercase tracking-wide mb-4">Speakers Featured</p>
                         <p className="text-gray-500 text-sm leading-relaxed">
-                            Our reach extends to every continent, connecting professionals worldwide.
+                            Academic and industry leaders sharing practical guidance and real stories.
                         </p>
                         <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 w-12 h-12 bg-primary-500 rounded-full flex items-center justify-center text-white shadow-lg shadow-primary-500/40">
                             <span className="text-2xl font-bold">+</span>
@@ -62,10 +65,10 @@ export const AboutStatsSection: React.FC = () => {
                         <div className="w-16 h-16 mx-auto mb-6 bg-gray-50 rounded-2xl flex items-center justify-center text-dark-950 group-hover:bg-primary-500 group-hover:text-white transition-colors">
                             <HiOutlineTrendingUp className="w-8 h-8" />
                         </div>
-                        <h3 className="text-5xl font-black text-dark-950 mb-2">476</h3>
-                        <p className="text-primary-500 font-bold text-sm uppercase tracking-wide mb-4">Awards Won</p>
+                        <h3 className="text-5xl font-black text-dark-950 mb-2">3+</h3>
+                        <p className="text-primary-500 font-bold text-sm uppercase tracking-wide mb-4">Sessions Delivered</p>
                         <p className="text-gray-500 text-sm leading-relaxed">
-                            Recognized for excellence in event organization and community building.
+                            Talks, panels, workshops, and interactive sessions designed for student growth.
                         </p>
                     </motion.div>
                 </div>
