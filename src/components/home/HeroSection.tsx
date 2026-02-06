@@ -9,6 +9,7 @@ import { eventService } from '../../services/eventService';
 import type { Event } from '../../types';
 
 const heroImages = [
+    "/images/hero-group-photo.jpg",
     "/images/hero/hero-1.jpg",
     "/images/hero/hero-2.jpg",
     "/images/hero/hero-3.jpg",

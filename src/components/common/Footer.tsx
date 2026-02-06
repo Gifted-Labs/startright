@@ -23,7 +23,9 @@ export const Footer: React.FC = () => {
                         </Link>
 
                         <p className="text-gray-400 mb-6 md:mb-8 leading-relaxed pr-0 md:pr-6 text-sm md:text-base">
-                            We bring over 2,600 journalists from the world's leading publications to Start Right. They're part of the reason our conference is global.
+                            MerbscConnect is a student-first community that inspires, educates and connects. Start Right Conference brings you clarity, strategy, and the right network to grow.
+                            <br />
+                            Stay connected to your <span className="text-primary-500">SuccesX</span>.
                         </p>
 
                         <a href="mailto:merbsconnect@gmail.com" className="text-primary-500 font-semibold mb-6 md:mb-8 hover:underline text-lg transition-colors">
