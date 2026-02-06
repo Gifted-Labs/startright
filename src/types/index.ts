@@ -95,7 +95,7 @@ export interface RegistrationDetailsResponse {
 
 export interface GalleryItem {
     id: number;
-    url: string;
+    mediaUrl: string;
     type: 'IMAGE' | 'VIDEO';
     caption?: string;
 }

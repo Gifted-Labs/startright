@@ -36,7 +36,7 @@ export const GalleryFeed = ({ items }: GalleryFeedProps) => {
                                 </div>
                             )}
                             <CachedImage
-                                src={item.url}
+                                src={item.mediaUrl}
                                 alt={item.caption || 'Event media'}
                                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                                 loading="lazy"
@@ -56,10 +56,10 @@ export const GalleryFeed = ({ items }: GalleryFeedProps) => {
                     <div className="relative max-w-5xl max-h-[90vh] w-full">
                         {selectedItem.type === 'VIDEO' ? (
                             <div className="aspect-video bg-black">
-                                <video src={selectedItem.url} controls autoPlay className="w-full h-full" />
+                                <video src={selectedItem.mediaUrl} controls autoPlay className="w-full h-full" />
                             </div>
                         ) : (
-                            <CachedImage src={selectedItem.url} alt={selectedItem.caption || ''} className="w-full h-full object-contain max-h-[90vh]" />
+                            <CachedImage src={selectedItem.mediaUrl} alt={selectedItem.caption || ''} className="w-full h-full object-contain max-h-[90vh]" />
                         )}
                         <p className="text-white text-center mt-4 text-lg font-light">{selectedItem.caption}</p>
                     </div>
