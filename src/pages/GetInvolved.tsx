@@ -34,7 +34,7 @@ const GetInvolved = () => {
         },
         {
             title: "Become a Sponsor",
-            description: "Partner with us to empower the next generation of innovators. Gain visibility while making a lasting impact on STEAM education.",
+            description: "Partner with us to empower the next generation of innovators. Gain visibility while making a lasting impact on education.",
             icon: HiSparkles,
             cta: "Sponsor Opportunities",
             onClick: () => upcomingEvent ? navigate(`/sponsor/apply/${upcomingEvent.id}`) : navigate('/events')
@@ -91,18 +91,62 @@ const GetInvolved = () => {
 
             {/* Contact Section */}
             <section className="py-20 bg-white border-t border-gray-100">
-                <div className="container mx-auto px-4 md:px-6 text-center">
-                    <div className="max-w-2xl mx-auto">
-                        <h2 className="text-3xl font-black text-secondary-900 mb-4">Have Questions?</h2>
-                        <p className="text-gray-600 mb-8 text-lg">
-                            Reach out to our team for more information about partnership opportunities or participation guidelines.
-                        </p>
-                        <a
-                            href="mailto:merbsconnect@gmail.com"
-                            className="inline-flex items-center gap-2 text-primary-600 font-bold hover:text-primary-700 text-xl group"
-                        >
-                            merbsconnect@gmail.com
-                        </a>
+                <div className="container mx-auto px-4 md:px-6">
+                    <div className="max-w-7xl mx-auto bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden flex flex-col md:flex-row">
+                        <div className="p-10 md:w-1/2 bg-primary-600 text-white flex flex-col justify-between">
+                            <div>
+                                <h3 className="text-2xl font-bold mb-4">Get In Touch</h3>
+                                <p className="text-primary-100 mb-8">
+                                    Have specific questions? Fill out the form and our team will get back to you within 24 hours.
+                                </p>
+                                
+                                <div className="space-y-4">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-primary-500/50 flex items-center justify-center">
+                                            <span className="text-lg">📧</span>
+                                        </div>
+                                        <div>
+                                            <p className="text-xs text-primary-200 uppercase font-bold tracking-wider">Email Us</p>
+                                            <a href="mailto:merbsconnect@gmail.com" className="font-semibold hover:text-white transition-colors">merbsconnect@gmail.com</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className="mt-12">
+                                <p className="text-sm text-primary-200">© 2026 Start Right Conference</p>
+                            </div>
+                        </div>
+
+                        <div className="p-10 md:w-1/2">
+                            <form className="space-y-4">
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-1">Name</label>
+                                    <input 
+                                        type="text" 
+                                        placeholder="Your Name"
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-1">Email</label>
+                                    <input 
+                                        type="email" 
+                                        placeholder="your@email.com"
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block text-sm font-semibold text-gray-700 mb-1">Message</label>
+                                    <textarea 
+                                        rows={4}
+                                        placeholder="How can we help?"
+                                        className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                                    ></textarea>
+                                </div>
+                                <Button className="w-full py-3 font-bold">Send Message</Button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </section>

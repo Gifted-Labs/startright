@@ -113,7 +113,7 @@ const VolunteerApply = () => {
                                 </li>
                                 <li className="flex gap-3 text-gray-600">
                                     <span className="text-primary-500 font-bold">•</span>
-                                    <span>Network with industry leaders and educators in STEAM.</span>
+                                    <span>Network with industry leaders and educators in the Start Right network.</span>
                                 </li>
                                 <li className="flex gap-3 text-gray-600">
                                     <span className="text-primary-500 font-bold">•</span>
