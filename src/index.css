@@ -6,7 +6,14 @@
 @tailwind utilities;
 
 @layer base {
+
+  html,
+  body,
+  #root {
+    @apply w-full overflow-x-hidden;
+  }
+
   body {
-    @apply font-sans antialiased text-slate-900 bg-white overflow-x-hidden;
+    @apply font-sans antialiased text-slate-900 bg-white;
   }
 }
