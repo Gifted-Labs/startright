@@ -86,28 +86,24 @@ export const TicketCTASection: React.FC = () => {
                                 </span>
                                 <h3 className="text-white font-black text-xl leading-tight tracking-widest">
                                     START RIGHT CONFERENCE 2026<br />
-                                    <span className="text-primary-500 text-sm font-medium">DELEGATE PASS</span>
+                                    <span className="text-primary-500 text-sm font-medium">FREE REGISTRATION PASS</span>
                                 </h3>
                             </div>
 
                             {/* Middle Section — Attendee Details */}
                             <div className="px-8 py-8 border-b border-gray-100">
-                                <div className="grid grid-cols-2 gap-y-6">
-                                    <div>
-                                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Attendee</p>
-                                        <p className="text-dark-900 font-bold">Alex Mensah</p>
-                                    </div>
-                                    <div>
-                                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Pass Type</p>
+                                <div className="grid grid-cols-1 gap-y-6">
+                                    <div className="flex justify-between border-b border-gray-100 pb-2">
+                                        <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Pass Type</p>
                                         <p className="text-dark-900 font-bold">SRC 2026 Standard</p>
                                     </div>
-                                    <div>
-                                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Seat</p>
-                                        <p className="text-dark-900 font-bold">General Admission</p>
+                                    <div className="flex justify-between border-b border-gray-100 pb-2">
+                                        <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Seat</p>
+                                        <p className="text-dark-900 font-bold">Freeee</p>
                                     </div>
-                                    <div>
-                                        <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider mb-1">Date</p>
-                                        <p className="text-dark-900 font-bold">March 15 – 17, 2026</p>
+                                    <div className="flex justify-between border-b border-gray-100 pb-2">
+                                        <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">Date</p>
+                                        <p className="text-dark-900 font-bold">Saturday, February 21, 2026</p>
                                     </div>
                                 </div>
                             </div>
@@ -117,21 +113,22 @@ export const TicketCTASection: React.FC = () => {
                                 <p className="text-[11px] text-gray-600 font-bold uppercase tracking-widest mb-4">What Your Pass Includes</p>
                                 <ul className="space-y-2 mb-8">
                                     {[
-                                        "Full Access to All Sessions",
-                                        "Conference Materials & Digital Resources",
-                                        "Networking & Panel Discussions",
-                                        "Leadership & Career Workshops",
-                                        "Lunch & Refreshments"
+                                        "Full access to all sessions & panel discussions",
+                                        "LinkedIn Corner: account setup & headshots",
+                                        "Networking and community connections",
+                                        "Q&A and interactive session",
+                                        "Photo session",
+                                        "Digital resources after the conference"
                                     ].map((perk, i) => (
-                                        <li key={i} className="flex items-center gap-2 text-gray-600 text-xs">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-primary-500"></div>
+                                        <li key={i} className="flex items-center gap-2 text-gray-600 text-xs text-left">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-primary-500 flex-shrink-0"></div>
                                             {perk}
                                         </li>
                                     ))}
                                 </ul>
 
                                 <button className="w-full py-4 bg-dark-900 hover:bg-primary-600 text-white font-black tracking-widest uppercase text-sm transition-colors duration-300">
-                                    Purchase Pass
+                                    Get QR Code
                                 </button>
                             </div>
 

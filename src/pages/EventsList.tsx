@@ -27,7 +27,7 @@ const EventsList = () => {
             <PageHero
                 title="EVENTS"
                 subtitle="Explore our upcoming gatherings"
-                backgroundImage="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80"
+                backgroundImage="/images/events-bg.jpg"
                 breadcrumbs={[
                     { label: 'Events' }
                 ]}

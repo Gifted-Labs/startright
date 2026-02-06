@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const skills = [
-    { name: "Consultants", percent: 85 },
-    { name: "Speakers", percent: 92 },
-    { name: "Workshops", percent: 78 },
+    { name: "Career Readiness", percent: 95 },
+    { name: "Student Satisfaction", percent: 98 },
+    { name: "Networking Opportunities", percent: 90 },
 ];
 
 export const AboutTeamSkillsSection: React.FC = () => {
@@ -14,16 +15,16 @@ export const AboutTeamSkillsSection: React.FC = () => {
 
                     {/* Left: Image/Text */}
                     <div>
-                        <span className="text-primary-600 font-bold uppercase text-xs tracking-wider mb-2 block">Our Expertise</span>
+                        <span className="text-primary-600 font-bold uppercase text-xs tracking-wider mb-2 block">Why Start Right?</span>
                         <h2 className="text-4xl font-black text-dark-950 mb-6">
-                            Get the Most Out of <br /> Our Consultants
+                            Maximize Your Potential <br /> With Industry Leaders
                         </h2>
                         <p className="text-gray-600 text-lg mb-8 leading-relaxed">
-                            Our team is composed of industry veterans who are passionate about sharing their knowledge. We meticulously curate every session to ensure maximum value for our attendees.
+                            We bring together the best minds to help you navigate your career path. From interactive workshops to inspiring keynotes, every moment is designed to equip you for success.
                         </p>
-                        <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-md font-bold transition-all shadow-md">
-                            Read More
-                        </button>
+                        <Link to="/schedule" className="inline-block bg-primary-500 hover:bg-primary-600 text-white px-8 py-3 rounded-md font-bold transition-all shadow-md">
+                            Explore Schedule
+                        </Link>
                     </div>
 
                     {/* Right: Progress Bars */}
