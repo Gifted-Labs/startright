@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { PageHero } from '../components/common/PageHero';
 import { eventService } from '../services/eventService';
 import type { EventArticle, Event } from '../types';
@@ -35,11 +36,23 @@ const Articles = () => {
         fetchData();
     }, []);
 
-    // Helper to strip HTML tags for preview (if content is rich text)
-    const stripHtml = (html: string) => {
-        const tmp = document.createElement("DIV");
-        tmp.innerHTML = html;
-        return tmp.textContent || tmp.innerText || "";
+    // Helper to strip Markdown and HTML tags for preview
+    const stripMarkdown = (markdown: string) => {
+        // Simple regex to remove common markdown symbols
+        // Remove bold/italic markers
+        let text = markdown.replace(/(\*\*|__)(.*?)\1/g, '$2');
+        text = text.replace(/(\*|_)(.*?)\1/g, '$2');
+        // Remove links [text](url) -> text
+        text = text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+        // Remove headers #
+        text = text.replace(/^#+\s+/gm, '');
+        // Remove blockquotes >
+        text = text.replace(/^>\s+/gm, '');
+        // Remove code blocks
+        text = text.replace(/`{3}[\s\S]*?`{3}/g, '');
+        text = text.replace(/`([^`]+)`/g, '$1');
+        
+        return text;
     };
 
     return (
@@ -94,11 +107,19 @@ const Articles = () => {
                                     transition={{ delay: index * 0.1 }}
                                     className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col h-full border border-gray-100"
                                 >
-                                    {/* Placeholder Image (Backend Article doesn't have image field per types, but we can assume or use a default) */}
-                                    <div className="h-56 bg-gradient-to-br from-secondary-900 to-secondary-800 relative overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
-                                        <div className="absolute inset-0 flex items-center justify-center opacity-10">
-                                            <span className="text-9xl font-black text-white">NEWS</span>
-                                        </div>
+                                    {/* Article Image or Placeholder */}
+                                    <div className="h-56 relative overflow-hidden group-hover:scale-[1.02] transition-transform duration-500">
+                                        {article.imageUrl ? (
+                                            <img 
+                                                src={article.imageUrl} 
+                                                alt={article.title} 
+                                                className="w-full h-full object-cover"
+                                            />
+                                        ) : (
+                                            <div className="w-full h-full bg-gradient-to-br from-secondary-900 to-secondary-800 flex items-center justify-center">
+                                                <span className="text-9xl font-black text-white opacity-10">NEWS</span>
+                                            </div>
+                                        )}
                                         <div className="absolute top-4 left-4">
                                             <span className="bg-primary-500 text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
                                                 Article
@@ -110,12 +131,12 @@ const Articles = () => {
                                         <div className="flex items-center gap-4 text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
                                             <span className="flex items-center gap-1">
                                                 <HiCalendar className="w-4 h-4" />
-                                                {format(new Date(article.publishDate), 'MMM d, yyyy')}
+                                                {format(new Date(article.createdAt), 'MMM d, yyyy')}
                                             </span>
                                             <span className="w-1 h-1 bg-gray-300 rounded-full"></span>
                                             <span className="flex items-center gap-1 text-primary-600">
                                                 <HiUser className="w-4 h-4" />
-                                                {article.author}
+                                                {article.speakerName}
                                             </span>
                                         </div>
 
@@ -124,12 +145,14 @@ const Articles = () => {
                                         </h3>
 
                                         <p className="text-gray-600 mb-6 line-clamp-3 leading-relaxed text-sm flex-grow">
-                                            {stripHtml(article.content)}
+                                            {stripMarkdown(article.content)}
                                         </p>
 
-                                        <Button variant="outline" className="w-full mt-auto group-hover:bg-primary-50 group-hover:border-primary-100 group-hover:text-primary-700">
-                                            Read Article
-                                        </Button>
+                                        <Link to={`/events/${featuredEvent?.id}/articles/${article.id}`} className="w-full mt-auto">
+                                            <Button variant="outline" className="w-full group-hover:bg-primary-50 group-hover:border-primary-100 group-hover:text-primary-700">
+                                                Read Article
+                                            </Button>
+                                        </Link>
                                     </div>
                                 </motion.div>
                             ))}

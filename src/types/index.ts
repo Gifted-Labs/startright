@@ -113,8 +113,10 @@ export interface EventArticle {
     id: number;
     title: string;
     content: string;
-    author: string;
-    publishDate: string; // ISO Date
+    speakerName: string;
+    imageUrl?: string;
+    createdAt: string; // ISO Date
+    updatedAt?: string;
 }
 
 export type AcademicLevel =

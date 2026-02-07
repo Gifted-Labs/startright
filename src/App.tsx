@@ -13,6 +13,7 @@ import EventsList from './pages/EventsList';
 import VolunteerApply from './pages/VolunteerApply';
 import SponsorApply from './pages/SponsorApply';
 import Articles from './pages/Articles';
+import ArticleDetails from './pages/ArticleDetails';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
           <Route path="speakers" element={<Speakers />} />
           <Route path="about" element={<AboutUs />} />
           <Route path="articles" element={<Articles />} />
+          <Route path="events/:eventId/articles/:articleId" element={<ArticleDetails />} />
           <Route path="events" element={<EventsList />} />
           <Route path="events/past" element={<PastEvents />} />
           <Route path="events/:eventId" element={<EventDetails />} />
