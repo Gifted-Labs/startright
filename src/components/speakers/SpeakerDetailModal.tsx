@@ -179,12 +179,19 @@ export const SpeakerDetailModal: React.FC<SpeakerDetailModalProps> = ({ speaker,
                                     </div>
                                 </div>
 
-                                {/* Quote Section */}
-                                <div className={`mb-8 border-l-4 ${theme.quoteBorder} pl-6 py-2`}>
-                                    <p className={`text-lg lg:text-xl font-black ${theme.text} leading-tight italic opacity-90`}>
-                                        "Ambition is the first step to success; the second is action."
-                                    </p>
-                                </div>
+                                {/* Quote Section - Only render if speaker has a quote */}
+                                {speaker.quote && (
+                                    <div className={`mb-8 border-l-4 ${theme.quoteBorder} pl-6 py-2`}>
+                                        <p className={`text-lg lg:text-xl font-black ${theme.text} leading-tight italic opacity-90`}>
+                                            "{speaker.quote}"
+                                        </p>
+                                        {speaker.quoteAuthor && (
+                                            <p className={`text-sm font-bold mt-2 ${theme.sub}`}>
+                                                — {speaker.quoteAuthor}
+                                            </p>
+                                        )}
+                                    </div>
+                                )}
 
                                 {/* Biography */}
                                 <div className="flex-grow mb-12">

@@ -18,6 +18,7 @@ const heroImages = [
 ];
 
 export const HeroSection: React.FC = () => {
+    const [loading, setLoading] = useState(true);
     const [event, setEvent] = useState<Event | null>(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
     const [calendarError, setCalendarError] = useState<string | null>(null);
@@ -32,6 +33,8 @@ export const HeroSection: React.FC = () => {
                 }
             } catch (error) {
                 console.error("Failed to fetch upcoming event", error);
+            } finally {
+                setLoading(false);
             }
         };
         fetchEvent();
@@ -44,11 +47,11 @@ export const HeroSection: React.FC = () => {
         return () => clearInterval(interval);
     }, []);
 
-    // Fallback constants
-    const eventDate = event ? `${event.date}T${event.time || '09:00:00'}` : "2026-02-21T09:00:00";
-    const displayDate = event ? new Date(event.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) : "21 Feb, 2026";
-    const location = event?.location || "Lake Buena Vista, Orlando";
-    const eventTitle = event?.title || "Start Right Conference 2026";
+    // Display Logic - No dummy data
+    const eventDate = event ? `${event.date}T${event.time || '09:00:00'}` : null;
+    const displayDate = loading ? "Loading date..." : (event ? new Date(event.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' }) : "Date TBA");
+    const location = loading ? "Loading venue..." : (event?.location || "Venue To Be Announced");
+    const eventTitle = loading ? "Loading Event..." : (event?.title || "Upcoming Event");
 
     const handleAddToCalendar = () => {
         if (!event) return;
@@ -155,9 +158,11 @@ export const HeroSection: React.FC = () => {
                 </motion.p>
 
                 {/* Countdown Timer */}
-                <div className="mb-8 w-full flex justify-center scale-90 md:scale-100">
-                    <CountdownTimer targetDate={eventDate} />
-                </div>
+                {eventDate && (
+                    <div className="mb-8 w-full flex justify-center scale-90 md:scale-100">
+                        <CountdownTimer targetDate={eventDate} />
+                    </div>
+                )}
 
                 {/* CTA Buttons and Date */}
                 <motion.div

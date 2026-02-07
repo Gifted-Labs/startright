@@ -8,6 +8,8 @@ export interface Speaker {
     linkedinUrl?: string;
     twitterUrl?: string;
     displayOrder?: number;
+    quote?: string;
+    quoteAuthor?: string;
 }
 
 /**

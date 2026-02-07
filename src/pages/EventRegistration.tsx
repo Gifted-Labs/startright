@@ -79,36 +79,88 @@ const EventRegistration = () => {
         }
     };
 
+    const handleDownloadQr = () => {
+        if (!success?.qrCodeBase64) return;
+        const link = document.createElement('a');
+        link.href = success.qrCodeBase64;
+        link.download = `startright-ticket-${success.registrationToken}.png`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     if (success) {
         return (
-            <div className="min-h-screen bg-gray-50 py-20">
-                <div className="container mx-auto px-4 md:px-6 max-w-lg">
-                    <div className="bg-white p-8 md:p-12 rounded-3xl shadow-lg border border-gray-100 text-slate-900 text-center">
-                        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 text-green-600 mb-6">
+            <div className="min-h-screen bg-gray-50 flex flex-col">
+                <div className="print:hidden">
+                    <PageHero 
+                        title="REGISTRATION CONFIRMED"
+                        subtitle="We look forward to seeing you at the conference."
+                        backgroundImage="https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
+                        breadcrumbs={[
+                            { label: 'Home', path: '/' },
+                            { label: 'Events', path: '/events' },
+                            { label: 'Registration Complete' }
+                        ]}
+                        className="h-[40vh] min-h-[300px]"
+                    />
+                </div>
+
+                <div className="container mx-auto px-4 md:px-6 py-12 max-w-lg flex-grow -mt-20 relative z-10">
+                    <div id="ticket-card" className="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-gray-100 text-center print:shadow-none print:border-none print:p-0 print:mt-0">
+                        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 text-green-600 mb-6 print:hidden">
                             <HiCheckCircle className="w-12 h-12" />
                         </div>
-                        <h1 className="text-3xl font-bold text-gray-900 mb-4">Registration Complete!</h1>
-                        <p className="text-gray-600 mb-8">
-                            Thank you for registering. Please save your QR code below for check-in.
+                        <h1 className="text-3xl font-bold text-gray-900 mb-4 print:text-4xl print:mb-8">Registration Complete!</h1>
+                        <p className="text-gray-600 mb-8 print:text-lg">
+                            Thank you for registering. Please save your specific QR code below for check-in.
                         </p>
 
                         {success.qrCodeBase64 && (
-                            <div className="bg-gray-50 p-6 rounded-xl mb-6">
+                            <div className="bg-gray-50 p-6 rounded-xl mb-8 border-2 border-dashed border-gray-200 print:border-black print:bg-white">
                                 <img
-                                    src={`data:image/png;base64,${success.qrCodeBase64}`}
+                                    src={success.qrCodeBase64} // Prefix removed in previous step
                                     alt="Registration QR Code"
-                                    className="mx-auto w-48 h-48"
+                                    className="mx-auto w-64 h-64 object-contain"
                                 />
+                                <p className="text-xs text-gray-400 mt-4 uppercase tracking-widest font-semibold print:text-black">Scan at venue</p>
                             </div>
                         )}
 
-                        <p className="text-sm text-gray-500 mb-6">
-                            Token: <code className="bg-gray-100 px-2 py-1 rounded">{success.registrationToken}</code>
-                        </p>
+                        <div className="space-y-2 mb-8 text-left bg-gray-50 p-6 rounded-xl print:bg-white print:border print:border-black">
+                            <div className="flex justify-between border-b border-gray-200 pb-2">
+                                <span className="text-gray-500 text-sm">Participant</span>
+                                <span className="font-bold text-gray-900">{success.name}</span>
+                            </div>
+                            <div className="flex justify-between border-b border-gray-200 pb-2 pt-2">
+                                <span className="text-gray-500 text-sm">Event</span>
+                                <span className="font-bold text-gray-900">{success.eventTitle}</span>
+                            </div>
+                            <div className="flex justify-between pt-2">
+                                <span className="text-gray-500 text-sm">Token ID</span>
+                                <code className="font-mono font-bold text-primary-600">{success.registrationToken}</code>
+                            </div>
+                        </div>
 
-                        <Button onClick={() => navigate(`/events/${eventId}`)} variant="outline" className="w-full">
-                            Back to Event Details
-                        </Button>
+                        <div className="grid grid-cols-1 gap-4 print:hidden">
+                            <Button onClick={handleDownloadQr} variant="outline" className="w-full flex items-center justify-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                                </svg>
+                                Download QR Code
+                            </Button>
+                            
+                            <Button onClick={() => window.print()} variant="primary" className="w-full flex items-center justify-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fillRule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clipRule="evenodd" />
+                                </svg>
+                                Print / Save as PDF
+                            </Button>
+
+                            <Button onClick={() => navigate(`/events/${eventId}`)} variant="ghost" className="w-full mt-4">
+                                Back to Event Details
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
