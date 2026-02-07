@@ -93,6 +93,8 @@ export interface RegistrationDetailsResponse {
     shirtSize?: string;
     merchandiseOrders?: MerchandiseOrder[];
     merchandiseOrdersDisplay?: string;
+    name: string;
+    eventTitle: string;
 }
 
 export interface GalleryItem {
