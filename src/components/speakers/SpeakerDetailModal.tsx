@@ -81,6 +81,14 @@ export const SpeakerDetailModal: React.FC<SpeakerDetailModalProps> = ({ speaker,
     const themeIndex = speaker.name.length % themes.length;
     const theme = themes[themeIndex];
 
+    // Parse bio to extract session contribution
+    const bioText = speaker.bio || "No biography provided for this speaker.";
+    const splitRegex = /(at the start right conference[\s\S]*)/i;
+    const match = bioText.match(splitRegex);
+
+    const sessionDetails = match ? match[0] : null;
+    const mainBio = bioText.replace(splitRegex, "").trim() || bioText;
+
     return (
         <AnimatePresence>
             {isOpen && (
@@ -196,7 +204,7 @@ export const SpeakerDetailModal: React.FC<SpeakerDetailModalProps> = ({ speaker,
                                 {/* Biography */}
                                 <div className="flex-grow mb-12">
                                     <p className={`font-medium text-sm lg:text-base leading-relaxed text-justify whitespace-pre-wrap ${theme.bioText}`}>
-                                        {speaker.bio || "No biography provided for this speaker."}
+                                        {mainBio}
                                     </p>
                                 </div>
 
@@ -206,10 +214,16 @@ export const SpeakerDetailModal: React.FC<SpeakerDetailModalProps> = ({ speaker,
                                         <h4 className={`text-[11px] font-black uppercase tracking-[0.2em] mb-3 ${theme.muted}`}>
                                             Session Contribution
                                         </h4>
-                                        <p className={`text-sm font-bold ${theme.text} leading-snug`}>
-                                            Will be serving as a Panelist for the session titled <br />
-                                            <span className={`${theme.accentColor}`}>"Setting Yourself up for Success in 2026"</span>
-                                        </p>
+                                        {sessionDetails ? (
+                                            <p className={`text-sm font-bold ${theme.text} leading-snug`}>
+                                                {sessionDetails}
+                                            </p>
+                                        ) : (
+                                            <p className={`text-sm font-bold ${theme.text} leading-snug`}>
+                                                Will be serving as a Panelist for the session titled <br />
+                                                <span className={`${theme.accentColor}`}>"Setting Yourself up for Success in 2026"</span>
+                                            </p>
+                                        )}
                                     </div>
 
                                     {/* Actions */}
