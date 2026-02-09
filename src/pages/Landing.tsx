@@ -12,6 +12,8 @@ import { EventsPreviewSection } from '../components/home/EventsPreviewSection';
 import { RegistrationGuide } from '../components/home/RegistrationGuide';
 import { FeaturedArticlesSection } from '../components/home/FeaturedArticlesSection';
 
+import { SponsorshipSection } from '../components/home/SponsorshipSection';
+
 const Landing: React.FC = () => {
     return (
         <div className="min-h-screen">
@@ -25,6 +27,7 @@ const Landing: React.FC = () => {
             <SpeakersSection />
             <TShirtSection />
             <FeaturedArticlesSection />
+            <SponsorshipSection />
             <TicketCTASection />
             <VenueSection />
         </div>
