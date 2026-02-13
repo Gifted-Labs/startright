@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PageHero } from '../components/common/PageHero';
 import { Button } from '../components/common/Button';
 import { HiCheckCircle } from 'react-icons/hi';
 import api from '../services/api';
+
 
 export default function AskQuestion() {
     const [formData, setFormData] = useState({
@@ -16,6 +17,27 @@ export default function AskQuestion() {
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState('');
 
+    // Feature toggle state
+    const [isQaEnabled, setIsQaEnabled] = useState(true);
+    const [loadingConfig, setLoadingConfig] = useState(true);
+
+    useEffect(() => {
+        const fetchQaStatus = async () => {
+            try {
+                // We use the public status endpoint we created
+                const response = await api.get<{ enabled: boolean }>('/startright/questions/status');
+                setIsQaEnabled(response.data.enabled);
+            } catch (error) {
+                console.error('Failed to fetch Q&A status', error);
+                // Fallback to true if check fails, but backend will block if actually disabled
+                setIsQaEnabled(true);
+            } finally {
+                setLoadingConfig(false);
+            }
+        };
+        fetchQaStatus();
+    }, []);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
         const checked = (e.target as HTMLInputElement).checked;
@@ -27,7 +49,7 @@ export default function AskQuestion() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setError('');
+        setError(''); // Clear previous form error
 
         if (!formData.content.trim() || formData.content.trim().length < 5) {
             setError('Please enter a question with at least 5 characters.');
@@ -43,10 +65,18 @@ export default function AskQuestion() {
                 academicLevel: formData.academicLevel || null,
                 isAnonymous: formData.isAnonymous,
             });
-            setSubmitted(true);
+
+
+            setSubmitted(true); // Keep existing submitted state for success page
             setFormData({ content: '', studentName: '', program: '', academicLevel: '', isAnonymous: false });
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Failed to submit your question. Please try again.');
+            if (err.response && err.response.status === 403) {
+                setError('Q&A session is currently closed.');
+                setIsQaEnabled(false); // Update state to reflect closed status
+            } else {
+                const errorMessage = err.response?.data?.message || 'Failed to submit your question. Please try again.';
+                setError(errorMessage); // Keep existing form error
+            }
         } finally {
             setSubmitting(false);
         }
@@ -65,6 +95,15 @@ export default function AskQuestion() {
         { value: 'Alumni', label: 'Alumni' },
         { value: 'Other', label: 'Other' },
     ];
+
+    // Loading state for initial config fetch
+    if (loadingConfig) {
+        return (
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <div className="w-8 h-8 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
 
     // Success state
     if (submitted) {
@@ -117,114 +156,128 @@ export default function AskQuestion() {
             />
 
             <div className="container mx-auto px-4 md:px-6 py-12 max-w-2xl">
-                <div className="bg-white p-8 md:p-10 rounded-2xl shadow-lg -mt-8 relative z-10 text-slate-900">
-
-                    {/* Live Indicator */}
-                    <div className="flex items-center gap-2 mb-6">
-                        <span className="relative flex h-3 w-3">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-3 w-3 bg-primary-500"></span>
-                        </span>
-                        <span className="text-sm font-semibold text-gray-700">Live Q&A Session</span>
+                {!isQaEnabled ? (
+                    <div className="bg-white p-8 md:p-10 rounded-2xl shadow-lg -mt-8 relative z-10 text-center">
+                        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                            </svg>
+                        </div>
+                        <h2 className="text-2xl font-bold text-gray-900 mb-2">Session Closed</h2>
+                        <p className="text-gray-600">
+                            The Q&A session is currently not accepting new questions. Please wait for the session to open or listen for live announcements.
+                        </p>
                     </div>
+                ) : (
+                    <div className="bg-white p-8 md:p-10 rounded-2xl shadow-lg -mt-8 relative z-10 text-slate-900">
 
-                    {error && (
-                        <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-6 border border-red-200">
-                            {error}
-                        </div>
-                    )}
-
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Question */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Your Question *
-                            </label>
-                            <textarea
-                                name="content"
-                                value={formData.content}
-                                onChange={handleChange}
-                                rows={4}
-                                placeholder="Type your question here..."
-                                maxLength={1000}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
-                            />
-                            <p className="text-right text-xs text-gray-400 mt-1">
-                                {formData.content.length}/1000
-                            </p>
+                        {/* Live Indicator */}
+                        <div className="flex items-center gap-2 mb-6">
+                            <span className="relative flex h-3 w-3">
+                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                                <span className="relative inline-flex rounded-full h-3 w-3 bg-primary-500"></span>
+                            </span>
+                            <span className="text-sm font-semibold text-gray-700">Live Q&A Session</span>
                         </div>
 
-                        {/* Anonymous toggle */}
-                        <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-100">
-                            <input
-                                type="checkbox"
-                                name="isAnonymous"
-                                id="isAnonymous"
-                                checked={formData.isAnonymous}
-                                onChange={handleChange}
-                                className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
-                            />
-                            <label htmlFor="isAnonymous" className="text-gray-700 font-medium">
-                                Ask anonymously
-                            </label>
-                        </div>
-
-                        {/* Name (hidden when anonymous) */}
-                        {!formData.isAnonymous && (
-                            <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    Your Name
-                                </label>
-                                <input
-                                    type="text"
-                                    name="studentName"
-                                    value={formData.studentName}
-                                    onChange={handleChange}
-                                    placeholder="John Doe"
-                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                                />
+                        {error && (
+                            <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-6 border border-red-200">
+                                {error}
                             </div>
                         )}
 
-                        {/* Program */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Program of Study
-                            </label>
-                            <input
-                                type="text"
-                                name="program"
-                                value={formData.program}
-                                onChange={handleChange}
-                                placeholder="e.g. Computer Science"
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                            />
-                        </div>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            {/* Question */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Your Question *
+                                </label>
+                                <textarea
+                                    name="content"
+                                    value={formData.content}
+                                    onChange={handleChange}
+                                    rows={4}
+                                    placeholder="Type your question here..."
+                                    maxLength={1000}
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
+                                />
+                                <p className="text-right text-xs text-gray-400 mt-1">
+                                    {formData.content.length}/1000
+                                </p>
+                            </div>
 
-                        {/* Academic Level */}
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">
-                                Academic Level
-                            </label>
-                            <select
-                                name="academicLevel"
-                                value={formData.academicLevel}
-                                onChange={handleChange}
-                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
-                            >
-                                <option value="">Select Level</option>
-                                {academicLevels.map(level => (
-                                    <option key={level.value} value={level.value}>{level.label}</option>
-                                ))}
-                            </select>
-                        </div>
+                            {/* Anonymous toggle */}
+                            <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-100">
+                                <input
+                                    type="checkbox"
+                                    name="isAnonymous"
+                                    id="isAnonymous"
+                                    checked={formData.isAnonymous}
+                                    onChange={handleChange}
+                                    className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
+                                />
+                                <label htmlFor="isAnonymous" className="text-gray-700 font-medium">
+                                    Ask anonymously
+                                </label>
+                            </div>
 
-                        {/* Submit */}
-                        <Button type="submit" isLoading={submitting} className="w-full">
-                            Submit Question
-                        </Button>
-                    </form>
-                </div>
+                            {/* Name (hidden when anonymous) */}
+                            {!formData.isAnonymous && (
+                                <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                                        Your Name
+                                    </label>
+                                    <input
+                                        type="text"
+                                        name="studentName"
+                                        value={formData.studentName}
+                                        onChange={handleChange}
+                                        placeholder="John Doe"
+                                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                                    />
+                                </div>
+                            )}
+
+                            {/* Program */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Program of Study
+                                </label>
+                                <input
+                                    type="text"
+                                    name="program"
+                                    value={formData.program}
+                                    onChange={handleChange}
+                                    placeholder="e.g. Computer Science"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                                />
+                            </div>
+
+                            {/* Academic Level */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Academic Level
+                                </label>
+                                <select
+                                    name="academicLevel"
+                                    value={formData.academicLevel}
+                                    onChange={handleChange}
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                                >
+                                    <option value="">Select Level</option>
+                                    {academicLevels.map(level => (
+                                        <option key={level.value} value={level.value}>{level.label}</option>
+                                    ))}
+                                </select>
+                            </div>
+
+                            {/* Submit */}
+                            <Button type="submit" isLoading={submitting} className="w-full">
+                                Submit Question
+                            </Button>
+                        </form>
+                    </div>
+                )}
             </div>
         </div>
     );
