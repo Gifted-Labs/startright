@@ -14,6 +14,7 @@ import VolunteerApply from './pages/VolunteerApply';
 import SponsorApply from './pages/SponsorApply';
 import Articles from './pages/Articles';
 import ArticleDetails from './pages/ArticleDetails';
+import AskQuestion from './pages/AskQuestion';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="get-involved" element={<GetInvolved />} />
           <Route path="volunteer/apply/:eventId" element={<VolunteerApply />} />
           <Route path="sponsor/apply/:eventId" element={<SponsorApply />} />
+          <Route path="ask-question" element={<AskQuestion />} />
         </Route>
       </Routes>
     </Router>
