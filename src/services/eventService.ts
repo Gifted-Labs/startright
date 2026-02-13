@@ -103,5 +103,16 @@ export const eventService = {
         const response = await api.post<any>(`/applications/sponsor`, data);
         return response.data;
     },
+
+    // --- System Config ---
+    getSessionStatus: async () => {
+        try {
+            const response = await api.get<{ active: boolean }>('/startright/config/session-status');
+            return response.data;
+        } catch (error) {
+            console.error('Failed to fetch session status', error);
+            return { active: true }; // Default to true on error to avoid blocking
+        }
+    },
 };
 

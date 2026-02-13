@@ -1,12 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { TShirtRequestForm } from './TShirtRequestForm';
+import { eventService } from '../../services/eventService';
 
 type ShirtColor = 'Black' | 'White';
 
 export const TShirtSection: React.FC = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedColor, setSelectedColor] = useState<ShirtColor>('Black');
+
+    // Session Gating
+    const [isSessionActive, setIsSessionActive] = useState(true);
+    const [loadingSession, setLoadingSession] = useState(true);
+
+    useEffect(() => {
+        const checkSession = async () => {
+            try {
+                const status = await eventService.getSessionStatus();
+                setIsSessionActive(status.active);
+            } catch (error) {
+                console.error('Failed to check session status:', error);
+                setIsSessionActive(true);
+            } finally {
+                setLoadingSession(false);
+            }
+        };
+        checkSession();
+    }, []);
 
     const shirtImages = {
         Black: '/images/shirt_black_both.png',
@@ -121,12 +141,27 @@ export const TShirtSection: React.FC = () => {
                         {/* CTA Button */}
                         <button
                             onClick={() => setIsModalOpen(true)}
-                            className="inline-flex items-center gap-3 px-8 py-4 bg-primary-600 text-white font-semibold text-lg rounded-lg shadow-md hover:bg-primary-700 transition-all duration-200"
+                            disabled={!isSessionActive || loadingSession}
+                            className={`inline-flex items-center gap-3 px-8 py-4 font-semibold text-lg rounded-lg shadow-md transition-all duration-200 ${!isSessionActive || loadingSession
+                                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                    : 'bg-primary-600 text-white hover:bg-primary-700'
+                                }`}
                         >
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                            </svg>
-                            Request Shirt
+                            {!isSessionActive ? (
+                                <>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M13.477 14.89A6 6 0 015.11 6.524l8.367 8.368zm1.414-1.414L6.524 5.11a6 6 0 018.367 8.367zM18 10a8 8 0 11-16 0 8 8 0 0116 0z" clipRule="evenodd" />
+                                    </svg>
+                                    Requests Closed
+                                </>
+                            ) : (
+                                <>
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                                    </svg>
+                                    Request Shirt
+                                </>
+                            )}
                         </button>
 
                         <p className="text-sm text-gray-500 mt-4">

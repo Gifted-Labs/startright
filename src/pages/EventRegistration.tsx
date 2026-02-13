@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { PageHero } from '../components/common/PageHero';
 import { eventService } from '../services/eventService';
@@ -8,13 +8,61 @@ import { Button } from '../components/common/Button';
 import { HiCheckCircle, HiPlus, HiTrash, HiMinus } from 'react-icons/hi';
 
 const EventRegistration = () => {
-    const { eventId } = useParams();
     const navigate = useNavigate();
 
     const [step, setStep] = useState(1);
-    const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState<RegistrationDetailsResponse | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [loadingEvent, setLoadingEvent] = useState(true); // Renamed from loading
+    const [submitSuccess, setSubmitSuccess] = useState(false); // Renamed from success
+    const [submitError, setSubmitError] = useState<string | null>(null); // Renamed from error
+    const [isSubmitting, setIsSubmitting] = useState(false); // New
+    const [registrationData, setRegistrationData] = useState<RegistrationDetailsResponse | null>(null); // New, holds success data
+
+    // Session Gating
+    const [isSessionActive, setIsSessionActive] = useState(true);
+    const [loadingSession, setLoadingSession] = useState(true);
+
+    const { eventId } = useParams<{ eventId: string }>(); // Added type
+
+    useEffect(() => {
+        const checkSession = async () => {
+            try {
+                const status = await eventService.getSessionStatus(); // Assuming this service method exists
+                setIsSessionActive(status.active);
+            } catch (error) {
+                console.error('Failed to check session status:', error);
+                setIsSessionActive(true); // Fallback to open if API fails
+            } finally {
+                setLoadingSession(false);
+            }
+        };
+        checkSession();
+    }, []);
+
+    useEffect(() => {
+        if (!eventId) {
+            navigate('/events');
+            return;
+        }
+
+        // Simulate fetching event details, as the original code didn't have this explicitly
+        // but it's good practice to load event details for the registration page.
+        // For now, we'll just set loadingEvent to false after a short delay.
+        const fetchEventDetails = async () => {
+            try {
+                setLoadingEvent(true);
+                // In a real app, you'd fetch event details here:
+                // const event = await eventService.getEventById(eventId);
+                // setEvent(event); // If you had an event state
+                await new Promise(resolve => setTimeout(resolve, 500)); // Simulate API call
+            } catch (err) {
+                console.error('Failed to load event details:', err);
+                // setSubmitError('Failed to load event details.'); // If you want to show an error for this
+            } finally {
+                setLoadingEvent(false);
+            }
+        };
+        fetchEventDetails();
+    }, [eventId, navigate]);
 
     const [formData, setFormData] = useState<EventRegistrationRequest>({
         name: '',
@@ -65,35 +113,78 @@ const EventRegistration = () => {
         e.preventDefault();
         if (!eventId) return;
 
-        setLoading(true);
-        setError(null);
+        setIsSubmitting(true);
+        setSubmitError(null);
 
         try {
             const result = await eventService.registerForEvent(eventId, formData);
-            setSuccess(result);
-            setStep(3);
+            setRegistrationData(result);
+            setSubmitSuccess(true);
+            setStep(3); // This step change is from the original code
         } catch (err: any) {
-            setError(err.response?.data?.message || 'Registration failed. Please try again.');
+            setSubmitError(err.response?.data?.message || 'Registration failed. Please try again.');
+            window.scrollTo(0, 0); // Scroll to top to show error
         } finally {
-            setLoading(false);
+            setIsSubmitting(false);
         }
     };
 
     const handleDownloadQr = () => {
-        if (!success?.qrCodeBase64) return;
+        if (!registrationData?.qrCodeBase64) return;
         const link = document.createElement('a');
-        link.href = success.qrCodeBase64;
-        link.download = `startright-ticket-${success.registrationToken}.png`;
+        link.href = registrationData.qrCodeBase64;
+        link.download = `startright-ticket-${registrationData.registrationToken}.png`;
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
     };
 
-    if (success) {
+    if (loadingEvent || loadingSession) {
+        return (
+            <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                <div className="w-12 h-12 border-4 border-primary-600 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+        );
+    }
+
+    if (!isSessionActive) {
+        return (
+            <div className="min-h-screen bg-gray-50">
+                <PageHero
+                    title="REGISTRATION CLOSED"
+                    subtitle="Event registration is currently closed."
+                    backgroundImage="https://images.unsplash.com/photo-1540575467063-178a50c2df87?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
+                    breadcrumbs={[
+                        { label: 'Home', path: '/' },
+                        { label: 'Events', path: '/events' },
+                        { label: 'Registration Closed' }
+                    ]}
+                />
+                <div className="container mx-auto px-4 py-16 text-center">
+                    <div className="max-w-2xl mx-auto bg-white p-10 rounded-2xl shadow-xl">
+                        <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg className="w-10 h-10 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <h2 className="text-3xl font-bold text-gray-900 mb-4">Registration Unavailable</h2>
+                        <p className="text-xl text-gray-600 mb-8">
+                            We are not accepting new registrations at this time. Please check back later or contact the organizers for more information.
+                        </p>
+                        <Button variant="primary" onClick={() => navigate('/')}>
+                            Back to Home
+                        </Button>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (submitSuccess && registrationData) { // Changed from 'success'
         return (
             <div className="min-h-screen bg-gray-50 flex flex-col">
                 <div className="print:hidden">
-                    <PageHero 
+                    <PageHero
                         title="REGISTRATION CONFIRMED"
                         subtitle="We look forward to seeing you at the conference."
                         backgroundImage="https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
@@ -116,10 +207,10 @@ const EventRegistration = () => {
                             Thank you for registering. Please save your specific QR code below for check-in.
                         </p>
 
-                        {success.qrCodeBase64 && (
+                        {registrationData?.qrCodeBase64 && (
                             <div className="bg-gray-50 p-6 rounded-xl mb-8 border-2 border-dashed border-gray-200 print:border-black print:bg-white">
                                 <img
-                                    src={success.qrCodeBase64} // Prefix removed in previous step
+                                    src={registrationData.qrCodeBase64} // Prefix removed in previous step
                                     alt="Registration QR Code"
                                     className="mx-auto w-64 h-64 object-contain"
                                 />
@@ -130,15 +221,15 @@ const EventRegistration = () => {
                         <div className="space-y-2 mb-8 text-left bg-gray-50 p-6 rounded-xl print:bg-white print:border print:border-black">
                             <div className="flex justify-between border-b border-gray-200 pb-2">
                                 <span className="text-gray-500 text-sm">Participant</span>
-                                <span className="font-bold text-gray-900">{success.name}</span>
+                                <span className="font-bold text-gray-900">{registrationData?.name}</span>
                             </div>
                             <div className="flex justify-between border-b border-gray-200 pb-2 pt-2">
                                 <span className="text-gray-500 text-sm">Event</span>
-                                <span className="font-bold text-gray-900">{success.eventTitle}</span>
+                                <span className="font-bold text-gray-900">{registrationData?.eventTitle}</span>
                             </div>
                             <div className="flex justify-between pt-2">
                                 <span className="text-gray-500 text-sm">Token ID</span>
-                                <code className="font-mono font-bold text-primary-600">{success.registrationToken}</code>
+                                <code className="font-mono font-bold text-primary-600">{registrationData?.registrationToken}</code>
                             </div>
                         </div>
 
@@ -149,7 +240,7 @@ const EventRegistration = () => {
                                 </svg>
                                 Download QR Code
                             </Button>
-                            
+
                             <Button onClick={() => window.print()} variant="primary" className="w-full flex items-center justify-center gap-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                                     <path fillRule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v3a2 2 0 002 2h1v2a2 2 0 002 2h6a2 2 0 002-2v-2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clipRule="evenodd" />
@@ -169,7 +260,7 @@ const EventRegistration = () => {
 
     return (
         <div className="min-h-screen bg-gray-50">
-            <PageHero 
+            <PageHero
                 title="EVENT REGISTRATION"
                 subtitle="Fill in your details to secure your spot."
                 backgroundImage="https://images.unsplash.com/photo-1544531586-fde5298cdd40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
@@ -184,9 +275,9 @@ const EventRegistration = () => {
             <div className="container mx-auto px-4 md:px-6 py-12 max-w-2xl">
                 <div className="bg-white p-8 md:p-10 rounded-2xl shadow-lg -mt-8 relative z-10 text-slate-900">
 
-                    {error && (
+                    {submitError && (
                         <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-6 border border-red-200">
-                            {error}
+                            {submitError}
                         </div>
                     )}
 
@@ -442,7 +533,7 @@ const EventRegistration = () => {
                                     <Button type="button" variant="outline" onClick={() => setStep(1)} className="flex-1">
                                         Back
                                     </Button>
-                                    <Button type="submit" isLoading={loading} className="flex-1">
+                                    <Button type="submit" isLoading={isSubmitting} className="flex-1">
                                         Complete Registration
                                     </Button>
                                 </div>
