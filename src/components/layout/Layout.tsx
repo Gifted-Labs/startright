@@ -34,6 +34,7 @@ const Navigation = () => {
         { name: 'Schedule', path: '/schedule' },
         { name: 'About', path: '/about' },
         { name: 'Articles', path: '/articles' },
+        { name: 'Ask a Question', path: '/ask-question' },
         { name: 'Contact', path: '/get-involved' },
     ];
 

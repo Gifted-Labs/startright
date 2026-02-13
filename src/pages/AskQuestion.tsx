@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { FiSend, FiCheck, FiUser, FiBookOpen, FiLayers, FiEyeOff, FiMessageCircle } from 'react-icons/fi';
+import { PageHero } from '../components/common/PageHero';
+import { Button } from '../components/common/Button';
+import { HiCheckCircle } from 'react-icons/hi';
 import api from '../services/api';
 
 export default function AskQuestion() {
@@ -44,7 +45,6 @@ export default function AskQuestion() {
             });
             setSubmitted(true);
             setFormData({ content: '', studentName: '', program: '', academicLevel: '', isAnonymous: false });
-            setTimeout(() => setSubmitted(false), 4000);
         } catch (err: any) {
             setError(err.response?.data?.message || 'Failed to submit your question. Please try again.');
         } finally {
@@ -53,49 +53,91 @@ export default function AskQuestion() {
     };
 
     const academicLevels = [
-        'Level 100', 'Level 200', 'Level 300', 'Level 400',
-        'Level 500', 'Level 600', 'Graduate', 'Postgraduate', 'PhD', 'Alumni', 'Other'
+        { value: 'Level 100', label: 'Level 100' },
+        { value: 'Level 200', label: 'Level 200' },
+        { value: 'Level 300', label: 'Level 300' },
+        { value: 'Level 400', label: 'Level 400' },
+        { value: 'Level 500', label: 'Level 500' },
+        { value: 'Level 600', label: 'Level 600' },
+        { value: 'Graduate', label: 'Graduate' },
+        { value: 'Postgraduate', label: 'Postgraduate' },
+        { value: 'PhD', label: 'PhD' },
+        { value: 'Alumni', label: 'Alumni' },
+        { value: 'Other', label: 'Other' },
     ];
 
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/20 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 right-10 w-96 h-96 bg-indigo-500/15 rounded-full blur-3xl" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl" />
-            </div>
-
-            <div className="relative z-10 max-w-2xl mx-auto px-4 py-10 sm:py-16">
-                {/* Header */}
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center mb-8"
-                >
-                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6">
-                        <FiMessageCircle className="text-purple-300" />
-                        <span className="text-sm font-medium text-purple-200">Live Q&A</span>
-                        <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
+    // Success state
+    if (submitted) {
+        return (
+            <div className="min-h-screen bg-gray-50">
+                <PageHero
+                    title="QUESTION SUBMITTED"
+                    subtitle="Your question has been received and will be reviewed by the moderators."
+                    backgroundImage="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
+                    breadcrumbs={[
+                        { label: 'Home', path: '/' },
+                        { label: 'Ask a Question' },
+                    ]}
+                    className="h-[40vh] min-h-[300px]"
+                />
+                <div className="container mx-auto px-4 md:px-6 py-12 max-w-lg -mt-20 relative z-10">
+                    <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-gray-100 text-center">
+                        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-green-100 text-green-600 mb-6">
+                            <HiCheckCircle className="w-12 h-12" />
+                        </div>
+                        <h2 className="text-3xl font-bold text-gray-900 mb-4">Thank You!</h2>
+                        <p className="text-gray-600 mb-8">
+                            Your question has been submitted successfully. Our moderators will review it shortly.
+                        </p>
+                        <div className="grid grid-cols-1 gap-4">
+                            <Button onClick={() => setSubmitted(false)} variant="primary" className="w-full">
+                                Ask Another Question
+                            </Button>
+                            <Button onClick={() => window.location.href = '/'} variant="ghost" className="w-full">
+                                Back to Home
+                            </Button>
+                        </div>
                     </div>
-                    <h1 className="text-3xl sm:text-4xl font-bold text-white mb-3">
-                        Ask a Question
-                    </h1>
-                    <p className="text-lg text-slate-300/80 max-w-md mx-auto">
-                        Submit your question to the speakers. You can ask anonymously.
-                    </p>
-                </motion.div>
+                </div>
+            </div>
+        );
+    }
 
-                {/* Form */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.15 }}
-                >
-                    <form onSubmit={handleSubmit} className="space-y-5">
-                        {/* Question Input */}
-                        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/15 p-5">
-                            <label className="block text-sm font-semibold text-slate-200 mb-2">
+    return (
+        <div className="min-h-screen bg-gray-50">
+            <PageHero
+                title="ASK A QUESTION"
+                subtitle="Submit your question to the speakers. You can ask anonymously."
+                backgroundImage="https://images.unsplash.com/photo-1505373877841-8d25f7d46678?ixlib=rb-1.2.1&auto=format&fit=crop&w=1920&q=80"
+                breadcrumbs={[
+                    { label: 'Home', path: '/' },
+                    { label: 'Ask a Question' },
+                ]}
+                className="h-[50vh] min-h-[400px]"
+            />
+
+            <div className="container mx-auto px-4 md:px-6 py-12 max-w-2xl">
+                <div className="bg-white p-8 md:p-10 rounded-2xl shadow-lg -mt-8 relative z-10 text-slate-900">
+
+                    {/* Live Indicator */}
+                    <div className="flex items-center gap-2 mb-6">
+                        <span className="relative flex h-3 w-3">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                            <span className="relative inline-flex rounded-full h-3 w-3 bg-primary-500"></span>
+                        </span>
+                        <span className="text-sm font-semibold text-gray-700">Live Q&A Session</span>
+                    </div>
+
+                    {error && (
+                        <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-6 border border-red-200">
+                            {error}
+                        </div>
+                    )}
+
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        {/* Question */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
                                 Your Question *
                             </label>
                             <textarea
@@ -104,149 +146,85 @@ export default function AskQuestion() {
                                 onChange={handleChange}
                                 rows={4}
                                 placeholder="Type your question here..."
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400/60 focus:border-transparent resize-none transition-all"
                                 maxLength={1000}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors resize-none"
                             />
-                            <div className="text-right text-xs text-slate-400 mt-1">
+                            <p className="text-right text-xs text-gray-400 mt-1">
                                 {formData.content.length}/1000
-                            </div>
+                            </p>
                         </div>
 
-                        {/* Optional Details */}
-                        <div className="bg-white/10 backdrop-blur-lg rounded-2xl border border-white/15 p-5 space-y-4">
-                            <p className="text-sm font-semibold text-slate-200 flex items-center gap-2">
-                                <FiUser className="text-purple-300" />
-                                Optional Details
-                            </p>
-
-                            {/* Anonymous Toggle */}
-                            <label className="flex items-center gap-3 cursor-pointer bg-white/5 rounded-xl px-4 py-3 border border-white/10 hover:bg-white/10 transition-colors">
-                                <input
-                                    type="checkbox"
-                                    name="isAnonymous"
-                                    checked={formData.isAnonymous}
-                                    onChange={handleChange}
-                                    className="w-5 h-5 rounded border-2 border-purple-400 bg-transparent checked:bg-purple-500 text-purple-500 focus:ring-purple-400/50"
-                                />
-                                <FiEyeOff className="text-slate-300" />
-                                <span className="text-sm text-slate-200">Ask anonymously</span>
+                        {/* Anonymous toggle */}
+                        <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg border border-gray-100">
+                            <input
+                                type="checkbox"
+                                name="isAnonymous"
+                                id="isAnonymous"
+                                checked={formData.isAnonymous}
+                                onChange={handleChange}
+                                className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
+                            />
+                            <label htmlFor="isAnonymous" className="text-gray-700 font-medium">
+                                Ask anonymously
                             </label>
+                        </div>
 
-                            {/* Name */}
-                            <AnimatePresence>
-                                {!formData.isAnonymous && (
-                                    <motion.div
-                                        initial={{ opacity: 0, height: 0 }}
-                                        animate={{ opacity: 1, height: 'auto' }}
-                                        exit={{ opacity: 0, height: 0 }}
-                                        transition={{ duration: 0.2 }}
-                                    >
-                                        <div className="relative">
-                                            <FiUser className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                                            <input
-                                                type="text"
-                                                name="studentName"
-                                                value={formData.studentName}
-                                                onChange={handleChange}
-                                                placeholder="Your name"
-                                                className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400/60 transition-all"
-                                            />
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </AnimatePresence>
-
-                            {/* Program */}
-                            <div className="relative">
-                                <FiBookOpen className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                        {/* Name (hidden when anonymous) */}
+                        {!formData.isAnonymous && (
+                            <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Your Name
+                                </label>
                                 <input
                                     type="text"
-                                    name="program"
-                                    value={formData.program}
+                                    name="studentName"
+                                    value={formData.studentName}
                                     onChange={handleChange}
-                                    placeholder="Your program (e.g. Computer Science)"
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-400/60 transition-all"
+                                    placeholder="John Doe"
+                                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                                 />
                             </div>
+                        )}
 
-                            {/* Academic Level */}
-                            <div className="relative">
-                                <FiLayers className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
-                                <select
-                                    name="academicLevel"
-                                    value={formData.academicLevel}
-                                    onChange={handleChange}
-                                    className="w-full appearance-none bg-white/5 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-400/60 transition-all"
-                                >
-                                    <option value="" className="bg-slate-800">Select academic level</option>
-                                    {academicLevels.map(level => (
-                                        <option key={level} value={level} className="bg-slate-800">
-                                            {level}
-                                        </option>
-                                    ))}
-                                </select>
-                            </div>
+                        {/* Program */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Program of Study
+                            </label>
+                            <input
+                                type="text"
+                                name="program"
+                                value={formData.program}
+                                onChange={handleChange}
+                                placeholder="e.g. Computer Science"
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
+                            />
                         </div>
 
-                        {/* Error Message */}
-                        <AnimatePresence>
-                            {error && (
-                                <motion.div
-                                    initial={{ opacity: 0, y: -5 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0 }}
-                                    className="bg-red-500/15 border border-red-400/30 rounded-xl px-4 py-3 text-red-200 text-sm"
-                                >
-                                    {error}
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-
-                        {/* Submit Button */}
-                        <motion.button
-                            type="submit"
-                            disabled={submitting || !formData.content.trim()}
-                            whileTap={{ scale: 0.98 }}
-                            className={`w-full flex items-center justify-center gap-2 py-4 rounded-xl text-white font-bold text-lg transition-all
-                                ${submitting || !formData.content.trim()
-                                    ? 'bg-purple-500/30 cursor-not-allowed'
-                                    : 'bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/40'
-                                }`}
-                        >
-                            {submitting ? (
-                                <>
-                                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                                    </svg>
-                                    Submitting...
-                                </>
-                            ) : (
-                                <>
-                                    <FiSend />
-                                    Submit Question
-                                </>
-                            )}
-                        </motion.button>
-                    </form>
-
-                    {/* Success Toast */}
-                    <AnimatePresence>
-                        {submitted && (
-                            <motion.div
-                                initial={{ opacity: 0, y: 30, scale: 0.95 }}
-                                animate={{ opacity: 1, y: 0, scale: 1 }}
-                                exit={{ opacity: 0, y: 30, scale: 0.95 }}
-                                className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-green-500 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3"
+                        {/* Academic Level */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                                Academic Level
+                            </label>
+                            <select
+                                name="academicLevel"
+                                value={formData.academicLevel}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors"
                             >
-                                <div className="bg-white/20 rounded-full p-1">
-                                    <FiCheck className="text-lg" />
-                                </div>
-                                <span className="font-semibold">Question submitted successfully!</span>
-                            </motion.div>
-                        )}
-                    </AnimatePresence>
-                </motion.div>
+                                <option value="">Select Level</option>
+                                {academicLevels.map(level => (
+                                    <option key={level.value} value={level.value}>{level.label}</option>
+                                ))}
+                            </select>
+                        </div>
+
+                        {/* Submit */}
+                        <Button type="submit" isLoading={submitting} className="w-full">
+                            Submit Question
+                        </Button>
+                    </form>
+                </div>
             </div>
         </div>
     );
